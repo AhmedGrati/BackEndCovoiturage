@@ -1,13 +1,13 @@
-package wassalni;
+package BackEndCovoiturage;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BackEndCovoiturageApplicationTests {
+class BackEndWasalniApplicationTests {
 
-    @Test
-    void contextLoads() {
-    }
+	@Test
+	void contextLoads() {
+	}
 
 }
