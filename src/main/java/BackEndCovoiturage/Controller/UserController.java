@@ -36,6 +36,7 @@ public class UserController {
        }
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping(path = "allUsers")
     public List<User> getAllUsers(){
         return this.userService.findAllUsers();
