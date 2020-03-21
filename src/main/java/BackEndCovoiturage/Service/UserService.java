@@ -14,7 +14,7 @@ import java.util.List;
 public class UserService {
 
     @Autowired
-    private UserRepo userRepo;
+    public UserRepo userRepo;
 
     public User findUserById(long id){
         return (this.userRepo.findUserById(id));
@@ -32,4 +32,5 @@ public class UserService {
         System.out.println("id : "+id);
         this.userRepo.deleteUserById(id);
     }
+
 }

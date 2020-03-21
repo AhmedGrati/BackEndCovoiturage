@@ -27,8 +27,7 @@ public class User {
     private Date lastDateEnetered;
     private Gender gender;
 
-    User(){
-
+    public User(){
     }
 
     public User(String firstName, String lastName, int age, double avis, String email, String localisation, String numTel, String status, Date inscriptionDate, Date lastDateEnetered, Gender gender) {

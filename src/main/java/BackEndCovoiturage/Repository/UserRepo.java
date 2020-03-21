@@ -3,6 +3,7 @@ package BackEndCovoiturage.Repository;
 import BackEndCovoiturage.Model.User;
 
 
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import org.springframework.stereotype.Repository;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @Repository
 
-public interface UserRepo extends PagingAndSortingRepository<User, Long> {
+public interface UserRepo extends CrudRepository<User, Long> {
     //return the user by his id
     User findUserById(long id);
 

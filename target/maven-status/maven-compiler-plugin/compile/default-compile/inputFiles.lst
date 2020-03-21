@@ -1,2 +1,7 @@
 /home/boogie/Projects/Covoiturage/BackEndCovoiturage/src/main/java/BackEndCovoiturage/ServletInitializer.java
+/home/boogie/Projects/Covoiturage/BackEndCovoiturage/src/main/java/BackEndCovoiturage/Model/Gender.java
+/home/boogie/Projects/Covoiturage/BackEndCovoiturage/src/main/java/BackEndCovoiturage/Repository/UserRepo.java
+/home/boogie/Projects/Covoiturage/BackEndCovoiturage/src/main/java/BackEndCovoiturage/Controller/UserController.java
 /home/boogie/Projects/Covoiturage/BackEndCovoiturage/src/main/java/BackEndCovoiturage/BackEndWasalniApplication.java
+/home/boogie/Projects/Covoiturage/BackEndCovoiturage/src/main/java/BackEndCovoiturage/Model/User.java
+/home/boogie/Projects/Covoiturage/BackEndCovoiturage/src/main/java/BackEndCovoiturage/Service/UserService.java
