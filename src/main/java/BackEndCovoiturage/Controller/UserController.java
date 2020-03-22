@@ -2,6 +2,7 @@ package BackEndCovoiturage.Controller;
 
 import BackEndCovoiturage.Model.User;
 import BackEndCovoiturage.Service.UserService;
+import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,19 +12,24 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
+
+import static BackEndCovoiturage.Model.Gender.female;
+import static BackEndCovoiturage.Model.Gender.male;
 
 @RestController
 @RequestMapping(value = "api/user")
 public class UserController {
 
+
     @Autowired
-    private UserService userService;
+    private  UserService userService;
 
     @PostMapping(path = "postUser")
     public ResponseEntity<User> addUser(@RequestBody @Valid @NonNull User user){
        if(this.userService.saveUser(user)!=null){
-           return new ResponseEntity<User>(user , HttpStatus.OK);
+           return new ResponseEntity<>(user, HttpStatus.OK);
 
        }else{
            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
@@ -47,4 +53,32 @@ public class UserController {
     public void deleteUser(@PathVariable("id") long id){
         this.userService.deleteUserById(id);
     }
+
+    @PostMapping("rand")
+    public Iterable<User> addRandom() {
+        Faker f = new Faker() ;
+        ArrayList<User>  userArrayList = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            userArrayList.add(new User(f.name().firstName() ,
+                    f.name().lastName() ,
+                    f.number().numberBetween(10 , 70) ,
+                    f.number().randomDouble(3, 0, 20),
+                    f.name().name() + "@gmail.com",
+                    f.address().city(), f.phoneNumber().phoneNumber(),
+                    f.bool().bool() ?  "online " : "offline ",
+                    f.date().birthday() ,
+                    f.date().birthday(),
+                    f.bool().bool() ?  male : female
+                    ));
+        }
+
+        return userService.userRepo.saveAll(userArrayList);
+
+    }
+
+    @DeleteMapping("purge")
+    public void purge(){
+         userService.userRepo.deleteAll();
+    }
+
 }

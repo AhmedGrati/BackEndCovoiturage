@@ -1,2 +1,7 @@
-BackEndCovoiturage/BackEndWasalniApplication.class
+BackEndCovoiturage/Model/User.class
+BackEndCovoiturage/Controller/UserController.class
+BackEndCovoiturage/Repository/UserRepo.class
 BackEndCovoiturage/ServletInitializer.class
+BackEndCovoiturage/BackEndWasalniApplication.class
+BackEndCovoiturage/Model/Gender.class
+BackEndCovoiturage/Service/UserService.class

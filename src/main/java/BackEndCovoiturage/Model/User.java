@@ -26,15 +26,16 @@ public class User {
     private Date lastDateEnetered;
     private Gender gender;
 
+
     @OneToMany(targetEntity = Covoiturage.class , cascade = CascadeType.ALL)
     @JoinColumn(name = "id" , referencedColumnName = "id")
     private List<Covoiturage> covoiturage;
 
-    User(){
+    public User(){}
 
-    }
 
-    public User(String firstName, String lastName, int age, double avis, String email, String localisation, String numTel, String status, Date inscriptionDate, Date lastDateEnetered, Gender gender) {
+
+    public User (String firstName, String lastName, int age, double avis, String email, String localisation, String numTel, String status, Date inscriptionDate, Date lastDateEnetered, Gender gender) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
