@@ -2,16 +2,15 @@ package BackEndCovoiturage.Model;
 
 import org.springframework.context.annotation.Primary;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private long id;
 
     private String firstName;
@@ -26,6 +25,10 @@ public class User {
     private Date inscriptionDate;
     private Date lastDateEnetered;
     private Gender gender;
+
+    @OneToMany(targetEntity = Covoiturage.class , cascade = CascadeType.ALL)
+    @JoinColumn(name = "id" , referencedColumnName = "id")
+    private List<Covoiturage> covoiturage;
 
     User(){
 

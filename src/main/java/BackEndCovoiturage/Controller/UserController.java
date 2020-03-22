@@ -14,7 +14,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "covoiturage/user")
+@RequestMapping(value = "api/user")
 public class UserController {
 
     @Autowired
@@ -37,7 +37,6 @@ public class UserController {
 
     @GetMapping(path = "getUserById/{id}")
     public User getUserById(@PathVariable("id") long id){
-        System.out.println("hetha l id "+id);
         return this.userService.findUserById(id);
     }
 
