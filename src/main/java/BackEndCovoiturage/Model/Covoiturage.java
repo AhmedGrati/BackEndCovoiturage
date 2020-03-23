@@ -1,5 +1,7 @@
 package BackEndCovoiturage.Model;
 
+import BackEndCovoiturage.Service.UserService;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -170,13 +172,14 @@ public class Covoiturage {
         // todo gouverna,t ville
 
 
-        public Covoiturage toCovoiturage() {
+        public Covoiturage toCovoiturage(UserService userService) {
             Covoiturage c = new Covoiturage();
             c.setDatedepart(datedepart);
             c.setNbrPlaceDispo(nbrPlaceDispo);
             c.setPrice(price);
             c.setDescription(description);
             c.setFumer(isFumer);
+            c.setOwner(userService.findUserById(ownerId));
             return c;
         }
     }

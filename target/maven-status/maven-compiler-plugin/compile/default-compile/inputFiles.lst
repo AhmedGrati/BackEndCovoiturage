@@ -6,7 +6,6 @@
 /home/boogiep/Projects/Covoiturage/BackEndCovoiturage/src/main/java/BackEndCovoiturage/Repository/UserRepo.java
 /home/boogiep/Projects/Covoiturage/BackEndCovoiturage/src/main/java/BackEndCovoiturage/Controller/CovoiturageController.java
 /home/boogiep/Projects/Covoiturage/BackEndCovoiturage/src/main/java/BackEndCovoiturage/Model/Gouvernorat.java
-/home/boogiep/Projects/Covoiturage/BackEndCovoiturage/src/main/java/BackEndCovoiturage/Model/CovoiturageDTO.java
 /home/boogiep/Projects/Covoiturage/BackEndCovoiturage/src/main/java/BackEndCovoiturage/Service/UserService.java
 /home/boogiep/Projects/Covoiturage/BackEndCovoiturage/src/main/java/BackEndCovoiturage/Model/Gender.java
 /home/boogiep/Projects/Covoiturage/BackEndCovoiturage/src/main/java/BackEndCovoiturage/Model/Ville.java

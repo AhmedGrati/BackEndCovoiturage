@@ -1,8 +1,6 @@
 package BackEndCovoiturage.Controller;
 
 import BackEndCovoiturage.Model.Covoiturage;
-import BackEndCovoiturage.Model.Gouvernorat;
-import BackEndCovoiturage.Model.Ville;
 import BackEndCovoiturage.Service.CovoiturageService;
 import BackEndCovoiturage.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "api/covoiturage")
@@ -30,20 +30,11 @@ public class CovoiturageController {
 
     @PostMapping(path = "saveCovoiturage")
     public Covoiturage saveCovoiturage(@RequestBody @Valid Covoiturage.DTO covoiturageDTO) {
-        Covoiturage c = covoiturageDTO.toCovoiturage();
 
-        c.setOwner(userService.findUserById(covoiturageDTO.ownerId));
 
-        Ville v = new Ville();
-
-        Gouvernorat g = new Gouvernorat();
-
-        c.setVilleArrivee(v);
-        c.setVilleDepart(v);
-        c.setGouvernoratArrive(g);
-        c.setGouvernoratDepart(g);
-
-        return (this.covoiturageService.saveCovoiturage(c));
+        return (this.covoiturageService.saveCovoiturage(
+                covoiturageDTO.toCovoiturage(userService)
+        ));
     }
 
     @GetMapping(path = "{id}")
@@ -64,9 +55,11 @@ public class CovoiturageController {
         return(this.covoiturageService.findAllPagedCovoiturage(pageNo , pageSize , sortBy));
     }
 
-    @GetMapping(path="covoiturageNumber")
-    public int getCovoiturageNumber(){
-        return this.covoiturageService.getCovoiturageNumber();
+    @GetMapping(path = "covoiturageNumber")
+    public Map<String, Integer> getCovoiturageNumber() {
+        HashMap<String, Integer> hashMap = new HashMap<>();
+        hashMap.put("length", this.covoiturageService.getCovoiturageNumber());
+        return hashMap;
     }
 
 
