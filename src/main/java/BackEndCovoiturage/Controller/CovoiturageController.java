@@ -1,6 +1,8 @@
 package BackEndCovoiturage.Controller;
 
 import BackEndCovoiturage.Model.Covoiturage;
+import BackEndCovoiturage.Model.Gouvernorat;
+import BackEndCovoiturage.Model.Ville;
 import BackEndCovoiturage.Service.CovoiturageService;
 import BackEndCovoiturage.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +29,21 @@ public class CovoiturageController {
     }
 
     @PostMapping(path = "saveCovoiturage")
-    public Covoiturage saveCovoiturage(@RequestBody @Valid Covoiturage covoiturage){
-        System.out.println("covoiturage : "+covoiturage);
-        return (this.covoiturageService.saveCovoiturage(covoiturage));
+    public Covoiturage saveCovoiturage(@RequestBody @Valid Covoiturage.DTO covoiturageDTO) {
+        Covoiturage c = covoiturageDTO.toCovoiturage();
+
+        c.setOwner(userService.findUserById(covoiturageDTO.ownerId));
+
+        Ville v = new Ville();
+
+        Gouvernorat g = new Gouvernorat();
+
+        c.setVilleArrivee(v);
+        c.setVilleDepart(v);
+        c.setGouvernoratArrive(g);
+        c.setGouvernoratDepart(g);
+
+        return (this.covoiturageService.saveCovoiturage(c));
     }
 
     @GetMapping(path = "{id}")

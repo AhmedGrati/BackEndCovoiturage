@@ -4,6 +4,7 @@ BackEndCovoiturage/ServletInitializer.class
 BackEndCovoiturage/Configuration/CorsConfiguration$1.class
 BackEndCovoiturage/Configuration/CorsConfiguration.class
 BackEndCovoiturage/Model/User.class
+BackEndCovoiturage/Model/CovoiturageDTO.class
 BackEndCovoiturage/BackEndWasalniApplication.class
 BackEndCovoiturage/Model/Gender.class
 BackEndCovoiturage/Service/UserService.class

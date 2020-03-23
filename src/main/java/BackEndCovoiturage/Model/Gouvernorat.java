@@ -1,5 +1,7 @@
 package BackEndCovoiturage.Model;
 
+import com.sun.istack.Nullable;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,13 +13,15 @@ public class Gouvernorat {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Nullable
     private String name;
 
-    @OneToMany(targetEntity = Ville.class , cascade = CascadeType.ALL)
-    @JoinColumn(name = "ville_id" , referencedColumnName = "id")
+    @Nullable
+    @OneToMany(targetEntity = Ville.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "ville_id", referencedColumnName = "id")
     private List<Ville> villes;
 
-    public Gouvernorat(){
+    public Gouvernorat() {
 
     }
 

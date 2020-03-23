@@ -1,7 +1,8 @@
 package BackEndCovoiturage.Model;
 
+import com.sun.istack.Nullable;
+
 import javax.persistence.*;
-import java.util.ArrayList;
 
 @Entity(name = "ville")
 public class Ville {
@@ -9,11 +10,15 @@ public class Ville {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Nullable
     private String name;
+
 
     @OneToOne(targetEntity = Gouvernorat.class , cascade = CascadeType.ALL)
     @JoinColumn(name = "gouv_id",referencedColumnName = "id")
     private Gouvernorat gouvernorat;
+
+
     public Ville(){
 
     }
