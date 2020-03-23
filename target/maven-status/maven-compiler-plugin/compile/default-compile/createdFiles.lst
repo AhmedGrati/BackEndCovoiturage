@@ -1,7 +1,9 @@
-BackEndCovoiturage/Model/User.class
 BackEndCovoiturage/Controller/UserController.class
 BackEndCovoiturage/Repository/UserRepo.class
 BackEndCovoiturage/ServletInitializer.class
+BackEndCovoiturage/Configuration/CorsConfiguration$1.class
+BackEndCovoiturage/Configuration/CorsConfiguration.class
+BackEndCovoiturage/Model/User.class
 BackEndCovoiturage/BackEndWasalniApplication.class
 BackEndCovoiturage/Model/Gender.class
 BackEndCovoiturage/Service/UserService.class

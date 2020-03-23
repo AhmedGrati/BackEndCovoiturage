@@ -1,10 +1,14 @@
 package BackEndCovoiturage.Model;
 
+import com.github.javafaker.Faker;
 import org.springframework.context.annotation.Primary;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+
+import static BackEndCovoiturage.Model.Gender.female;
+import static BackEndCovoiturage.Model.Gender.male;
 
 @Entity(name = "user")
 public class User {
@@ -157,5 +161,22 @@ public class User {
                 ", lastDateEnetered=" + lastDateEnetered +
                 ", gender=" + gender +
                 '}';
+    }
+
+    private static  Faker f = new Faker() ;
+
+    public static User getRandom(){
+
+        return new User(f.name().firstName() ,
+                f.name().lastName() ,
+                f.number().numberBetween(10 , 70) ,
+                f.number().randomDouble(3, 0, 20),
+                f.name().name() + "@gmail.com",
+                f.address().city(), f.phoneNumber().phoneNumber(),
+                f.bool().bool() ?  "online " : "offline ",
+                f.date().birthday() ,
+                f.date().birthday(),
+                f.bool().bool() ?  male : female
+        );
     }
 }

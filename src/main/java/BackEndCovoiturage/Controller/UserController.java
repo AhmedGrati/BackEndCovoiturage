@@ -56,20 +56,9 @@ public class UserController {
 
     @PostMapping("rand")
     public Iterable<User> addRandom() {
-        Faker f = new Faker() ;
         ArrayList<User>  userArrayList = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
-            userArrayList.add(new User(f.name().firstName() ,
-                    f.name().lastName() ,
-                    f.number().numberBetween(10 , 70) ,
-                    f.number().randomDouble(3, 0, 20),
-                    f.name().name() + "@gmail.com",
-                    f.address().city(), f.phoneNumber().phoneNumber(),
-                    f.bool().bool() ?  "online " : "offline ",
-                    f.date().birthday() ,
-                    f.date().birthday(),
-                    f.bool().bool() ?  male : female
-                    ));
+            userArrayList.add(User.getRandom());
         }
 
         return userService.userRepo.saveAll(userArrayList);
@@ -87,8 +76,7 @@ public class UserController {
                                     @RequestParam(defaultValue = "6") int pageSize,
                                     @RequestParam(defaultValue = "firstName") String sortBy) {
 
-        List<User> pagedUsers = this.userService.findAllUsers(pageNo , pageSize , sortBy);
-        return (pagedUsers);
+        return (this.userService.findAllUsers(pageNo , pageSize , sortBy));
     }
 
 }

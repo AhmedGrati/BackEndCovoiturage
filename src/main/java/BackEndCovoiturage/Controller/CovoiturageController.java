@@ -2,6 +2,7 @@ package BackEndCovoiturage.Controller;
 
 import BackEndCovoiturage.Model.Covoiturage;
 import BackEndCovoiturage.Service.CovoiturageService;
+import BackEndCovoiturage.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,9 @@ public class CovoiturageController {
 
     @Autowired
     public CovoiturageService covoiturageService;
+
+    @Autowired
+    public UserService userService;
 
     @GetMapping(path = "all")
     public List<Covoiturage> getAllCovoiturage(){
@@ -49,5 +53,11 @@ public class CovoiturageController {
     @GetMapping(path="covoiturageNumber")
     public int getCovoiturageNumber(){
         return this.covoiturageService.getCovoiturageNumber();
+    }
+
+
+    @PostMapping("rand")
+    public Covoiturage seed(){
+        return new Covoiturage() ;
     }
 }

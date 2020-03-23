@@ -10,6 +10,7 @@ import java.util.Date;
 
 public class Covoiturage {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -40,9 +41,7 @@ public class Covoiturage {
     @JoinColumn(name = "ville_arr_id" , referencedColumnName = "id")
     private Ville villeArrivee;
 
-    Covoiturage(){
-
-    }
+    public Covoiturage(){ }
 
     public Covoiturage(Date datedepart, int nbrPlaceDispo, double price, String description, boolean isFumer, User owner, Gouvernorat gouvernoratDepart, Gouvernorat gouvernoratArrive, Ville villeDepart, Ville villeArrivee) {
         this.datedepart = datedepart;

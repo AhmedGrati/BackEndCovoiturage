@@ -14,7 +14,7 @@ public class Ville {
     @OneToOne(targetEntity = Gouvernorat.class , cascade = CascadeType.ALL)
     @JoinColumn(name = "gouv_id",referencedColumnName = "id")
     private Gouvernorat gouvernorat;
-    Ville(){
+    public Ville(){
 
     }
 

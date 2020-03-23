@@ -17,7 +17,7 @@ public class Gouvernorat {
     @JoinColumn(name = "ville_id" , referencedColumnName = "id")
     private List<Ville> villes;
 
-    Gouvernorat(){
+    public Gouvernorat(){
 
     }
 
