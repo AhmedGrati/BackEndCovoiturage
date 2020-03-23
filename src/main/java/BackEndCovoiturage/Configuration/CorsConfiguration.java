@@ -16,7 +16,7 @@ public class CorsConfiguration {
                 registry.addMapping("/**")
                         .allowedMethods("GET","POST","PUT","DELETE")
                         .allowedHeaders("*")
-                        .allowedOrigins("http://localhost:8080");
+                        .allowedOrigins("http://localhost:4200");
             }
         };
     }
