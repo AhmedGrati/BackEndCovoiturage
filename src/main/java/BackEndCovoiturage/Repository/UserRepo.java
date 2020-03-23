@@ -3,6 +3,8 @@ package BackEndCovoiturage.Repository;
 import BackEndCovoiturage.Model.User;
 
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
@@ -12,7 +14,7 @@ import java.util.List;
 
 @Repository
 
-public interface UserRepo extends CrudRepository<User, Long> {
+public interface UserRepo extends PagingAndSortingRepository<User, Long> {
     //return the user by his id
     User findUserById(long id);
 
@@ -25,6 +27,8 @@ public interface UserRepo extends CrudRepository<User, Long> {
 
     //deleteUserBYId
     void deleteUserById(long id);
+
+    Page<User> findAll(Pageable pageable);
 
 
 }

@@ -6,7 +6,8 @@ import org.springframework.context.annotation.Primary;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity(name = "Covoiturage")
+@Entity(name = "covoiturage")
+
 public class Covoiturage {
 
     @Id

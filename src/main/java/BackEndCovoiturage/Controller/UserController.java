@@ -81,4 +81,14 @@ public class UserController {
          userService.userRepo.deleteAll();
     }
 
+
+    @GetMapping("getPagedUsers")
+    public List<User> getPagedUsers(@RequestParam(defaultValue = "0") int pageNo ,
+                                    @RequestParam(defaultValue = "6") int pageSize,
+                                    @RequestParam(defaultValue = "firstName") String sortBy) {
+
+        List<User> pagedUsers = this.userService.findAllUsers(pageNo , pageSize , sortBy);
+        return (pagedUsers);
+    }
+
 }

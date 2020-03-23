@@ -3,8 +3,13 @@ package BackEndCovoiturage.Service;
 import BackEndCovoiturage.Model.Covoiturage;
 import BackEndCovoiturage.Repository.CovoiturageRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,6 +32,20 @@ public class CovoiturageService {
 
     public Covoiturage saveCovoiturage(Covoiturage covoiturage){
         return this.covoiturageRepo.save(covoiturage);
+    }
+
+    public List<Covoiturage> findAllPagedCovoiturage(int pageNo , int pageSize , String sortBy){
+        Pageable pageable = PageRequest.of(pageNo , pageSize , Sort.by(sortBy));
+        Page<Covoiturage> pagedCovoiturage = this.covoiturageRepo.findAll(pageable);
+        if(pagedCovoiturage.hasContent()){
+            return pagedCovoiturage.getContent();
+        }else{
+            return new ArrayList<Covoiturage>();
+        }
+    }
+
+    public int getCovoiturageNumber(){
+        return this.covoiturageRepo.getCovoiturageNumber();
     }
 
 
