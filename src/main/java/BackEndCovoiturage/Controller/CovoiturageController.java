@@ -42,8 +42,9 @@ public class CovoiturageController {
     @GetMapping(path = "getPagedCovoiturages")
     public List<Covoiturage> getPagedCovoiturages(@RequestParam(defaultValue = "0") int pageNo
             , @RequestParam(defaultValue = "6") int pageSize
-            , @RequestParam(defaultValue = "price") String sortBy){
-        return(this.covoiturageService.findAllPagedCovoiturage(pageNo , pageSize , sortBy));
+            , @RequestParam(defaultValue = "price") String sortBy
+            , @RequestParam(defaultValue = "true") boolean allowOld) {
+        return(this.covoiturageService.findAllPagedCovoiturage(pageNo , pageSize , sortBy , allowOld));
     }
 
     @GetMapping(path="covoiturageNumber")

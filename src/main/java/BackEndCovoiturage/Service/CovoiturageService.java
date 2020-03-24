@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -34,11 +35,23 @@ public class CovoiturageService {
         return this.covoiturageRepo.save(covoiturage);
     }
 
-    public List<Covoiturage> findAllPagedCovoiturage(int pageNo , int pageSize , String sortBy){
+    public List<Covoiturage> findAllPagedCovoiturage(int pageNo , int pageSize , String sortBy , boolean allowOld ){
         Pageable pageable = PageRequest.of(pageNo , pageSize , Sort.by(sortBy));
         Page<Covoiturage> pagedCovoiturage = this.covoiturageRepo.findAll(pageable);
         if(pagedCovoiturage.hasContent()){
-            return pagedCovoiturage.getContent();
+            if(allowOld){
+                return pagedCovoiturage.getContent();
+            }else{ // if allow old is equal to false it means that it's not allowd to return "covoiturages" which their date are expired
+                Date currentDate = new Date();//the current date (date of now)
+                ArrayList<Covoiturage> returnedCovoiturages = new ArrayList<Covoiturage>();
+                for(int i=0;i<pagedCovoiturage.getContent().size();i++){
+                    Date covoiturageDate = pagedCovoiturage.getContent().get(i).getDatedepart();
+                    if(currentDate.before(covoiturageDate)){ //if the date of the "covoiturage" is not expired i return it
+                        returnedCovoiturages.add(pagedCovoiturage.getContent().get(i));
+                    }
+                }
+                return returnedCovoiturages;
+            }
         }else{
             return new ArrayList<Covoiturage>();
         }
