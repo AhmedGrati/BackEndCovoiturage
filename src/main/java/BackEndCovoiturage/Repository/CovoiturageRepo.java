@@ -1,6 +1,8 @@
 package BackEndCovoiturage.Repository;
 
 import BackEndCovoiturage.Model.Covoiturage;
+import BackEndCovoiturage.Model.Gouvernorat;
+import BackEndCovoiturage.Model.Ville;
 import org.springframework.data.domain.Page;
 
 import org.springframework.data.domain.Pageable;
@@ -29,7 +31,9 @@ public interface CovoiturageRepo extends PagingAndSortingRepository<Covoiturage 
     @Query("SELECT COUNT (id) from covoiturage")
     int getCovoiturageNumber();
 
+    List<Covoiturage> findAllByGouvernoratDepartAndGouvernoratArrive(Gouvernorat gouvernoratDepart , Gouvernorat gouvernoratArrive);
 
+    List<Covoiturage> findAllByVilleDepartAndVilleArrivee(Ville villeDepart , Ville villeArrivee);
 
 
 }

@@ -68,4 +68,17 @@ public class CovoiturageController {
     public Covoiturage seed(){
         return new Covoiturage() ;
     }
+
+    @GetMapping("findByGovName")
+    List<Covoiturage> findCovoiturageByGovDepartAndByGovArrive(@RequestParam(defaultValue = "Sfax") String nameOfGovDepart,
+                                                               @RequestParam(defaultValue = "Tunis") String nameOfGovArrive) {
+        return this.covoiturageService.findCovoituragesByGouvernoratDepartAndByGouvernoratArrive(nameOfGovDepart , nameOfGovArrive);
+    }
+
+
+    @GetMapping("findByVilleName")
+    List<Covoiturage> findCovoiturageByVilleDepartAndByVilleArrivee(@RequestParam(defaultValue = "menzel cheker") String nameOfVilleDepart ,
+                                                                    @RequestParam(defaultValue = "sokra") String nameOfVilleArrivee) {
+        return this.covoiturageService.findCovoituragesByVilleDepartAndByVilleArrive(nameOfVilleDepart , nameOfVilleArrivee);
+    }
 }

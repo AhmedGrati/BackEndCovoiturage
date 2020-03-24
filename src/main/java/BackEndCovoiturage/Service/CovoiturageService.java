@@ -1,13 +1,18 @@
 package BackEndCovoiturage.Service;
 
 import BackEndCovoiturage.Model.Covoiturage;
+import BackEndCovoiturage.Model.Gouvernorat;
+import BackEndCovoiturage.Model.Ville;
 import BackEndCovoiturage.Repository.CovoiturageRepo;
+import BackEndCovoiturage.Repository.GouvernoratRepo;
+import BackEndCovoiturage.Repository.VilleRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,6 +23,12 @@ public class CovoiturageService {
 
     @Autowired
     private CovoiturageRepo covoiturageRepo;
+
+    @Autowired
+    private GouvernoratRepo gouvernoratRepo;
+
+    @Autowired
+    private VilleRepo villeRepo;
 
     public List<Covoiturage> getAllCovoiturages(){
         return this.covoiturageRepo.findAll();
@@ -61,6 +72,22 @@ public class CovoiturageService {
         return this.covoiturageRepo.getCovoiturageNumber();
     }
 
+    public List<Covoiturage> findCovoituragesByGouvernoratDepartAndByGouvernoratArrive(String nameOfGouvDepart ,
+                                                                                       String nameOfGouvArrive
+                                                                                       ) {
+        Gouvernorat gouvernoratDepart = this.gouvernoratRepo.findGouvernoratByName(nameOfGouvDepart);
+        Gouvernorat gouvernoratArrive = this.gouvernoratRepo.findGouvernoratByName(nameOfGouvArrive);
 
+        return (this.covoiturageRepo.findAllByGouvernoratDepartAndGouvernoratArrive(gouvernoratDepart , gouvernoratArrive));
+    }
+
+    public List<Covoiturage> findCovoituragesByVilleDepartAndByVilleArrive(String nameOfVilleDepart ,
+                                                                           String nameOfVilleArrive
+    ) {
+        Ville villeDepart = this.villeRepo.findVilleByName(nameOfVilleDepart);
+        Ville villeArrive = this.villeRepo.findVilleByName(nameOfVilleArrive);
+
+        return (this.covoiturageRepo.findAllByVilleDepartAndVilleArrivee(villeDepart , villeArrive));
+    }
 
 }
