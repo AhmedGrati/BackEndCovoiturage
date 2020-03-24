@@ -1,10 +1,13 @@
 package BackEndCovoiturage.Model;
 
-import org.springframework.context.annotation.Primary;
+import com.github.javafaker.Faker;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+
+import static BackEndCovoiturage.Model.Gender.female;
+import static BackEndCovoiturage.Model.Gender.male;
 
 @Entity(name = "user")
 public class User {
@@ -27,15 +30,15 @@ public class User {
     private Gender gender;
 
 
-    @OneToMany(targetEntity = Covoiturage.class , cascade = CascadeType.ALL)
-    @JoinColumn(name = "id" , referencedColumnName = "id")
+    @OneToMany(targetEntity = Covoiturage.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private List<Covoiturage> covoiturage;
 
-    public User(){}
+    public User() {
+    }
 
 
-
-    public User (String firstName, String lastName, int age, double avis, String email, String localisation, String numTel, String status, Date inscriptionDate, Date lastDateEnetered, Gender gender) {
+    public User(String firstName, String lastName, int age, double avis, String email, String localisation, String numTel, String status, Date inscriptionDate, Date lastDateEnetered, Gender gender) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
@@ -157,5 +160,22 @@ public class User {
                 ", lastDateEnetered=" + lastDateEnetered +
                 ", gender=" + gender +
                 '}';
+    }
+
+    private static  Faker f = new Faker() ;
+
+    public static User getRandom(){
+
+        return new User(f.name().firstName() ,
+                f.name().lastName() ,
+                f.number().numberBetween(10 , 70) ,
+                f.number().randomDouble(3, 0, 20),
+                f.name().name() + "@gmail.com",
+                f.address().city(), f.phoneNumber().phoneNumber(),
+                f.bool().bool() ?  "online " : "offline ",
+                f.date().birthday() ,
+                f.date().birthday(),
+                f.bool().bool() ?  male : female
+        );
     }
 }

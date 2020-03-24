@@ -1,7 +1,6 @@
 package BackEndCovoiturage.Model;
 
-import org.hibernate.annotations.Cascade;
-import org.springframework.context.annotation.Primary;
+import BackEndCovoiturage.Service.UserService;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -9,6 +8,7 @@ import java.util.Date;
 @Entity(name = "covoiturage")
 
 public class Covoiturage {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,16 +20,16 @@ public class Covoiturage {
     private String description;
     private boolean isFumer;
 
-    @ManyToOne(targetEntity = User.class , cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id" , referencedColumnName = "id")
+    @OneToOne(targetEntity = User.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User owner;
 
-    @ManyToOne(targetEntity = Gouvernorat.class , cascade = CascadeType.ALL)
-    @JoinColumn(name = "gouv_dep_id" , referencedColumnName = "id")
+    @ManyToOne(targetEntity = Gouvernorat.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "gouv_dep_id", referencedColumnName = "id")
     private Gouvernorat gouvernoratDepart;
 
-    @ManyToOne(targetEntity = Gouvernorat.class , cascade = CascadeType.ALL)
-    @JoinColumn(name = "gouv_arr_id" , referencedColumnName = "id")
+    @ManyToOne(targetEntity = Gouvernorat.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "gouv_arr_id", referencedColumnName = "id")
     private Gouvernorat gouvernoratArrive;
 
     @ManyToOne(targetEntity = Ville.class , cascade = CascadeType.ALL)
@@ -40,9 +40,7 @@ public class Covoiturage {
     @JoinColumn(name = "ville_arr_id" , referencedColumnName = "id")
     private Ville villeArrivee;
 
-    Covoiturage(){
-
-    }
+    public Covoiturage(){ }
 
     public Covoiturage(Date datedepart, int nbrPlaceDispo, double price, String description, boolean isFumer, User owner, Gouvernorat gouvernoratDepart, Gouvernorat gouvernoratArrive, Ville villeDepart, Ville villeArrivee) {
         this.datedepart = datedepart;
@@ -55,6 +53,23 @@ public class Covoiturage {
         this.gouvernoratArrive = gouvernoratArrive;
         this.villeDepart = villeDepart;
         this.villeArrivee = villeArrivee;
+    }
+
+    @Override
+    public String toString() {
+        return "Covoiturage{" +
+                "id=" + id +
+                ", datedepart=" + datedepart +
+                ", nbrPlaceDispo=" + nbrPlaceDispo +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                ", isFumer=" + isFumer +
+                ", owner=" + owner +
+                ", gouvernoratDepart=" + gouvernoratDepart +
+                ", gouvernoratArrive=" + gouvernoratArrive +
+                ", villeDepart=" + villeDepart +
+                ", villeArrivee=" + villeArrivee +
+                '}';
     }
 
     public long getId() {
@@ -144,4 +159,29 @@ public class Covoiturage {
     public void setVilleArrivee(Ville villeArrivee) {
         this.villeArrivee = villeArrivee;
     }
+
+
+    public static class DTO {
+        public Date datedepart;
+        public int nbrPlaceDispo;
+        public double price;
+        public String description;
+        public boolean isFumer;
+        public int ownerId;
+
+        // todo gouverna,t ville
+
+
+        public Covoiturage toCovoiturage(UserService userService) {
+            Covoiturage c = new Covoiturage();
+            c.setDatedepart(datedepart);
+            c.setNbrPlaceDispo(nbrPlaceDispo);
+            c.setPrice(price);
+            c.setDescription(description);
+            c.setFumer(isFumer);
+            c.setOwner(userService.findUserById(ownerId));
+            return c;
+        }
+    }
+
 }
