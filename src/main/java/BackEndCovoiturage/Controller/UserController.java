@@ -2,21 +2,16 @@ package BackEndCovoiturage.Controller;
 
 import BackEndCovoiturage.Model.User;
 import BackEndCovoiturage.Service.UserService;
-import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
-import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-
-import static BackEndCovoiturage.Model.Gender.female;
-import static BackEndCovoiturage.Model.Gender.male;
 
 @RestController
 @RequestMapping(value = "api/user")
@@ -57,7 +52,7 @@ public class UserController {
     @PostMapping("rand")
     public Iterable<User> addRandom() {
         ArrayList<User>  userArrayList = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 30; i++) {
             userArrayList.add(User.getRandom());
         }
 

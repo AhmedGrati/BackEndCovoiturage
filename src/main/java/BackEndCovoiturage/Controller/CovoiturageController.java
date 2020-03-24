@@ -1,6 +1,8 @@
 package BackEndCovoiturage.Controller;
 
 import BackEndCovoiturage.Model.Covoiturage;
+import BackEndCovoiturage.Repository.CovoiturageRepo;
+import BackEndCovoiturage.Repository.VilleRepo;
 import BackEndCovoiturage.Service.CovoiturageService;
 import BackEndCovoiturage.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,8 +26,15 @@ public class CovoiturageController {
     @Autowired
     public UserService userService;
 
+
+    // todo : clean those
+    @Autowired
+    private VilleRepo villeRepo;
+    @Autowired
+    private CovoiturageRepo covoiturageRepo;
+
     @GetMapping(path = "all")
-    public List<Covoiturage> getAllCovoiturage(){
+    public List<Covoiturage> getAllCovoiturage() {
         return this.covoiturageService.getAllCovoiturages();
     }
 
@@ -33,7 +43,7 @@ public class CovoiturageController {
 
 
         return (this.covoiturageService.saveCovoiturage(
-                covoiturageDTO.toCovoiturage(userService)
+                covoiturageDTO.toCovoiturage(userService, villeRepo)
         ));
     }
 
@@ -63,16 +73,10 @@ public class CovoiturageController {
         return hashMap;
     }
 
-
-    @PostMapping("rand")
-    public Covoiturage seed(){
-        return new Covoiturage() ;
-    }
-
     @GetMapping("findByGovName")
-    List<Covoiturage> findCovoiturageByGovDepartAndByGovArrive(@RequestParam(defaultValue = "0") int pageNo ,
-                                                               @RequestParam(defaultValue = "3" )int pageSize ,
-                                                               @RequestParam(defaultValue = "name")String sortBy ,
+    List<Covoiturage> findCovoiturageByGovDepartAndByGovArrive(@RequestParam(defaultValue = "0") int pageNo,
+                                                               @RequestParam(defaultValue = "3") int pageSize,
+                                                               @RequestParam(defaultValue = "datedepart") String sortBy,
                                                                @RequestParam(defaultValue = "Sfax") String nameOfGovDepart,
                                                                @RequestParam(defaultValue = "Tunis") String nameOfGovArrive) {
 
@@ -81,11 +85,23 @@ public class CovoiturageController {
 
 
     @GetMapping("findByVilleName")
-    List<Covoiturage> findCovoiturageByVilleDepartAndByVilleArrivee(@RequestParam(defaultValue = "0") int pageNo ,
-                                                                    @RequestParam(defaultValue = "3" )int pageSize ,
-                                                                    @RequestParam(defaultValue = "name")String sortBy ,
+    List<Covoiturage> findCovoiturageByVilleDepartAndByVilleArrivee(@RequestParam(defaultValue = "0") int pageNo,
+                                                                    @RequestParam(defaultValue = "3") int pageSize,
+                                                                    @RequestParam(defaultValue = "datedepart") String sortBy,
                                                                     @RequestParam(defaultValue = "Sfax") String nameOfVilleDepart,
                                                                     @RequestParam(defaultValue = "Tunis") String nameOfVilleArrivee) {
-        return this.covoiturageService.findCovoituragesByVilleDepartAndByVilleArrive(pageNo , pageSize , sortBy ,nameOfVilleDepart , nameOfVilleArrivee);
+        return this.covoiturageService.findCovoituragesByVilleDepartAndByVilleArrive(pageNo, pageSize, sortBy, nameOfVilleDepart, nameOfVilleArrivee);
     }
+
+
+    @PostMapping("rand")
+    public Iterable<Covoiturage> seed() {
+
+        ArrayList<Covoiturage> c = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            c.add(Covoiturage.rand(userService, villeRepo));
+        }
+        return covoiturageRepo.saveAll(c);
+    }
+
 }
