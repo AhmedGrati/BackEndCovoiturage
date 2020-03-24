@@ -1,0 +1,33 @@
+version: "3"
+
+networks:
+  main:
+
+services:
+
+  mariadb:
+    image: mariadb
+    container_name: mariadbX
+    restart: always
+    environment:
+      MYSQL_DATABASE: covoiturage
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    networks:
+      - main
+
+  maven:
+    container_name: maven
+    build:
+      context: ./bin/mvn
+    volumes:
+      - .:/project
+    ports:
+      - "8080:90"
+    networks:
+      - main
+    depends_on:
+      - mariadb
