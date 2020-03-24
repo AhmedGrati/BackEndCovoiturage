@@ -29,12 +29,13 @@ public interface CovoiturageRepo extends PagingAndSortingRepository<Covoiturage 
             nativeQuery = true)
     Page<Covoiturage> findAll(Boolean allowOld, Pageable pageable);
 
-    @Query("SELECT COUNT (id) from covoiturage")
+    @Query(value = "SELECT COUNT * from covoiturage" , nativeQuery = true)
     int getCovoiturageNumber();
 
-    List<Covoiturage> findAllByGouvernoratDepartAndGouvernoratArrive(Gouvernorat gouvernoratDepart , Gouvernorat gouvernoratArrive);
+
+    Page<Covoiturage> findAllByGouvernoratDepartAndGouvernoratArrive( Gouvernorat gouvernoratDepart , Gouvernorat gouvernoratArrive ,Pageable pageable );
 
 
-    List<Covoiturage> findAllByVilleDepartAndVilleArrivee(Ville villeDepart , Ville villeArrivee);
+    Page<Covoiturage> findAllByVilleDepartAndVilleArrivee(Ville villeDepart , Ville villeArrivee , Pageable pageable);
 
 }

@@ -70,15 +70,22 @@ public class CovoiturageController {
     }
 
     @GetMapping("findByGovName")
-    List<Covoiturage> findCovoiturageByGovDepartAndByGovArrive(@RequestParam(defaultValue = "Sfax") String nameOfGovDepart,
+    List<Covoiturage> findCovoiturageByGovDepartAndByGovArrive(@RequestParam(defaultValue = "0") int pageNo ,
+                                                               @RequestParam(defaultValue = "3" )int pageSize ,
+                                                               @RequestParam(defaultValue = "name")String sortBy ,
+                                                               @RequestParam(defaultValue = "Sfax") String nameOfGovDepart,
                                                                @RequestParam(defaultValue = "Tunis") String nameOfGovArrive) {
-        return this.covoiturageService.findCovoituragesByGouvernoratDepartAndByGouvernoratArrive(nameOfGovDepart , nameOfGovArrive);
+
+        return this.covoiturageService.findCovoituragesByGouvernoratDepartAndByGouvernoratArrive(pageNo , pageSize , sortBy ,nameOfGovDepart , nameOfGovArrive);
     }
 
 
     @GetMapping("findByVilleName")
-    List<Covoiturage> findCovoiturageByVilleDepartAndByVilleArrivee(@RequestParam(defaultValue = "menzel cheker") String nameOfVilleDepart ,
-                                                                    @RequestParam(defaultValue = "sokra") String nameOfVilleArrivee) {
-        return this.covoiturageService.findCovoituragesByVilleDepartAndByVilleArrive(nameOfVilleDepart , nameOfVilleArrivee);
+    List<Covoiturage> findCovoiturageByVilleDepartAndByVilleArrivee(@RequestParam(defaultValue = "0") int pageNo ,
+                                                                    @RequestParam(defaultValue = "3" )int pageSize ,
+                                                                    @RequestParam(defaultValue = "name")String sortBy ,
+                                                                    @RequestParam(defaultValue = "Sfax") String nameOfVilleDepart,
+                                                                    @RequestParam(defaultValue = "Tunis") String nameOfVilleArrivee) {
+        return this.covoiturageService.findCovoituragesByVilleDepartAndByVilleArrive(pageNo , pageSize , sortBy ,nameOfVilleDepart , nameOfVilleArrivee);
     }
 }

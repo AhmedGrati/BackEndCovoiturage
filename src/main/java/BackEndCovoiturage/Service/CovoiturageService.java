@@ -61,22 +61,39 @@ public class CovoiturageService {
         return this.covoiturageRepo.getCovoiturageNumber();
     }
 
-    public List<Covoiturage> findCovoituragesByGouvernoratDepartAndByGouvernoratArrive(String nameOfGouvDepart ,
+    public List<Covoiturage> findCovoituragesByGouvernoratDepartAndByGouvernoratArrive(int pageNo,
+                                                                                       int pageSize ,
+                                                                                       String sortBy ,
+                                                                                       String nameOfGouvDepart ,
                                                                                        String nameOfGouvArrive
                                                                                        ) {
         Gouvernorat gouvernoratDepart = this.gouvernoratRepo.findGouvernoratByName(nameOfGouvDepart);
         Gouvernorat gouvernoratArrive = this.gouvernoratRepo.findGouvernoratByName(nameOfGouvArrive);
+        Pageable pageable = PageRequest.of(pageNo , pageSize , Sort.by(sortBy));
+        Page<Covoiturage> covoiturages = this.covoiturageRepo.findAllByGouvernoratDepartAndGouvernoratArrive(gouvernoratDepart , gouvernoratArrive , pageable);
 
-        return (this.covoiturageRepo.findAllByGouvernoratDepartAndGouvernoratArrive(gouvernoratDepart , gouvernoratArrive));
+        if(covoiturages.hasContent()){
+            return covoiturages.getContent();
+        }else{
+            return new ArrayList<Covoiturage>();
+        }
     }
 
-    public List<Covoiturage> findCovoituragesByVilleDepartAndByVilleArrive(String nameOfVilleDepart ,
+    public List<Covoiturage> findCovoituragesByVilleDepartAndByVilleArrive(int pageNo ,
+                                                                           int pageSize ,
+                                                                           String sortBy ,
+                                                                           String nameOfVilleDepart ,
                                                                            String nameOfVilleArrive
     ) {
         Ville villeDepart = this.villeRepo.findVilleByName(nameOfVilleDepart);
         Ville villeArrive = this.villeRepo.findVilleByName(nameOfVilleArrive);
-
-        return (this.covoiturageRepo.findAllByVilleDepartAndVilleArrivee(villeDepart , villeArrive));
+        Pageable pageable = PageRequest.of(pageNo , pageSize , Sort.by(sortBy));
+        Page<Covoiturage> covoiturages = this.covoiturageRepo.findAllByVilleDepartAndVilleArrivee(villeDepart , villeArrive , pageable);
+        if(covoiturages.hasContent()){
+            return covoiturages.getContent();
+        }else{
+            return new ArrayList<Covoiturage>();
+        }
     }
 
 }
