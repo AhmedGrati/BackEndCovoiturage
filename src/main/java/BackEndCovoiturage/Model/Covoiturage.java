@@ -184,7 +184,7 @@ public class Covoiturage {
         Collections.shuffle(users);
         c.setOwner(users.get(0));
 
-        c.setDescription("placeholder placeholder placeholder placeholder ");
+        c.setDescription(f.lorem().characters(200));
 
         c.setFumer(f.bool().bool());
 
