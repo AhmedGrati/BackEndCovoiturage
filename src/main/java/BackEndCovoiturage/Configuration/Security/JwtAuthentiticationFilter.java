@@ -3,6 +3,9 @@ package BackEndCovoiturage.Configuration.Security;
 import BackEndCovoiturage.Model.LoginViewModel;
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.minidev.json.JSONObject;
+import netscape.javascript.JSException;
+import org.json.JSONException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -58,7 +61,7 @@ public class JwtAuthentiticationFilter extends UsernamePasswordAuthenticationFil
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         // Grab principal
         UserPrincipal principal = (UserPrincipal) authResult.getPrincipal();
-        System.out.println("hello chabeb");
+
         // Create JWT Token
         String token = JWT.create()
                 .withSubject(principal.getUsername())
@@ -67,5 +70,20 @@ public class JwtAuthentiticationFilter extends UsernamePasswordAuthenticationFil
 
         // Add token in response
         response.addHeader(JwtPropreties.HEADER_STRING, JwtPropreties.TOKEN_PREFIX +  token);
+
+        JSONObject jsonObject = new JSONObject();
+        JSONObject user = new JSONObject();
+
+        user.put("email",principal.getUsername());
+        user.put("firstName",principal.getUser().getFirstName());
+        user.put("lastName",principal.getUser().getLastName());
+
+        user.put("id",principal.getUser().getId());
+        jsonObject.put("account",user);
+        jsonObject.put("token",token);
+
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.getWriter().println(jsonObject);
+        response.getWriter().flush();
     }
 }

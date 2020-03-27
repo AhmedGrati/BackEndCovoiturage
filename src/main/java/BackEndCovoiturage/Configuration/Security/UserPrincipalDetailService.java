@@ -27,10 +27,8 @@ public class UserPrincipalDetailService implements UserDetailsService {
     }
 
     public User save(User user) {
-        User newUser = new User();
-        newUser.setEmail(user.getEmail());
-        newUser.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepo.save(newUser);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepo.save(user);
     }
 
 
