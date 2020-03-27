@@ -29,7 +29,7 @@ public interface CovoiturageRepo extends PagingAndSortingRepository<Covoiturage 
             nativeQuery = true)
     Page<Covoiturage> findAll(Boolean allowOld, Pageable pageable);
 
-    @Query(value = "SELECT COUNT * from covoiturage" , nativeQuery = true)
+    @Query(value = "SELECT COUNT (id) from covoiturage")
     int getCovoiturageNumber();
 
 

@@ -2,9 +2,11 @@ package BackEndCovoiturage.Model;
 
 import com.sun.istack.Nullable;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.ArrayList;
-import java.util.List;
 
 @Entity(name = "gouvernorat")
 public class Gouvernorat {
@@ -16,10 +18,6 @@ public class Gouvernorat {
     @Nullable
     private String name;
 
-    @Nullable
-    @OneToMany(targetEntity = Ville.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "ville_id", referencedColumnName = "id")
-    private List<Ville> villes;
 
     public Gouvernorat() {
 
@@ -27,7 +25,6 @@ public class Gouvernorat {
 
     public Gouvernorat(String name, ArrayList<Ville> villes) {
         this.name = name;
-        this.villes = villes;
     }
 
     public long getId() {
@@ -46,11 +43,4 @@ public class Gouvernorat {
         this.name = name;
     }
 
-    public List<Ville> getVilles() {
-        return villes;
-    }
-
-    public void setVilles(List<Ville> villes) {
-        this.villes = villes;
-    }
 }

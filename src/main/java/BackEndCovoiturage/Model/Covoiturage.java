@@ -1,9 +1,14 @@
 package BackEndCovoiturage.Model;
 
+import BackEndCovoiturage.Repository.VilleRepo;
 import BackEndCovoiturage.Service.UserService;
+import com.github.javafaker.Faker;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 @Entity(name = "covoiturage")
 
@@ -161,6 +166,37 @@ public class Covoiturage {
     }
 
 
+    public static Faker f = new Faker();
+
+    public static Covoiturage rand(UserService userService, VilleRepo villeRepo) {
+        Covoiturage c = new Covoiturage();
+        ArrayList<Ville> v = new ArrayList<>();
+        villeRepo.findAll().forEach(v::add);
+        Collections.shuffle(v);
+
+        c.setVilleDepart(v.get(0));
+        c.setVilleArrivee(v.get(1));
+
+        c.setGouvernoratDepart(v.get(0).getGouvernorats());
+        c.setGouvernoratArrive(v.get(1).getGouvernorats());
+
+        List<User> users = userService.findAllUsers();
+        Collections.shuffle(users);
+        c.setOwner(users.get(0));
+
+        c.setDescription(f.lorem().characters(200));
+
+        c.setFumer(f.bool().bool());
+
+        c.setPrice(f.number().randomDouble(1, 1, 50));
+        c.setNbrPlaceDispo(f.number().numberBetween(1, 5));
+
+        c.datedepart = f.date().between(new Date(2019, 1, 1), new Date(2021, 1, 1));
+
+        return c;
+    }
+
+
     public static class DTO {
         public Date datedepart;
         public int nbrPlaceDispo;
@@ -168,18 +204,32 @@ public class Covoiturage {
         public String description;
         public boolean isFumer;
         public int ownerId;
+        public String villeDepart;
+        public String villeArrive;
+
 
         // todo gouverna,t ville
 
 
-        public Covoiturage toCovoiturage(UserService userService) {
+        public Covoiturage toCovoiturage(UserService userService, VilleRepo villeRepo) {
             Covoiturage c = new Covoiturage();
+            Ville vd = villeRepo.findVilleByName(villeDepart);
+            Ville va = villeRepo.findVilleByName(villeArrive);
+
+
             c.setDatedepart(datedepart);
             c.setNbrPlaceDispo(nbrPlaceDispo);
             c.setPrice(price);
             c.setDescription(description);
             c.setFumer(isFumer);
             c.setOwner(userService.findUserById(ownerId));
+
+            c.setVilleDepart(vd);
+            c.setVilleArrivee(va);
+
+            c.setGouvernoratDepart(vd.getGouvernorats());
+            c.setGouvernoratArrive(va.getGouvernorats());
+
             return c;
         }
     }
