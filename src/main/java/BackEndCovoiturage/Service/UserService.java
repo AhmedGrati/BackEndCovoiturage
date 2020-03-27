@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,16 +19,19 @@ public class UserService {
     @Autowired
     public UserRepo userRepo;
 
+    private PasswordEncoder passwordEncoder;
+
+    public UserService(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+
+
     public User findUserById(long id){
         return (this.userRepo.findUserById(id));
     }
 
     public List<User> findAllUsers(){
         return (this.userRepo.findAll());
-    }
-
-    public User saveUser(User user){
-        return (this.userRepo.save(user));
     }
 
     public void deleteUserById(long id){

@@ -30,5 +30,8 @@ public interface UserRepo extends PagingAndSortingRepository<User, Long> {
 
     Page<User> findAll(Pageable pageable);
 
+    User findUserByFirstName(String firstName);
+
+    User findUserByEmail(String email);
 
 }

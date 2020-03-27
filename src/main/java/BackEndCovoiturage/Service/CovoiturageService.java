@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -45,15 +46,17 @@ public class CovoiturageService {
         return this.covoiturageRepo.save(covoiturage);
     }
 
-    public List<Covoiturage> findAllPagedCovoiturage(int pageNo , int pageSize , String sortBy , boolean allowOld ){
+    public HashMap<String ,Covoiturage> findAllPagedCovoiturage(int pageNo , int pageSize , String sortBy , boolean allowOld ){
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 
-        // fix bug : using simple find all and filtering from code will remove elements from pages and thus the size will be be smaller than anticipated
         Page<Covoiturage> pagedCovoiturage = this.covoiturageRepo.findAll(allowOld, pageable);
         if (pagedCovoiturage.hasContent()) {
-            return pagedCovoiturage.getContent();
+            HashMap res = new HashMap<>();
+            res.put("data",pagedCovoiturage.getContent());
+            res.put("fullLength",pagedCovoiturage.getTotalElements());
+            return res;
         } else {
-            return new ArrayList<>();
+            return new HashMap<String ,Covoiturage>();
         }
     }
 
@@ -61,7 +64,7 @@ public class CovoiturageService {
         return this.covoiturageRepo.getCovoiturageNumber();
     }
 
-    public List<Covoiturage> findCovoituragesByGouvernoratDepartAndByGouvernoratArrive(int pageNo,
+    public HashMap<String ,Covoiturage> findCovoituragesByGouvernoratDepartAndByGouvernoratArrive(int pageNo,
                                                                                        int pageSize ,
                                                                                        String sortBy ,
                                                                                        String nameOfGouvDepart ,
@@ -70,16 +73,19 @@ public class CovoiturageService {
         Gouvernorat gouvernoratDepart = this.gouvernoratRepo.findGouvernoratByName(nameOfGouvDepart);
         Gouvernorat gouvernoratArrive = this.gouvernoratRepo.findGouvernoratByName(nameOfGouvArrive);
         Pageable pageable = PageRequest.of(pageNo , pageSize , Sort.by(sortBy));
-        Page<Covoiturage> covoiturages = this.covoiturageRepo.findAllByGouvernoratDepartAndGouvernoratArrive(gouvernoratDepart , gouvernoratArrive , pageable);
+        Page<Covoiturage> pagedCovoiturage = this.covoiturageRepo.findAllByGouvernoratDepartAndGouvernoratArrive(gouvernoratDepart , gouvernoratArrive , pageable);
 
-        if(covoiturages.hasContent()){
-            return covoiturages.getContent();
-        }else{
-            return new ArrayList<Covoiturage>();
+        if(pagedCovoiturage.hasContent()) {
+            HashMap res = new HashMap<>();
+            res.put("data",pagedCovoiturage.getContent());
+            res.put("fullLength",pagedCovoiturage.getTotalElements());
+            return res;
+        } else {
+            return new HashMap<String ,Covoiturage>();
         }
     }
 
-    public List<Covoiturage> findCovoituragesByVilleDepartAndByVilleArrive(int pageNo ,
+    public HashMap<String ,Covoiturage> findCovoituragesByVilleDepartAndByVilleArrive(int pageNo ,
                                                                            int pageSize ,
                                                                            String sortBy ,
                                                                            String nameOfVilleDepart ,
@@ -88,11 +94,14 @@ public class CovoiturageService {
         Ville villeDepart = this.villeRepo.findVilleByName(nameOfVilleDepart);
         Ville villeArrive = this.villeRepo.findVilleByName(nameOfVilleArrive);
         Pageable pageable = PageRequest.of(pageNo , pageSize , Sort.by(sortBy));
-        Page<Covoiturage> covoiturages = this.covoiturageRepo.findAllByVilleDepartAndVilleArrivee(villeDepart , villeArrive , pageable);
-        if(covoiturages.hasContent()){
-            return covoiturages.getContent();
-        }else{
-            return new ArrayList<Covoiturage>();
+        Page<Covoiturage> pagedCovoiturage = this.covoiturageRepo.findAllByVilleDepartAndVilleArrivee(villeDepart , villeArrive , pageable);
+        if(pagedCovoiturage.hasContent()) {
+            HashMap res = new HashMap<>();
+            res.put("data",pagedCovoiturage.getContent());
+            res.put("fullLength",pagedCovoiturage.getTotalElements());
+            return res;
+        } else {
+            return new HashMap<>();
         }
     }
 

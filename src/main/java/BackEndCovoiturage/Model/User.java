@@ -3,11 +3,14 @@ package BackEndCovoiturage.Model;
 import com.github.javafaker.Faker;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import static BackEndCovoiturage.Model.Gender.female;
 import static BackEndCovoiturage.Model.Gender.male;
+import static java.util.Arrays.asList;
 
 @Entity(name = "user")
 public class User {
@@ -27,6 +30,9 @@ public class User {
     private String status;
     private Date inscriptionDate;
     private Date lastDateEnetered;
+    private String password;
+    private String roles;
+    private String authorities;
     private Gender gender;
 
 
@@ -38,7 +44,8 @@ public class User {
     }
 
 
-    public User(String firstName, String lastName, int age, double avis, String email, String localisation, String numTel, String status, Date inscriptionDate, Date lastDateEnetered, Gender gender) {
+    public User(String firstName, String lastName, int age, double avis, String email,String password , String roles , String authorities,
+                String localisation, String numTel, String status, Date inscriptionDate, Date lastDateEnetered, Gender gender) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
@@ -50,6 +57,9 @@ public class User {
         this.inscriptionDate = inscriptionDate;
         this.lastDateEnetered = lastDateEnetered;
         this.gender = gender;
+        this.password = password;
+        this.authorities = authorities;
+        this.roles = roles;
     }
 
     public String getFirstName() {
@@ -171,11 +181,46 @@ public class User {
                 f.number().numberBetween(10 , 70) ,
                 f.number().randomDouble(3, 0, 20),
                 f.name().name() + "@gmail.com",
+                f.name().firstName(),
+                f.name().firstName(),
+                f.name().firstName(),
                 f.address().city(), f.phoneNumber().phoneNumber(),
                 f.bool().bool() ?  "online " : "offline ",
                 f.date().birthday() ,
                 f.date().birthday(),
                 f.bool().bool() ?  male : female
         );
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRoles(){
+        return roles;
+    }
+    public String getAuthorities(){
+        return authorities;
+    }
+
+    public List<String> getAllRoles(){
+        if(roles != null){
+            return Arrays.asList(roles.split(","));
+        }else{
+            return new ArrayList<>();
+        }
+    }
+
+
+    public List<String> getAllAuthorities(){
+        if(authorities != null){
+            return Arrays.asList(authorities.split(","));
+        }else{
+            return new ArrayList<>();
+        }
     }
 }

@@ -49,7 +49,7 @@ public class CovoiturageController {
     }
 
     @GetMapping(path = "getPagedCovoiturages")
-    public List<Covoiturage> getPagedCovoiturages(@RequestParam(defaultValue = "0") int pageNo
+    public HashMap<String ,Covoiturage> getPagedCovoiturages(@RequestParam(defaultValue = "0") int pageNo
             , @RequestParam(defaultValue = "6") int pageSize
             , @RequestParam(defaultValue = "price") String sortBy
             , @RequestParam(defaultValue = "true") boolean allowOld) {
@@ -70,7 +70,7 @@ public class CovoiturageController {
     }
 
     @GetMapping("findByGovName")
-    List<Covoiturage> findCovoiturageByGovDepartAndByGovArrive(@RequestParam(defaultValue = "0") int pageNo ,
+    public HashMap<String ,Covoiturage> findCovoiturageByGovDepartAndByGovArrive(@RequestParam(defaultValue = "0") int pageNo ,
                                                                @RequestParam(defaultValue = "3" )int pageSize ,
                                                                @RequestParam(defaultValue = "name")String sortBy ,
                                                                @RequestParam(defaultValue = "Sfax") String nameOfGovDepart,
@@ -81,7 +81,7 @@ public class CovoiturageController {
 
 
     @GetMapping("findByVilleName")
-    List<Covoiturage> findCovoiturageByVilleDepartAndByVilleArrivee(@RequestParam(defaultValue = "0") int pageNo ,
+    public HashMap<String ,Covoiturage> findCovoiturageByVilleDepartAndByVilleArrivee(@RequestParam(defaultValue = "0") int pageNo ,
                                                                     @RequestParam(defaultValue = "3" )int pageSize ,
                                                                     @RequestParam(defaultValue = "name")String sortBy ,
                                                                     @RequestParam(defaultValue = "Sfax") String nameOfVilleDepart,
