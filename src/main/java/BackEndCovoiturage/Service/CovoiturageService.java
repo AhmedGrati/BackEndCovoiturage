@@ -30,15 +30,15 @@ public class CovoiturageService {
     @Autowired
     private VilleRepo villeRepo;
 
-    public List<Covoiturage> getAllCovoiturages(){
+    public List<Covoiturage> getAllCovoiturages() {
         return this.covoiturageRepo.findAll();
     }
 
-    public Covoiturage getCovoiturageById(long id){
+    public Covoiturage getCovoiturageById(long id) {
         return this.covoiturageRepo.getCovoiturageById(id);
     }
 
-    public void deleteCovoiturageById(long id){
+    public void deleteCovoiturageById(long id) {
         this.covoiturageRepo.deleteCovoiturageById(id);
     }
 
