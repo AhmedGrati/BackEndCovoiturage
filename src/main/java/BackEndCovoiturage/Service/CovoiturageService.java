@@ -64,12 +64,20 @@ public class CovoiturageService {
         return this.covoiturageRepo.getCovoiturageNumber();
     }
 
-    public HashMap<String ,Covoiturage> findCovoituragesByGouvernoratDepartAndByGouvernoratArrive(int pageNo,
+    public HashMap<String ,Object> findCovoituragesByGouvernoratDepartAndByGouvernoratArrive(int pageNo,
                                                                                        int pageSize ,
                                                                                        String sortBy ,
                                                                                        String nameOfGouvDepart ,
                                                                                        String nameOfGouvArrive
                                                                                        ) {
+        if((nameOfGouvArrive==null)&&(nameOfGouvDepart==null)){
+            HashMap res = new HashMap<>();
+            res.put("data",this.covoiturageRepo.findAll());
+            res.put("fullLength",this.covoiturageRepo.getCovoiturageNumber());
+            return res;
+        }
+
+        //else
         Gouvernorat gouvernoratDepart = this.gouvernoratRepo.findGouvernoratByName(nameOfGouvDepart);
         Gouvernorat gouvernoratArrive = this.gouvernoratRepo.findGouvernoratByName(nameOfGouvArrive);
         Pageable pageable = PageRequest.of(pageNo , pageSize , Sort.by(sortBy));
@@ -81,16 +89,24 @@ public class CovoiturageService {
             res.put("fullLength",pagedCovoiturage.getTotalElements());
             return res;
         } else {
-            return new HashMap<String ,Covoiturage>();
+            return new HashMap<String ,Object>();
         }
     }
 
-    public HashMap<String ,Covoiturage> findCovoituragesByVilleDepartAndByVilleArrive(int pageNo ,
+    public HashMap<String ,Object> findCovoituragesByVilleDepartAndByVilleArrive(int pageNo ,
                                                                            int pageSize ,
                                                                            String sortBy ,
                                                                            String nameOfVilleDepart ,
                                                                            String nameOfVilleArrive
     ) {
+        if((nameOfVilleArrive==null)&&(nameOfVilleDepart==null)){
+            HashMap res = new HashMap<>();
+            res.put("data",this.covoiturageRepo.findAll());
+            res.put("fullLength",this.covoiturageRepo.getCovoiturageNumber());
+            return res;
+        }
+
+        //else
         Ville villeDepart = this.villeRepo.findVilleByName(nameOfVilleDepart);
         Ville villeArrive = this.villeRepo.findVilleByName(nameOfVilleArrive);
         Pageable pageable = PageRequest.of(pageNo , pageSize , Sort.by(sortBy));
