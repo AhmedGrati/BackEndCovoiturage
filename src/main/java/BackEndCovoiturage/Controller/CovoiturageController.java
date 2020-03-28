@@ -59,11 +59,11 @@ public class CovoiturageController {
     }
 
     @GetMapping(path = "getPagedCovoiturages")
-    public HashMap<String ,Covoiturage> getPagedCovoiturages(@RequestParam(defaultValue = "0") int pageNo
+    public HashMap<String, Object> getPagedCovoiturages(@RequestParam(defaultValue = "0") int pageNo
             , @RequestParam(defaultValue = "6") int pageSize
             , @RequestParam(defaultValue = "price") String sortBy
             , @RequestParam(defaultValue = "true") boolean allowOld) {
-        return(this.covoiturageService.findAllPagedCovoiturage(pageNo , pageSize , sortBy , allowOld));
+        return (this.covoiturageService.findAllPagedCovoiturage(pageNo, pageSize, sortBy, allowOld));
     }
 
     @GetMapping(path = "covoiturageNumber")
@@ -74,25 +74,23 @@ public class CovoiturageController {
     }
 
     @GetMapping("findByGovName")
-
     public HashMap<String,Object> findCovoiturageByGovDepartAndByGovArrive(@RequestParam(defaultValue = "0") int pageNo,
                                                                @RequestParam(defaultValue = "3") int pageSize,
                                                                @RequestParam(defaultValue = "datedepart") String sortBy,
                                                                @RequestParam(defaultValue = "") String nameOfGovDepart,
                                                                @RequestParam(defaultValue = "") String nameOfGovArrive) {
 
-        return this.covoiturageService.findCovoituragesByGouvernoratDepartAndByGouvernoratArrive(pageNo , pageSize , sortBy ,nameOfGovDepart , nameOfGovArrive);
+
+        return this.covoiturageService.findCovoituragesByGouvernoratDepartAndByGouvernoratArrive(pageNo, pageSize, sortBy, nameOfGovDepart, nameOfGovArrive);
     }
 
 
     @GetMapping("findByVilleName")
-
     public HashMap<String,Object> findCovoiturageByVilleDepartAndByVilleArrivee(@RequestParam(defaultValue = "0") int pageNo,
                                                                     @RequestParam(defaultValue = "3") int pageSize,
                                                                     @RequestParam(defaultValue = "datedepart") String sortBy,
-
                                                                     @RequestParam(defaultValue = "") String nameOfVilleDepart,
-                                                                    @RequestParam(defaultValue = "") String nameOfVilleArrivee) {
+                                                                    @RequestParam(defaultValue = "") String nameOfVilleArrivee){
         return this.covoiturageService.findCovoituragesByVilleDepartAndByVilleArrive(pageNo, pageSize, sortBy, nameOfVilleDepart, nameOfVilleArrivee);
     }
 

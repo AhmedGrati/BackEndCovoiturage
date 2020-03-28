@@ -18,6 +18,9 @@ services:
       - "3306:3306"
     networks:
       - main
+    volumes:
+      - ./mariadb/data:/var/lib/mysql
+      - ./mariadb/logs:/var/log/mysql
 
   maven:
     container_name: maven
