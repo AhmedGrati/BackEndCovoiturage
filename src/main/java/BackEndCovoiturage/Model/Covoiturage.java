@@ -19,9 +19,9 @@ public class Covoiturage {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private Instant datedepart;
+    private Instant dateDepart;
     private int nbrPlaceDispo;
-    private double price;
+    private int price;
     private String description;
     private boolean isFumer;
 
@@ -37,18 +37,19 @@ public class Covoiturage {
     @JoinColumn(name = "gouv_arr_id", referencedColumnName = "id")
     private Gouvernorat gouvernoratArrive;
 
-    @ManyToOne(targetEntity = Ville.class , cascade = CascadeType.ALL)
-    @JoinColumn(name = "ville_dep_id" , referencedColumnName = "id")
+    @ManyToOne(targetEntity = Ville.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "ville_dep_id", referencedColumnName = "id")
     private Ville villeDepart;
 
-    @ManyToOne(targetEntity = Ville.class , cascade = CascadeType.ALL)
-    @JoinColumn(name = "ville_arr_id" , referencedColumnName = "id")
+    @ManyToOne(targetEntity = Ville.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "ville_arr_id", referencedColumnName = "id")
     private Ville villeArrivee;
 
-    public Covoiturage(){ }
+    public Covoiturage() {
+    }
 
-    public Covoiturage(Instant datedepart, int nbrPlaceDispo, double price, String description, boolean isFumer, User owner, Gouvernorat gouvernoratDepart, Gouvernorat gouvernoratArrive, Ville villeDepart, Ville villeArrivee) {
-        this.datedepart = datedepart;
+    public Covoiturage(Instant oki, int nbrPlaceDispo, int price, String description, boolean isFumer, User owner, Gouvernorat gouvernoratDepart, Gouvernorat gouvernoratArrive, Ville villeDepart, Ville villeArrivee) {
+        this.dateDepart = oki;
         this.nbrPlaceDispo = nbrPlaceDispo;
         this.price = price;
         this.description = description;
@@ -58,31 +59,6 @@ public class Covoiturage {
         this.gouvernoratArrive = gouvernoratArrive;
         this.villeDepart = villeDepart;
         this.villeArrivee = villeArrivee;
-    }
-
-    @Override
-    public String toString() {
-        return "Covoiturage{" +
-                "id=" + id +
-                ", datedepart=" + datedepart +
-                ", nbrPlaceDispo=" + nbrPlaceDispo +
-                ", price=" + price +
-                ", description='" + description + '\'' +
-                ", isFumer=" + isFumer +
-                ", owner=" + owner +
-                ", gouvernoratDepart=" + gouvernoratDepart +
-                ", gouvernoratArrive=" + gouvernoratArrive +
-                ", villeDepart=" + villeDepart +
-                ", villeArrivee=" + villeArrivee +
-                '}';
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public static Covoiturage rand(UserService userService, VilleRepo villeRepo) {
@@ -105,16 +81,41 @@ public class Covoiturage {
 
         c.setFumer(f.bool().bool());
 
-        c.setPrice(f.number().randomDouble(1, 1, 50));
+        c.setPrice((int) f.number().randomNumber(3, true));
         c.setNbrPlaceDispo(f.number().numberBetween(1, 5));
 
-        c.datedepart = Instant.now();
+        c.dateDepart = Instant.now();
 
         return c;
     }
 
-    public Instant getDatedepart() {
-        return datedepart;
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Covoiturage{" +
+                "id=" + id +
+                ", datedepart=" + dateDepart +
+                ", nbrPlaceDispo=" + nbrPlaceDispo +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                ", isFumer=" + isFumer +
+                ", owner=" + owner +
+                ", gouvernoratDepart=" + gouvernoratDepart +
+                ", gouvernoratArrive=" + gouvernoratArrive +
+                ", villeDepart=" + villeDepart +
+                ", villeArrivee=" + villeArrivee +
+                '}';
+    }
+
+    public Instant getDateDepart() {
+        return dateDepart;
     }
 
     public int getNbrPlaceDispo() {
@@ -129,8 +130,8 @@ public class Covoiturage {
         return price;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setDateDepart(Instant datedepart) {
+        this.dateDepart = datedepart;
     }
 
     public String getDescription() {
@@ -192,14 +193,14 @@ public class Covoiturage {
 
     public static Faker f = new Faker();
 
-    public void setDatedepart(Instant datedepart) {
-        this.datedepart = datedepart;
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     public static class DTO {
         public Instant datedepart;
         public int nbrPlaceDispo;
-        public double price;
+        public int price;
         public String description;
         public boolean isFumer;
         public int ownerId;
@@ -216,7 +217,7 @@ public class Covoiturage {
             Ville va = villeRepo.findVilleByName(villeArrive);
 
 
-            c.setDatedepart(datedepart);
+            c.setDateDepart(datedepart);
             c.setNbrPlaceDispo(nbrPlaceDispo);
             c.setPrice(price);
             c.setDescription(description);

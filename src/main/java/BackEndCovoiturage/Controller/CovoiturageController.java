@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -115,16 +116,11 @@ public class CovoiturageController {
                                         @RequestParam(defaultValue = "all") String govArrive,
                                         @RequestParam(defaultValue = "0") int min,
                                         @RequestParam(defaultValue = "100000") int max,
-                                        @RequestParam(defaultValue = "20000-10-19") String dateDepart,
+                                        @RequestParam(defaultValue = "2000-01-01T00:00:00Z") Instant dateDepart,
                                         @RequestParam(defaultValue = "0") int place,
                                         @RequestParam(defaultValue = "true") boolean fumer
 
     ) {
-
-
-        // todo use Date
-
-
         return covoiturageService.main(pageNo, pageSize, sortBy, direction, govDepart
                 , govArrive, min, max, dateDepart, place, fumer);
     }

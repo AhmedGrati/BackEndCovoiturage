@@ -14,7 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 
@@ -123,22 +123,14 @@ public class CovoiturageService {
                                         String govArrive,
                                         int min,
                                         int max,
-                                        String dateDepart,
+                                        Instant dateDepart,
                                         int place,
                                         boolean fumer) {
 
-
         Sort.Direction d = direction.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC;
-
-
-        //  Date date = Date.valueOf(dateDepart);
-
-
-        Date date = new Date();
-        System.out.println(date);
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(d, sortBy));
         Page<Covoiturage> pagedCovoiturage = this.covoiturageRepo.main(govDepart
-                , govArrive, min, max, place, fumer, pageable);
+                , govArrive, min, max, dateDepart, place, fumer, pageable);
         return MyHelpers.pageWrapper(pagedCovoiturage);
     }
 }
