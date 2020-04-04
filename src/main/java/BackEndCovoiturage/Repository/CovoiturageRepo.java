@@ -41,20 +41,29 @@ public interface CovoiturageRepo extends PagingAndSortingRepository<Covoiturage 
     Page<Covoiturage> findAllByVilleDepartAndVilleArrivee(Ville villeDepart, Ville villeArrivee, Pageable pageable);
 
 
+//
+//    @Query(value = "SELECT  * from covoiturage where" +
+//            "(gouv_dep_id = (?1)  or (?1) = -1) and " +
+//            "(gouv_arr_id = (?2)  or (?2) = -1) and " +
+//            "(price >= (?3)  or (?3) = -1) and " +
+//            "(price <= (?4)  or (?4) = -1) ",
+//            nativeQuery = true)
+//    Page<Covoiturage> main__(long govDepart, long govArrive, int min, int max, String dateDepart, int place, boolean fumer, Pageable pageable);
+
 
     @Query(value = "SELECT c from covoiturage  c where  " +
             "(c.gouvernoratDepart.name = :govDepart or :govDepart = 'all') and " +
             "(c.gouvernoratArrive.name = :govArrive or :govArrive = 'all') and" +
-            "(c.dateDepart >= :date ) and " +
+            "(c.dateDepart >= :dateDepart ) and " +
             "(c.price >= :min) and " +
             "c.price <= :max and " +
             "(c.nbrPlaceDispo >= :place) and " +
-            "(c.isFumer = :fumer)")
+            "(c.isFumer = :fumer or :fumer = true )")
     Page<Covoiturage> main(String govDepart,
                            String govArrive,
                            int min,
                            int max,
-                           Instant date,
+                           Instant dateDepart,
                            int place,
                            boolean fumer
             , Pageable pageable);
