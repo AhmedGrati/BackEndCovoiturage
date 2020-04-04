@@ -3,14 +3,13 @@ package BackEndCovoiturage.Model;
 import com.github.javafaker.Faker;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import static BackEndCovoiturage.Model.Gender.female;
 import static BackEndCovoiturage.Model.Gender.male;
-import static java.util.Arrays.asList;
 
 @Entity(name = "user")
 public class User {
@@ -28,8 +27,8 @@ public class User {
     private String localisation;
     private String numTel;
     private String status;
-    private Date inscriptionDate;
-    private Date lastDateEnetered;
+    private Instant inscriptionDate;
+    private Instant lastDateEnetered;
     private String password;
     private String roles;
     private String authorities;
@@ -44,8 +43,8 @@ public class User {
     }
 
 
-    public User(String firstName, String lastName, int age, double avis, String email,String password , String roles , String authorities,
-                String localisation, String numTel, String status, Date inscriptionDate, Date lastDateEnetered, Gender gender) {
+    public User(String firstName, String lastName, int age, double avis, String email, String password, String roles, String authorities,
+                String localisation, String numTel, String status, Instant inscriptionDate, Instant lastDateEnetered, Gender gender) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
@@ -126,20 +125,34 @@ public class User {
         this.status = status;
     }
 
-    public Date getInscriptionDate() {
+    public static User getRandom() {
+
+        return new User(f.name().firstName(),
+                f.name().lastName(),
+                f.number().numberBetween(10, 70),
+                f.number().randomDouble(3, 0, 20),
+                f.name().name() + "@gmail.com",
+                f.name().firstName(),
+                f.name().firstName(),
+                f.name().firstName(),
+                f.address().city(), f.phoneNumber().phoneNumber(),
+                f.bool().bool() ? "online " : "offline ",
+                Instant.now(),
+                Instant.now(),
+                f.bool().bool() ? male : female
+        );
+    }
+
+    public Instant getInscriptionDate() {
         return inscriptionDate;
     }
 
-    public void setInscriptionDate(Date inscriptionDate) {
+    public void setInscriptionDate(Instant inscriptionDate) {
         this.inscriptionDate = inscriptionDate;
     }
 
-    public Date getLastDateEnetered() {
+    public Instant getLastDateEnetered() {
         return lastDateEnetered;
-    }
-
-    public void setLastDateEnetered(Date lastDateEnetered) {
-        this.lastDateEnetered = lastDateEnetered;
     }
 
     public Gender getGender() {
@@ -172,24 +185,10 @@ public class User {
                 '}';
     }
 
-    private static  Faker f = new Faker() ;
+    private static Faker f = new Faker();
 
-    public static User getRandom(){
-
-        return new User(f.name().firstName() ,
-                f.name().lastName() ,
-                f.number().numberBetween(10 , 70) ,
-                f.number().randomDouble(3, 0, 20),
-                f.name().name() + "@gmail.com",
-                f.name().firstName(),
-                f.name().firstName(),
-                f.name().firstName(),
-                f.address().city(), f.phoneNumber().phoneNumber(),
-                f.bool().bool() ?  "online " : "offline ",
-                f.date().birthday() ,
-                f.date().birthday(),
-                f.bool().bool() ?  male : female
-        );
+    public void setLastDateEnetered(Instant lastDateEnetered) {
+        this.lastDateEnetered = lastDateEnetered;
     }
 
     public String getPassword() {

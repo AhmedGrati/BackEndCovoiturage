@@ -5,9 +5,9 @@ import BackEndCovoiturage.Service.UserService;
 import com.github.javafaker.Faker;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 @Entity(name = "covoiturage")
@@ -19,7 +19,7 @@ public class Covoiturage {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private Date datedepart;
+    private Instant datedepart;
     private int nbrPlaceDispo;
     private double price;
     private String description;
@@ -47,7 +47,7 @@ public class Covoiturage {
 
     public Covoiturage(){ }
 
-    public Covoiturage(Date datedepart, int nbrPlaceDispo, double price, String description, boolean isFumer, User owner, Gouvernorat gouvernoratDepart, Gouvernorat gouvernoratArrive, Ville villeDepart, Ville villeArrivee) {
+    public Covoiturage(Instant datedepart, int nbrPlaceDispo, double price, String description, boolean isFumer, User owner, Gouvernorat gouvernoratDepart, Gouvernorat gouvernoratArrive, Ville villeDepart, Ville villeArrivee) {
         this.datedepart = datedepart;
         this.nbrPlaceDispo = nbrPlaceDispo;
         this.price = price;
@@ -85,12 +85,36 @@ public class Covoiturage {
         this.id = id;
     }
 
-    public Date getDatedepart() {
-        return datedepart;
+    public static Covoiturage rand(UserService userService, VilleRepo villeRepo) {
+        Covoiturage c = new Covoiturage();
+        ArrayList<Ville> v = new ArrayList<>();
+        villeRepo.findAll().forEach(v::add);
+        Collections.shuffle(v);
+
+        c.setVilleDepart(v.get(0));
+        c.setVilleArrivee(v.get(1));
+
+        c.setGouvernoratDepart(v.get(0).getGouvernorats());
+        c.setGouvernoratArrive(v.get(1).getGouvernorats());
+
+        List<User> users = userService.findAllUsers();
+        Collections.shuffle(users);
+        c.setOwner(users.get(0));
+
+        c.setDescription(f.lorem().characters(200));
+
+        c.setFumer(f.bool().bool());
+
+        c.setPrice(f.number().randomDouble(1, 1, 50));
+        c.setNbrPlaceDispo(f.number().numberBetween(1, 5));
+
+        c.datedepart = Instant.now();
+
+        return c;
     }
 
-    public void setDatedepart(Date datedepart) {
-        this.datedepart = datedepart;
+    public Instant getDatedepart() {
+        return datedepart;
     }
 
     public int getNbrPlaceDispo() {
@@ -168,37 +192,12 @@ public class Covoiturage {
 
     public static Faker f = new Faker();
 
-    public static Covoiturage rand(UserService userService, VilleRepo villeRepo) {
-        Covoiturage c = new Covoiturage();
-        ArrayList<Ville> v = new ArrayList<>();
-        villeRepo.findAll().forEach(v::add);
-        Collections.shuffle(v);
-
-        c.setVilleDepart(v.get(0));
-        c.setVilleArrivee(v.get(1));
-
-        c.setGouvernoratDepart(v.get(0).getGouvernorats());
-        c.setGouvernoratArrive(v.get(1).getGouvernorats());
-
-        List<User> users = userService.findAllUsers();
-        Collections.shuffle(users);
-        c.setOwner(users.get(0));
-
-        c.setDescription(f.lorem().characters(200));
-
-        c.setFumer(f.bool().bool());
-
-        c.setPrice(f.number().randomDouble(1, 1, 50));
-        c.setNbrPlaceDispo(f.number().numberBetween(1, 5));
-
-        c.datedepart = f.date().between(new Date(2019, 1, 1), new Date(2021, 1, 1));
-
-        return c;
+    public void setDatedepart(Instant datedepart) {
+        this.datedepart = datedepart;
     }
 
-
     public static class DTO {
-        public Date datedepart;
+        public Instant datedepart;
         public int nbrPlaceDispo;
         public double price;
         public String description;
