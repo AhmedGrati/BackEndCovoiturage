@@ -29,7 +29,7 @@ services:
     volumes:
       - .:/project
     ports:
-      - "8080:90"
+      - "8080:8443"
     networks:
       - main
     depends_on:

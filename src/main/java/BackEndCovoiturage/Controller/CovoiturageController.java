@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -103,6 +104,25 @@ public class CovoiturageController {
             c.add(Covoiturage.rand(userService, villeRepo));
         }
         return covoiturageRepo.saveAll(c);
+    }
+
+
+    @GetMapping("covoiturages")
+    public HashMap<String, Object> main(@RequestParam(defaultValue = "0") int pageNo,
+                                        @RequestParam(defaultValue = "9") int pageSize,
+                                        @RequestParam(defaultValue = "dateDepart") String sortBy,
+                                        @RequestParam(defaultValue = "ASC") String direction,
+                                        @RequestParam(defaultValue = "all") String govDepart,
+                                        @RequestParam(defaultValue = "all") String govArrive,
+                                        @RequestParam(defaultValue = "0") int min,
+                                        @RequestParam(defaultValue = "100000") int max,
+                                        @RequestParam(defaultValue = "2000-01-01T00:00:00Z") Instant dateDepart,
+                                        @RequestParam(defaultValue = "0") int place,
+                                        @RequestParam(defaultValue = "true") boolean fumer
+
+    ) {
+        return covoiturageService.main(pageNo, pageSize, sortBy, direction, govDepart
+                , govArrive, min, max, dateDepart, place, fumer);
     }
 
 }

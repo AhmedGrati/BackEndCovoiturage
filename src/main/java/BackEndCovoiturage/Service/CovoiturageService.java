@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 
@@ -60,32 +61,32 @@ public class CovoiturageService {
     }
 
 
-    public HashMap<String ,Object> findCovoituragesByGouvernoratDepartAndByGouvernoratArrive(int pageNo,
-                                                                                       int pageSize ,
-                                                                                       String sortBy ,
-                                                                                       String nameOfGouvDepart ,
-                                                                                       String nameOfGouvArrive
-                                                                                       ) {
-        if((nameOfGouvArrive==null)&&(nameOfGouvDepart==null)){
+    public HashMap<String, Object> findCovoituragesByGouvernoratDepartAndByGouvernoratArrive(int pageNo,
+                                                                                             int pageSize,
+                                                                                             String sortBy,
+                                                                                             String nameOfGouvDepart,
+                                                                                             String nameOfGouvArrive
+    ) {
+        if ((nameOfGouvArrive == null) && (nameOfGouvDepart == null)) {
             HashMap res = new HashMap<>();
-            res.put("data",this.covoiturageRepo.findAll());
-            res.put("fullLength",this.covoiturageRepo.getCovoiturageNumber());
+            res.put("data", this.covoiturageRepo.findAll());
+            res.put("fullLength", this.covoiturageRepo.getCovoiturageNumber());
             return res;
         }
 
         //else
         Gouvernorat gouvernoratDepart = this.gouvernoratRepo.findGouvernoratByName(nameOfGouvDepart);
         Gouvernorat gouvernoratArrive = this.gouvernoratRepo.findGouvernoratByName(nameOfGouvArrive);
-        Pageable pageable = PageRequest.of(pageNo , pageSize , Sort.by(sortBy));
-        Page<Covoiturage> pagedCovoiturage = this.covoiturageRepo.findAllByGouvernoratDepartAndGouvernoratArrive(gouvernoratDepart , gouvernoratArrive , pageable);
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+        Page<Covoiturage> pagedCovoiturage = this.covoiturageRepo.findAllByGouvernoratDepartAndGouvernoratArrive(gouvernoratDepart, gouvernoratArrive, pageable);
 
-        if(pagedCovoiturage.hasContent()) {
+        if (pagedCovoiturage.hasContent()) {
             HashMap res = new HashMap<>();
-            res.put("data",pagedCovoiturage.getContent());
-            res.put("fullLength",pagedCovoiturage.getTotalElements());
+            res.put("data", pagedCovoiturage.getContent());
+            res.put("fullLength", pagedCovoiturage.getTotalElements());
             return res;
         } else {
-            return new HashMap<String ,Object>();
+            return new HashMap<String, Object>();
         }
     }
 
@@ -96,10 +97,10 @@ public class CovoiturageService {
                                                                                  String nameOfVilleArrive
 
     ) {
-        if((nameOfVilleArrive==null)&&(nameOfVilleDepart==null)){
-            HashMap res = new HashMap<>();
-            res.put("data",this.covoiturageRepo.findAll());
-            res.put("fullLength",this.covoiturageRepo.getCovoiturageNumber());
+        if ((nameOfVilleArrive == null) && (nameOfVilleDepart == null)) {
+            HashMap<String, Object> res = new HashMap<>();
+            res.put("data", this.covoiturageRepo.findAll());
+            res.put("fullLength", this.covoiturageRepo.getCovoiturageNumber());
             return res;
         }
 
@@ -114,4 +115,22 @@ public class CovoiturageService {
     }
 
 
+    public HashMap<String, Object> main(int pageNo,
+                                        int pageSize,
+                                        String sortBy,
+                                        String direction,
+                                        String govDepart,
+                                        String govArrive,
+                                        int min,
+                                        int max,
+                                        Instant dateDepart,
+                                        int place,
+                                        boolean fumer) {
+
+        Sort.Direction d = direction.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(d, sortBy));
+        Page<Covoiturage> pagedCovoiturage = this.covoiturageRepo.main(govDepart
+                , govArrive, min, max, dateDepart, place, fumer, pageable);
+        return MyHelpers.pageWrapper(pagedCovoiturage);
+    }
 }
