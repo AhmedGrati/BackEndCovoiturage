@@ -50,8 +50,16 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<version>2.2.6.RELEASE</version>
 			<scope>provided</scope>
 		</dependency>
+		<!-- ImmutableLists -->
+		<dependency>
+			<groupId>com.google.collections</groupId>
+			<artifactId>google-collections</artifactId>
+			<version>1.0-rc2</version>
+		</dependency>
+
 		<!--Security Dependency-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

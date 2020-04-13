@@ -19,6 +19,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "api/covoiturage")
+@CrossOrigin
 public class CovoiturageController {
 
     @Autowired
@@ -58,7 +59,7 @@ public class CovoiturageController {
     public void deleteCovoiturageById(@PathVariable @NonNull long id){
         this.covoiturageService.deleteCovoiturageById(id);
     }
-
+    @CrossOrigin(origins = "*")
     @GetMapping(path = "getPagedCovoiturages")
     public HashMap<String, Object> getPagedCovoiturages(@RequestParam(defaultValue = "0") int pageNo
             , @RequestParam(defaultValue = "6") int pageSize

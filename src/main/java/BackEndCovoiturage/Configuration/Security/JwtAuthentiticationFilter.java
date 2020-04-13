@@ -52,7 +52,7 @@ public class JwtAuthentiticationFilter extends UsernamePasswordAuthenticationFil
                 new ArrayList<>());
 
         // Authenticate user
-        Authentication auth = authenticationManager.authenticate(authenticationToken);
+        Authentication auth = authenticationManager. authenticate(authenticationToken);
 
         return auth;
     }

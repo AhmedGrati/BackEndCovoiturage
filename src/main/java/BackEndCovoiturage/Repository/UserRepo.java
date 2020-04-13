@@ -34,4 +34,6 @@ public interface UserRepo extends PagingAndSortingRepository<User, Long> {
 
     User findUserByEmail(String email);
 
+    boolean existsByEmail(String email);
+
 }

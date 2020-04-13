@@ -110,4 +110,9 @@ public class UserController {
         }
     }*/
 
+    @GetMapping("emailExists")
+    public boolean emailExists(@RequestParam(defaultValue = "defaultValue@gmail.com") String email) {
+        return this.userService.emailExists(email);
+    }
+
 }

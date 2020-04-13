@@ -50,4 +50,8 @@ public class UserService {
         }
     }
 
+    public boolean emailExists(String email) {
+        return this.userRepo.existsByEmail(email);
+    }
+
 }
