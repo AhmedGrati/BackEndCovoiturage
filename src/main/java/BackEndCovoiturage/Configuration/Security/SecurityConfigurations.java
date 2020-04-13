@@ -47,7 +47,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 // configure access rules
                 .antMatchers(HttpMethod.POST, "/login" , "/api/user/register").permitAll()
-                .antMatchers(HttpMethod.GET , "/api/covoiturage/getPagedCovoiturages").permitAll()
+                .antMatchers(HttpMethod.GET , "/api/covoiturage/getPagedCovoiturages","api/covoiturage/covoiturages").permitAll()
                 .anyRequest().authenticated();
 
 
