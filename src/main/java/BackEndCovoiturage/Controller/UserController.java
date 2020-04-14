@@ -1,19 +1,17 @@
 package BackEndCovoiturage.Controller;
 
 import BackEndCovoiturage.Configuration.Security.UserPrincipalDetailService;
+import BackEndCovoiturage.Model.ObjectResponse;
 import BackEndCovoiturage.Model.User;
 import BackEndCovoiturage.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.NonNull;
 
 
+import org.springframework.mail.MailException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,4 +113,33 @@ public class UserController {
         return this.userService.emailExists(email);
     }
 
+    @GetMapping("sendEmail")
+    public @ResponseBody
+    ObjectResponse sendingEmail(@RequestParam(defaultValue = "defaultValue@gmail.com") String email){
+        ObjectResponse objectResponse = new ObjectResponse();
+        try {
+
+            if(this.userService.sendEmail(email)){
+                objectResponse.setResponseMessage("ok");
+            }else{
+                objectResponse.setResponseError("not ok");
+            }
+        }catch (MailException e){
+            e.printStackTrace();//print the exception
+            objectResponse.setResponseError("not ok");
+        }
+        return objectResponse;
+    }
+
+    @PostMapping("resetPassword")
+    public @ResponseBody ObjectResponse resetPassword(@RequestParam(defaultValue = "0") long id
+                                                    , @RequestParam(defaultValue = "0000") String password){
+        ObjectResponse objectResponse = new ObjectResponse();
+        if(this.userService.resetPassword(id,password)){
+            objectResponse.setResponseMessage("ok");
+        }else{
+            objectResponse.setResponseError("user does not exist");
+        }
+        return objectResponse;
+    }
 }
