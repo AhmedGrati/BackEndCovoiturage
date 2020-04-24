@@ -5,13 +5,16 @@ import BackEndCovoiturage.Model.ObjectResponse;
 import BackEndCovoiturage.Model.User;
 import BackEndCovoiturage.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 
 import org.springframework.mail.MailException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +23,7 @@ import java.util.List;
 @CrossOrigin
 public class UserController {
 
-    /*private AuthenticationManager authenticationManager;
-    @Bean
-    public AuthenticationManager customAuthenticationManager() throws Exception {
-        return authenticationManager;
-    }*/
+
     @Autowired
     private  UserService userService;
 
@@ -32,16 +31,6 @@ public class UserController {
     private UserPrincipalDetailService userPrincipalDetailService;
 
 
-
-    /*@PostMapping(path = "postUser")
-    public ResponseEntity<User> addUser(@RequestBody @Valid @NonNull User user){
-       if(this.userService.saveUser(user)!=null){
-           return new ResponseEntity<>(user, HttpStatus.OK);
-
-       }else{
-           return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
-       }
-    }*/
 
     @GetMapping(path = "allUsers")
     public List<User> getAllUsers(){
@@ -86,27 +75,13 @@ public class UserController {
         return (this.userService.findAllUsers(pageNo , pageSize , sortBy));
     }
 
-    /*@PostMapping
-    public ResponseEntity<?> createAuthentiticationToken(@RequestBody User authentiticationRequest) throws Exception {
-        final Authentication auth = authenticate(authentiticationRequest.getEmail(), authentiticationRequest.getPassword());
-        SecurityContextHolder.getContext().setAuthentication(auth);
-        return ResponseEntity.ok(new (Jw.generateToken(auth)));
-    }*/
+
 
     @PostMapping(value = "/register")
     public ResponseEntity<?> saveUser(@RequestBody User user) throws Exception {
         return ResponseEntity.ok(userPrincipalDetailService.save(user));
     }
 
-    /*private Authentication authenticate(String username, String password) throws Exception {
-        try {
-            return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        } catch (DisabledException e) {
-            throw new Exception("USER_DISABLED", e);
-        } catch (BadCredentialsException e) {
-            throw new Exception("INVALID_CREDENTIALS", e);
-        }
-    }*/
 
     @GetMapping("emailExists")
     public boolean emailExists(@RequestParam(defaultValue = "defaultValue@gmail.com") String email) {
@@ -141,5 +116,17 @@ public class UserController {
             objectResponse.setResponseError("user does not exist");
         }
         return objectResponse;
+    }
+
+
+    @PostMapping("upload")
+    public ResponseEntity uploadFile(@RequestParam(defaultValue = "0.jpg")MultipartFile file){
+        return this.userService.uploadToLocalFileSystem(file);
+    }
+    @GetMapping(value="images/getImage/{fileName:.+}",
+            produces = {MediaType.IMAGE_JPEG_VALUE,MediaType.IMAGE_GIF_VALUE, MediaType.IMAGE_PNG_VALUE}
+    )
+    public  @ResponseBody byte[] downloadImage(@PathVariable String fileName) throws IOException {
+        return this.userService.getImageWithMediaType(fileName);
     }
 }
