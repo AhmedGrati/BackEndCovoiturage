@@ -34,7 +34,6 @@ public class User {
     private String authorities;
     private Gender gender;
 
-
     @OneToMany(targetEntity = Covoiturage.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private List<Covoiturage> covoiturage;

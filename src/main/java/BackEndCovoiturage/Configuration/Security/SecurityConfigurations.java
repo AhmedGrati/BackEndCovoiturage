@@ -1,6 +1,7 @@
 package BackEndCovoiturage.Configuration.Security;
 
 import BackEndCovoiturage.Repository.UserRepo;
+import com.google.common.collect.ImmutableList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +18,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import com.google.common.collect.ImmutableList;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
@@ -46,8 +46,8 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .addFilter(new JwtAuthentiticationFilter(authenticationManager()))
                 .authorizeRequests()
                 // configure access rules
-                .antMatchers(HttpMethod.POST, "/login" , "/api/user/register").permitAll()
-                .antMatchers(HttpMethod.GET , "/api/covoiturage/getPagedCovoiturages","api/covoiturage/covoiturages").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/user/rand", "/login", "/api/user/register", "/api/user/upload", "/api/covoiturage/rand").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/user/emailExists", "/api/covoiturage/covoiturages").permitAll()
                 .anyRequest().authenticated();
 
 

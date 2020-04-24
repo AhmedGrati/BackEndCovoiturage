@@ -2,37 +2,28 @@ package BackEndCovoiturage.Service;
 
 import BackEndCovoiturage.Model.User;
 import BackEndCovoiturage.Repository.UserRepo;
-
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.imageio.ImageIO;
+import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -127,43 +118,43 @@ public class UserService {
     }
 
 
-    public ResponseEntity uploadToLocalFileSystem(MultipartFile file) {
+    public void uploadToLocalFileSystem(MultipartFile file, String userId) {
         /* we will extract the file name (with extension) from the given file to store it in our local machine for now
         and later in virtual machine when we'll deploy the project
          */
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
         /* The Path in which we will store our image . we could change it later
         based on the OS of the virtual machine in which we will deploy the project.
         In my case i'm using windows 10 .
          */
+
+        // for wadhah
+        String storageDirectoryPath = "/home/boogiep/Postman/";
+
+
         Path storageDirectory = Paths.get(storageDirectoryPath);
         /*
          * we'll do just a simple verification to check if the folder in which we will store our images exists or not
          * */
-        if(!Files.exists(storageDirectory)){ // if the folder does not exist
+        if (!Files.exists(storageDirectory)) { // if the folder does not exist
             try {
                 Files.createDirectories(storageDirectory); // we create the directory in the given storage directory path
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();// print the exception
             }
         }
 
-        Path destination = Paths.get(storageDirectory.toString() + "\\" + fileName);
+        Path destination = Paths.get(storageDirectory.toString(), userId + ".jpg");
+        File out = new File(destination.toUri());
 
+        // todo proper compression to webp , limit image size
         try {
-            Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);// we are Copying all bytes from an input stream to a file
-
+            ImageIO.write(ImageIO.read(file.getInputStream()), "jpg", out);
+            System.out.println("copied to " + destination.toUri());
         } catch (IOException e) {
             e.printStackTrace();
+            System.exit(1);
         }
-        // the response will be the download URL of the image
-        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("api/user/images/getImage/")
-                .path(fileName)
-                .toUriString();
-        // return the download image url as a response entity
-        return ResponseEntity.ok(fileDownloadUri);
     }
 
     public  byte[] getImageWithMediaType(String imageName) throws IOException {

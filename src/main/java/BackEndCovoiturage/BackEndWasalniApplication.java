@@ -6,7 +6,6 @@ import org.apache.catalina.connector.Connector;
 import org.apache.tomcat.util.descriptor.web.SecurityCollection;
 import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
 import org.springframework.boot.SpringApplication;
-
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -56,12 +55,12 @@ public class BackEndWasalniApplication {
     redirected to HTTPS on 8443.
      */
 	private Connector httpToHttpsRedirectConnector() {
-		Connector connector = new Connector(TomcatServletWebServerFactory.DEFAULT_PROTOCOL);
-		connector.setScheme("http");
-		connector.setPort(90);
-		connector.setSecure(true);
-		connector.setRedirectPort(8443);
-		return connector;
-	}
+        Connector connector = new Connector(TomcatServletWebServerFactory.DEFAULT_PROTOCOL);
+        connector.setScheme("http");
+        connector.setPort(8080);
+        connector.setSecure(true);
+        connector.setRedirectPort(8443);
+        return connector;
+    }
 
 }

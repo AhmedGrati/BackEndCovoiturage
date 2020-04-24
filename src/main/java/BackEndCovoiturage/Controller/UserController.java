@@ -7,8 +7,6 @@ import BackEndCovoiturage.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-
-
 import org.springframework.mail.MailException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -120,13 +118,26 @@ public class UserController {
 
 
     @PostMapping("upload")
-    public ResponseEntity uploadFile(@RequestParam(defaultValue = "0.jpg")MultipartFile file){
-        return this.userService.uploadToLocalFileSystem(file);
+    public User signUp(
+            @RequestPart User user,
+            @RequestParam(required = false) MultipartFile file) {
+
+        // save this user
+        user = userPrincipalDetailService.save(user);
+
+        // image will have userId as a name
+        // todo: maybe add image entity  with date and order and other info
+        if (file != null)
+            this.userService.uploadToLocalFileSystem(file, user.getId() + "");
+
+        return user;
     }
+
     @GetMapping(value="images/getImage/{fileName:.+}",
             produces = {MediaType.IMAGE_JPEG_VALUE,MediaType.IMAGE_GIF_VALUE, MediaType.IMAGE_PNG_VALUE}
     )
     public  @ResponseBody byte[] downloadImage(@PathVariable String fileName) throws IOException {
+        //todo if user does not have an image return default picture
         return this.userService.getImageWithMediaType(fileName);
     }
 }
