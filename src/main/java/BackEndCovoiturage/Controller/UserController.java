@@ -118,19 +118,20 @@ public class UserController {
 
 
     @PostMapping("upload")
-    public User signUp(
+    public ResponseEntity signUp(
             @RequestPart User user,
             @RequestParam(required = false) MultipartFile file) {
 
-        // save this user
-        user = userPrincipalDetailService.save(user);
 
         // image will have userId as a name
         // todo: maybe add image entity  with date and order and other info
-        if (file != null)
-            this.userService.uploadToLocalFileSystem(file, user.getId() + "");
+        if (file != null) {
+            user.setImageUrl( this.userService.uploadToLocalFileSystem(file, user.getId() + ""));
+        }
 
-        return user;
+        System.out.println("user : "+user);
+        ResponseEntity responseEntity = this.userPrincipalDetailService.save(user);
+        return responseEntity;
     }
 
     @GetMapping(value="images/getImage/{fileName:.+}",

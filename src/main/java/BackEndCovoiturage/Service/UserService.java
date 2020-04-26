@@ -9,12 +9,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -118,7 +120,7 @@ public class UserService {
     }
 
 
-    public void uploadToLocalFileSystem(MultipartFile file, String userId) {
+    public String uploadToLocalFileSystem(MultipartFile file, String userId) {
         /* we will extract the file name (with extension) from the given file to store it in our local machine for now
         and later in virtual machine when we'll deploy the project
          */
@@ -129,7 +131,7 @@ public class UserService {
          */
 
         // for wadhah
-        String storageDirectoryPath = "/home/boogiep/Postman/";
+        String storageDirectoryPath = "C:\\Users\\Ahmed\\Desktop\\spring\\images";
 
 
         Path storageDirectory = Paths.get(storageDirectoryPath);
@@ -153,14 +155,22 @@ public class UserService {
             System.out.println("copied to " + destination.toUri());
         } catch (IOException e) {
             e.printStackTrace();
-            System.exit(1);
         }
+        // the response will be the download URL of the image
+        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("api/user/images/getImage/")
+                .path(userId + ".jpg")
+                .toUriString();
+        // return the download image url as a response entity
+        return fileDownloadUri;
     }
 
     public  byte[] getImageWithMediaType(String imageName) throws IOException {
         Path destination = Paths.get(storageDirectoryPath+"\\"+imageName);// retrieve the image by its name
-
-        return IOUtils.toByteArray(destination.toUri());
+        if(Files.exists(destination)){
+            return IOUtils.toByteArray(destination.toUri());
+        }
+        return null;
     }
 
 }

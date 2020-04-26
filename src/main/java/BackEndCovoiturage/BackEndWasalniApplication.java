@@ -57,7 +57,7 @@ public class BackEndWasalniApplication {
 	private Connector httpToHttpsRedirectConnector() {
         Connector connector = new Connector(TomcatServletWebServerFactory.DEFAULT_PROTOCOL);
         connector.setScheme("http");
-        connector.setPort(8080);
+        connector.setPort(90);
         connector.setSecure(true);
         connector.setRedirectPort(8443);
         return connector;

@@ -78,7 +78,7 @@ public class CovoiturageController {
     @GetMapping("findByGovName")
     public HashMap<String,Object> findCovoiturageByGovDepartAndByGovArrive(@RequestParam(defaultValue = "0") int pageNo,
                                                                @RequestParam(defaultValue = "3") int pageSize,
-                                                               @RequestParam(defaultValue = "datedepart") String sortBy,
+                                                               @RequestParam(defaultValue = "dateDepart") String sortBy,
                                                                @RequestParam(defaultValue = "") String nameOfGovDepart,
                                                                @RequestParam(defaultValue = "") String nameOfGovArrive) {
 
@@ -90,7 +90,7 @@ public class CovoiturageController {
     @GetMapping("findByVilleName")
     public HashMap<String,Object> findCovoiturageByVilleDepartAndByVilleArrivee(@RequestParam(defaultValue = "0") int pageNo,
                                                                     @RequestParam(defaultValue = "3") int pageSize,
-                                                                    @RequestParam(defaultValue = "datedepart") String sortBy,
+                                                                    @RequestParam(defaultValue = "dateDepart") String sortBy,
                                                                     @RequestParam(defaultValue = "") String nameOfVilleDepart,
                                                                     @RequestParam(defaultValue = "") String nameOfVilleArrivee){
         return this.covoiturageService.findCovoituragesByVilleDepartAndByVilleArrive(pageNo, pageSize, sortBy, nameOfVilleDepart, nameOfVilleArrivee);
@@ -109,7 +109,7 @@ public class CovoiturageController {
 
 
     @GetMapping("covoiturages")
-    public HashMap<String, Object> main(@RequestParam(defaultValue = "0") int pageNo,
+    public HashMap<String, Object> findCovoituragesByMultipleParameters(@RequestParam(defaultValue = "0") int pageNo,
                                         @RequestParam(defaultValue = "9") int pageSize,
                                         @RequestParam(defaultValue = "dateDepart") String sortBy,
                                         @RequestParam(defaultValue = "ASC") String direction,
@@ -122,7 +122,7 @@ public class CovoiturageController {
                                         @RequestParam(defaultValue = "true") boolean fumer
 
     ) {
-        return covoiturageService.main(pageNo, pageSize, sortBy, direction, govDepart
+        return covoiturageService.findCovoituragesByMultipleParameters(pageNo, pageSize, sortBy, direction, govDepart
                 , govArrive, min, max, dateDepart, place, fumer);
     }
 

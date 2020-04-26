@@ -115,7 +115,7 @@ public class CovoiturageService {
     }
 
 
-    public HashMap<String, Object> main(int pageNo,
+    public HashMap<String, Object> findCovoituragesByMultipleParameters(int pageNo,
                                         int pageSize,
                                         String sortBy,
                                         String direction,

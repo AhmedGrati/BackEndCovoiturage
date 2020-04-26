@@ -33,6 +33,8 @@ public class User {
     private String roles;
     private String authorities;
     private Gender gender;
+    private String imageUrl;
+
 
     @OneToMany(targetEntity = Covoiturage.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -43,7 +45,7 @@ public class User {
 
 
     public User(String firstName, String lastName, int age, double avis, String email, String password, String roles, String authorities,
-                String localisation, String numTel, String status, Instant inscriptionDate, Instant lastDateEnetered, Gender gender) {
+                String localisation, String numTel, String status, Instant inscriptionDate, Instant lastDateEnetered, Gender gender , String imageUrl) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
@@ -58,6 +60,7 @@ public class User {
         this.password = password;
         this.authorities = authorities;
         this.roles = roles;
+        this.imageUrl = imageUrl;
     }
 
     public String getFirstName() {
@@ -86,6 +89,14 @@ public class User {
 
     public double getAvis() {
         return avis;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public void setAvis(double avis) {
@@ -138,7 +149,8 @@ public class User {
                 f.bool().bool() ? "online " : "offline ",
                 Instant.now(),
                 Instant.now(),
-                f.bool().bool() ? male : female
+                f.bool().bool() ? male : female,
+                null
         );
     }
 
