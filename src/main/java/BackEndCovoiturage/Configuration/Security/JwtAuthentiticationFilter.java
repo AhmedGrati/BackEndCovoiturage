@@ -74,12 +74,22 @@ public class JwtAuthentiticationFilter extends UsernamePasswordAuthenticationFil
         JSONObject jsonObject = new JSONObject();
         JSONObject user = new JSONObject();
 
-        user.put("email",principal.getUsername());
+        user.put("email",principal.getUser().getEmail());
         user.put("firstName",principal.getUser().getFirstName());
         user.put("lastName",principal.getUser().getLastName());
-
         user.put("id",principal.getUser().getId());
-        jsonObject.put("account",user);
+        user.put("imageUrl",principal.getUser().getImageUrl());
+        user.put("inscriptionDate",principal.getUser().getInscriptionDate());
+        user.put("age",principal.getUser().getAge());
+        user.put("avis",principal.getUser().getAvis());
+        user.put("lastDateEntered",principal.getUser().getLastDateEnetered());
+        user.put("gender",principal.getUser().getGender());
+        user.put("status",principal.getUser().getStatus());
+        user.put("localisation",principal.getUser().getLocalisation());
+        user.put("numTel",principal.getUser().getNumTel());
+
+
+        jsonObject.put("user",user);
         jsonObject.put("token",token);
 
         response.setStatus(HttpServletResponse.SC_OK);

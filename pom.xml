@@ -12,12 +12,12 @@
 	<groupId>BackEndCovoiturage</groupId>
 	<artifactId>BackEndCovoiturage</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	<name>BackEndWasalni</name>
 	<description>wasalni backend</description>
-
 	<properties>
-		<java.version>13</java.version>
+		<java.version>11</java.version>
+		<start-class>BackEndCovoiturage.BackEndWasalniApplication</start-class>
 	</properties>
 
 	<dependencies>
@@ -122,6 +122,11 @@
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.1</version>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>

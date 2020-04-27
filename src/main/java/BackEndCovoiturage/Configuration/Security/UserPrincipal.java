@@ -69,6 +69,6 @@ public class UserPrincipal implements UserDetails {
     }
 
     public User getUser() {
-        return user;
+        return this.user;
     }
 }
