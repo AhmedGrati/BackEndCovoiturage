@@ -2,7 +2,7 @@ package BackEndCovoiturage.Configuration.Security;
 
 import BackEndCovoiturage.Model.User;
 import BackEndCovoiturage.Repository.UserRepo;
-
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -29,15 +29,16 @@ public class UserPrincipalDetailService implements UserDetailsService {
         return userPrincipal;
     }
 
-    public ResponseEntity save(User user) {
-        if(userRepo.findUserByEmail(user.getEmail()) == null) {
+    public ResponseEntity<User> save(User user) {
+        if (userRepo.findUserByEmail(user.getEmail()) == null) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setInscriptionDate(Instant.now());
             userRepo.save(user);
             return ResponseEntity.ok(user);
         }
-        System.out.println("repeated email : "+user.getEmail());
-        return ResponseEntity.badRequest().body(ResponseEntity.status(500));
+        System.out.println("repeated email : " + user.getEmail());
+        //    return ResponseEntity.badRequest().body(ResponseEntity.status(500) , null);
+        return new ResponseEntity<>((User) null, HttpStatus.CONFLICT);
     }
 
 

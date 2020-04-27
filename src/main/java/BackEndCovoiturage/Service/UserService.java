@@ -9,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -47,7 +46,7 @@ public class UserService {
 
 
     public final String storageDirectoryPathOnWindows = "C:\\Users\\Ahmed\\Desktop\\spring\\images";
-    public final String storageDirectoryPathOnLinux = "/home/wassalni/images";
+    public final String storageDirectoryPathOnLinux = "/home/boogiep/wassalni/images";
 
     public UserService(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
@@ -131,7 +130,7 @@ public class UserService {
         In my case i'm using windows 10 .
          */
 
-        Path storageDirectory = Paths.get(storageDirectoryPathOnWindows);
+        Path storageDirectory = Paths.get(storageDirectoryPathOnLinux);
         /*
          * we'll do just a simple verification to check if the folder in which we will store our images exists or not
          * */
@@ -163,7 +162,7 @@ public class UserService {
     }
 
     public  byte[] getImageWithMediaType(String imageName) throws IOException {
-        Path destination = Paths.get(storageDirectoryPathOnWindows+"\\"+imageName);// retrieve the image by its name
+        Path destination = Paths.get(storageDirectoryPathOnLinux, imageName);// retrieve the image by its name
         if(Files.exists(destination)){
             return IOUtils.toByteArray(destination.toUri());
         }
