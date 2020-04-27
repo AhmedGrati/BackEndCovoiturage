@@ -5,6 +5,7 @@ import com.sun.istack.Nullable;
 import javax.persistence.*;
 
 @Entity(name = "ville")
+@Table(name = "ville")
 public class Ville {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

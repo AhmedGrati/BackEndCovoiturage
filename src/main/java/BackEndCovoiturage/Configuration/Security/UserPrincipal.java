@@ -17,15 +17,17 @@ public class UserPrincipal implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
-        this.user.getAllAuthorities().forEach( p ->{
-            GrantedAuthority authority = new SimpleGrantedAuthority(p);
-            grantedAuthorities.add(authority);
-        });
+        if(user != null) {
+            this.user.getAllAuthorities().forEach( p ->{
+                GrantedAuthority authority = new SimpleGrantedAuthority(p);
+                grantedAuthorities.add(authority);
+            });
 
-        this.user.getAllRoles().forEach(r ->{
-            GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_"+r);
-            grantedAuthorities.add(authority);
-        });
+            this.user.getAllRoles().forEach(r ->{
+                GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_"+r);
+                grantedAuthorities.add(authority);
+            });
+        }
 
         return grantedAuthorities;
     }

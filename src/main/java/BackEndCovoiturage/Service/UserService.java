@@ -46,7 +46,8 @@ public class UserService {
 
 
 
-    public final String storageDirectoryPath = "C:\\Users\\Ahmed\\Desktop\\spring\\images";
+    public final String storageDirectoryPathOnWindows = "C:\\Users\\Ahmed\\Desktop\\spring\\images";
+    public final String storageDirectoryPathOnLinux = "/home/wassalni/images";
 
     public UserService(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
@@ -130,11 +131,7 @@ public class UserService {
         In my case i'm using windows 10 .
          */
 
-        // for wadhah
-        String storageDirectoryPath = "C:\\Users\\Ahmed\\Desktop\\spring\\images";
-
-
-        Path storageDirectory = Paths.get(storageDirectoryPath);
+        Path storageDirectory = Paths.get(storageDirectoryPathOnWindows);
         /*
          * we'll do just a simple verification to check if the folder in which we will store our images exists or not
          * */
@@ -166,7 +163,7 @@ public class UserService {
     }
 
     public  byte[] getImageWithMediaType(String imageName) throws IOException {
-        Path destination = Paths.get(storageDirectoryPath+"\\"+imageName);// retrieve the image by its name
+        Path destination = Paths.get(storageDirectoryPathOnWindows+"\\"+imageName);// retrieve the image by its name
         if(Files.exists(destination)){
             return IOUtils.toByteArray(destination.toUri());
         }

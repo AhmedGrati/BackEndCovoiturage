@@ -12,6 +12,7 @@ import static BackEndCovoiturage.Model.Gender.female;
 import static BackEndCovoiturage.Model.Gender.male;
 
 @Entity(name = "user")
+@Table(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Entity(name = "covoiturage")
-
+@Table(name="covoiturage")
 public class Covoiturage {
 
 
