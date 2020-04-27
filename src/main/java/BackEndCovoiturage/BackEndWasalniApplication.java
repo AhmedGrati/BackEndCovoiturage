@@ -7,7 +7,6 @@ import org.apache.tomcat.util.descriptor.web.SecurityCollection;
 import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
@@ -21,10 +20,10 @@ public class BackEndWasalniApplication extends SpringBootServletInitializer {
 		SpringApplication.run(BackEndWasalniApplication.class, args);
 	}
 
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder){
-		return builder.sources(BackEndWasalniApplication.class);
-	}
+//	@Override
+//	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder){
+//		return builder.sources(BackEndWasalniApplication.class);
+//	}
 
 	@Bean
 	public FilterRegistrationBean corsFilterRegistrationBean() {
