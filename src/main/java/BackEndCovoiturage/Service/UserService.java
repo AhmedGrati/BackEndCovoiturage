@@ -46,7 +46,10 @@ public class UserService {
 
 
     public final String storageDirectoryPathOnWindows = "C:\\Users\\Ahmed\\Desktop\\spring\\images";
-    public final String storageDirectoryPathOnLinux = "/home/boogiep/wassalni/images";
+    //for wadhah
+    //public final String storageDirectoryPathOnLinux = "/home/boogiep/wassalni/images";
+    //for VM
+    public final String storageDirectoryPathOnLinux = "/home/ubuntu/images";
 
     public UserService(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
