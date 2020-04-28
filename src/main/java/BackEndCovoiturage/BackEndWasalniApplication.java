@@ -15,16 +15,16 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class BackEndWasalniApplication extends SpringBootServletInitializer {
-
+public class BackEndWasalniApplication {
+// extends SpringBootServletInitializer
 	public static void main(String[] args) {
 		SpringApplication.run(BackEndWasalniApplication.class, args);
 	}
 
-	@Override
+	/*@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder){
 		return builder.sources(BackEndWasalniApplication.class);
-	}
+	}*/
 
 	@Bean
 	public FilterRegistrationBean corsFilterRegistrationBean() {
