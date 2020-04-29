@@ -9,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -47,7 +46,7 @@ public class UserService {
 
 
     public final String storageDirectoryPathOnWindows = "C:\\Users\\Ahmed\\Desktop\\spring\\images";
-    public final String storageDirectoryPathOnLinux = "/home/wassalni/images";
+    public final String storageDirectoryPathOnLinux = "/home/boogiep/wassalni/images";
 
     public UserService(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
@@ -122,7 +121,9 @@ public class UserService {
 
 
     public String uploadToLocalFileSystem(MultipartFile file, String userId) {
-        /* we will extract the file name (with extension) from the given file to store it in our local machine for now
+        String fileDownloadUri = null;
+        if(file != null) {
+                    /* we will extract the file name (with extension) from the given file to store it in our local machine for now
         and later in virtual machine when we'll deploy the project
          */
 
@@ -131,39 +132,40 @@ public class UserService {
         In my case i'm using windows 10 .
          */
 
-        Path storageDirectory = Paths.get(storageDirectoryPathOnWindows);
-        /*
-         * we'll do just a simple verification to check if the folder in which we will store our images exists or not
-         * */
-        if (!Files.exists(storageDirectory)) { // if the folder does not exist
-            try {
-                Files.createDirectories(storageDirectory); // we create the directory in the given storage directory path
-            } catch (Exception e) {
-                e.printStackTrace();// print the exception
+            Path storageDirectory = Paths.get(storageDirectoryPathOnWindows);
+            /*
+             * we'll do just a simple verification to check if the folder in which we will store our images exists or not
+             * */
+            if (!Files.exists(storageDirectory)) { // if the folder does not exist
+                try {
+                    Files.createDirectories(storageDirectory); // we create the directory in the given storage directory path
+                } catch (Exception e) {
+                    e.printStackTrace();// print the exception
+                }
             }
-        }
 
-        Path destination = Paths.get(storageDirectory.toString(), userId + ".jpg");
-        File out = new File(destination.toUri());
+            Path destination = Paths.get(storageDirectory.toString(), userId + ".jpg");
+            File out = new File(destination.toUri());
 
-        // todo proper compression to webp , limit image size
-        try {
-            ImageIO.write(ImageIO.read(file.getInputStream()), "jpg", out);
-            System.out.println("copied to " + destination.toUri());
-        } catch (IOException e) {
-            e.printStackTrace();
+            // todo proper compression to webp , limit image size
+            try {
+                ImageIO.write(ImageIO.read(file.getInputStream()), "jpg", out);
+                System.out.println("copied to " + destination.toUri());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            // the response will be the download URL of the image
+            fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("api/user/images/getImage/")
+                    .path(userId + ".jpg")
+                    .toUriString();
         }
-        // the response will be the download URL of the image
-        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("api/user/images/getImage/")
-                .path(userId + ".jpg")
-                .toUriString();
-        // return the download image url as a response entity
         return fileDownloadUri;
+
     }
 
     public  byte[] getImageWithMediaType(String imageName) throws IOException {
-        Path destination = Paths.get(storageDirectoryPathOnWindows+"\\"+imageName);// retrieve the image by its name
+        Path destination = Paths.get(storageDirectoryPathOnLinux, imageName);// retrieve the image by its name
         if(Files.exists(destination)){
             return IOUtils.toByteArray(destination.toUri());
         }

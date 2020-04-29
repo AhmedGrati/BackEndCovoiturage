@@ -4,7 +4,10 @@ import BackEndCovoiturage.Configuration.Security.UserPrincipalDetailService;
 import BackEndCovoiturage.Model.ObjectResponse;
 import BackEndCovoiturage.Model.User;
 import BackEndCovoiturage.Service.UserService;
+import com.sun.istack.Nullable;
+import jdk.jshell.Snippet;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
@@ -118,20 +121,30 @@ public class UserController {
 
 
     @PostMapping("upload")
-    public ResponseEntity signUp(
+    public ResponseEntity<User> signUp(
             @RequestPart User user,
-            @RequestParam(required = false) MultipartFile file) {
+            @Nullable @RequestParam(required = false) MultipartFile file) {
 
 
         // image will have userId as a name
         // todo: maybe add image entity  with date and order and other info
-        if (file != null) {
-            user.setImageUrl( this.userService.uploadToLocalFileSystem(file, user.getId() + ""));
+
+        //ResponseEntity<User> responseEntity = this.userPrincipalDetailService.save(user);
+
+        /*if (responseEntity.getBody() == null) {
+            return responseEntity;
         }
 
-        System.out.println("user : "+user);
-        ResponseEntity responseEntity = this.userPrincipalDetailService.save(user);
-        return responseEntity;
+        user = responseEntity.getBody();*/
+
+        if (file != null) {
+            user.setHasUrl(true);
+        }
+        if(this.userPrincipalDetailService.save(user).getBody() != null){
+            this.userService.uploadToLocalFileSystem(file,user.getId()+ "");
+            return new ResponseEntity<User>(user , HttpStatus.OK);
+        }
+        return new ResponseEntity<User>((User) null, HttpStatus.CONFLICT);
     }
 
     @GetMapping(value="images/getImage/{fileName:.+}",

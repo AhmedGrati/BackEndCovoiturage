@@ -46,12 +46,19 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .addFilter(new JwtAuthentiticationFilter(authenticationManager()))
                 .authorizeRequests()
                 // configure access rules
-                .antMatchers(HttpMethod.POST, "/api/user/rand", "/login", "/api/user/register", "/api/user/upload", "/api/covoiturage/rand").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/user/emailExists", "/api/covoiturage/covoiturages").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/user/rand",
+                        "/login",
+                        "/api/user/register",
+                        "/api/user/upload",
+                        "/api/covoiturage/rand").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/user/emailExists",
+                        "/api/covoiturage/covoiturages",
+                        "/api/user/images/getImage/{fileName:.+}").permitAll()
                 .anyRequest().authenticated();
+        // TODO change to .authenticated() in production mode
+        // khaliha permitAll for debugging plz
 
-
-        http.addFilterBefore(jwtAuthorizationFilter , UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
 
