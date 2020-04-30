@@ -125,26 +125,16 @@ public class UserController {
             @RequestPart User user,
             @Nullable @RequestParam(required = false) MultipartFile file) {
 
-
-        // image will have userId as a name
         // todo: maybe add image entity  with date and order and other info
-
-        //ResponseEntity<User> responseEntity = this.userPrincipalDetailService.save(user);
-
-        /*if (responseEntity.getBody() == null) {
-            return responseEntity;
-        }
-
-        user = responseEntity.getBody();*/
 
         if (file != null) {
             user.setHasUrl(true);
         }
-        if(this.userPrincipalDetailService.save(user).getBody() != null){
+        if(this.userPrincipalDetailService.save(user) != null){
             this.userService.uploadToLocalFileSystem(file,user.getId()+ "");
-            return new ResponseEntity<User>(user , HttpStatus.OK);
+            return new ResponseEntity<>(user , HttpStatus.OK);
         }
-        return new ResponseEntity<User>((User) null, HttpStatus.CONFLICT);
+        return new ResponseEntity<>((User) null, HttpStatus.CONFLICT);
     }
 
     @GetMapping(value="images/getImage/{fileName:.+}",

@@ -29,16 +29,16 @@ public class UserPrincipalDetailService implements UserDetailsService {
         return userPrincipal;
     }
 
-    public ResponseEntity<User> save(User user) {
+    public User save(User user) {
         if (userRepo.findUserByEmail(user.getEmail()) == null) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setInscriptionDate(Instant.now());
             userRepo.save(user);
-            return ResponseEntity.ok(user);
+            return user;
         }
         System.out.println("repeated email : " + user.getEmail());
         //    return ResponseEntity.badRequest().body(ResponseEntity.status(500) , null);
-        return new ResponseEntity<>((User) null, HttpStatus.CONFLICT);
+        return null;
     }
 
 
