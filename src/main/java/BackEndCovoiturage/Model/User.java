@@ -1,6 +1,8 @@
 package BackEndCovoiturage.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.github.javafaker.Faker;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -13,6 +15,7 @@ import static BackEndCovoiturage.Model.Gender.male;
 
 @Entity(name = "user")
 @Table(name = "user")
+@JsonIgnoreProperties(value = { "password" })
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,7 +33,9 @@ public class User {
     private String status;
     private Instant inscriptionDate;
     private Instant lastDateEnetered;
+
     private String password;
+
     private String roles;
     private String authorities;
     private Gender gender;
