@@ -13,8 +13,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.yaml.snakeyaml.util.ArrayUtils;
 
 import java.time.Instant;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -128,9 +130,39 @@ public class CovoiturageService {
                                         boolean fumer) {
 
         Sort.Direction d = direction.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC;
+
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(d, sortBy));
-        Page<Covoiturage> pagedCovoiturage = this.covoiturageRepo.main(govDepart
+
+        Page<Covoiturage> pagedCovoiturage = this.covoiturageRepo.findCovoituragesByMultipleParameters(govDepart
                 , govArrive, min, max, dateDepart, place, fumer, pageable);
-        return MyHelpers.pageWrapper(pagedCovoiturage);
+
+        if(pageNo==0) { // if we want the first page that means that previous page does not exist so we just need the page and the next one
+            Pageable nextPageable = PageRequest.of(pageNo+1 , pageSize , Sort.by(d , sortBy));
+
+            Page<Covoiturage> nextPage = this.covoiturageRepo.findCovoituragesByMultipleParameters( govDepart
+                    , govArrive , min , max , dateDepart , place , fumer , nextPageable);
+
+            return MyHelpers.pageNextAndPrevWrapper(pagedCovoiturage,nextPage, Page.empty());
+
+        }else if (pageNo == pagedCovoiturage.getTotalPages()) {// if we want the last page that means that next page does not exist so we just need the page and the previous one
+            Pageable previousPageable = PageRequest.of(pageNo-1 , pageSize , Sort.by(d , sortBy));
+
+            Page<Covoiturage> previousPage = this.covoiturageRepo.findCovoituragesByMultipleParameters( govDepart
+                    , govArrive , min , max , dateDepart , place , fumer , previousPageable);
+
+            return MyHelpers.pageNextAndPrevWrapper(pagedCovoiturage,Page.empty(),previousPage);
+
+        }else { // in this case we want the page and both : the previous and the next ones
+            Pageable nextPageable = PageRequest.of(pageNo+1 , pageSize , Sort.by(d , sortBy));
+            Page<Covoiturage> nextPage = this.covoiturageRepo.findCovoituragesByMultipleParameters( govDepart
+                    , govArrive , min , max , dateDepart , place , fumer , nextPageable);
+
+            Pageable previousPageable = PageRequest.of(pageNo-1 , pageSize , Sort.by(d , sortBy));
+            Page<Covoiturage> previousPage = this.covoiturageRepo.findCovoituragesByMultipleParameters( govDepart
+                    , govArrive , min , max , dateDepart , place , fumer , previousPageable);
+
+            return MyHelpers.pageNextAndPrevWrapper(pagedCovoiturage,nextPage,previousPage);
+        }
+
     }
 }

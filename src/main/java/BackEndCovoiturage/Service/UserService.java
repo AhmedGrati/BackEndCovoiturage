@@ -135,7 +135,7 @@ public class UserService {
         In my case i'm using windows 10 .
          */
 
-            Path storageDirectory = Paths.get(storageDirectoryPathOnWindows);
+            Path storageDirectory = Paths.get(storageDirectoryPathOnLinux);
             /*
              * we'll do just a simple verification to check if the folder in which we will store our images exists or not
              * */

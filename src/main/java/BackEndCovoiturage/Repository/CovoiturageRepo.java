@@ -48,7 +48,7 @@ public interface CovoiturageRepo extends PagingAndSortingRepository<Covoiturage 
             "c.price <= :max and " +
             "(c.nbrPlaceDispo >= :place) and " +
             "(c.isFumer = :fumer or :fumer = true )")
-    Page<Covoiturage> main(String govDepart,
+    Page<Covoiturage> findCovoituragesByMultipleParameters(String govDepart,
                            String govArrive,
                            int min,
                            int max,
