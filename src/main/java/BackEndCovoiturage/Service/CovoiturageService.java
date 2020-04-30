@@ -136,7 +136,9 @@ public class CovoiturageService {
         Page<Covoiturage> pagedCovoiturage = this.covoiturageRepo.findCovoituragesByMultipleParameters(govDepart
                 , govArrive, min, max, dateDepart, place, fumer, pageable);
 
-        if(pageNo==0) { // if we want the first page that means that previous page does not exist so we just need the page and the next one
+        return MyHelpers.pageWrapper(pagedCovoiturage);
+
+        /*if(pageNo==0) { // if we want the first page that means that previous page does not exist so we just need the page and the next one
             Pageable nextPageable = PageRequest.of(pageNo+1 , pageSize , Sort.by(d , sortBy));
 
             Page<Covoiturage> nextPage = this.covoiturageRepo.findCovoituragesByMultipleParameters( govDepart
@@ -161,8 +163,8 @@ public class CovoiturageService {
             Page<Covoiturage> previousPage = this.covoiturageRepo.findCovoituragesByMultipleParameters( govDepart
                     , govArrive , min , max , dateDepart , place , fumer , previousPageable);
 
-            return MyHelpers.pageNextAndPrevWrapper(pagedCovoiturage,nextPage,previousPage);
+            return MyHelpers.pageNextAndPrevWrapper(pagedCovoiturage,nextPage,previousPage);*/
         }
 
-    }
 }
+

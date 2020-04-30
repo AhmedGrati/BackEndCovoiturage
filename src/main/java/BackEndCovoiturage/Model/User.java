@@ -1,6 +1,7 @@
 package BackEndCovoiturage.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.javafaker.Faker;
 import net.minidev.json.annotate.JsonIgnore;
 
@@ -15,7 +16,7 @@ import static BackEndCovoiturage.Model.Gender.male;
 
 @Entity(name = "user")
 @Table(name = "user")
-@JsonIgnoreProperties(value = { "password" })
+//@JsonIgnoreProperties(value = { "password" })// because it's not secure to return the password of the user so we ignore it and we don't return it
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,7 +34,7 @@ public class User {
     private String status;
     private Instant inscriptionDate;
     private Instant lastDateEnetered;
-
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     private String roles;
