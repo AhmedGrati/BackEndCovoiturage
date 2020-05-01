@@ -1,6 +1,8 @@
 package BackEndCovoiturage.Service;
 
+import BackEndCovoiturage.Model.Covoiturage;
 import BackEndCovoiturage.Model.User;
+import BackEndCovoiturage.Repository.CovoiturageRepo;
 import BackEndCovoiturage.Repository.UserRepo;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +20,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,6 +38,9 @@ public class UserService {
 
     @Autowired
     public UserRepo userRepo;
+
+    @Autowired
+    private CovoiturageRepo covoiturageRepo;
 
     @Autowired
     private JavaMailSender javaMailSender;
@@ -123,10 +132,19 @@ public class UserService {
     }
 
 
-    public String uploadToLocalFileSystem(MultipartFile file, String userId) {
+    public String uploadToLocalFileSystem(MultipartFile file, User user) throws IOException {
+        /* so we have 2 cases
+            case1 : image from google , in this case the image Url won't be null so we download the image in our server from the url given from google
+            case2 : image sent from the user , simply we juste copy it in our machine
+        */
+        BufferedImage bufferedImage;
+        if(user.getImageUrl() != null) { // this is case 1
+            bufferedImage = ImageIO.read(new URL(user.getImageUrl()).openStream());
+        }else{ // this is case 2
+            bufferedImage = ImageIO.read(file.getInputStream());
+        }
         String fileDownloadUri = null;
-        if(file != null) {
-                    /* we will extract the file name (with extension) from the given file to store it in our local machine for now
+         /* we will extract the file name (with extension) from the given file to store it in our local machine for now
         and later in virtual machine when we'll deploy the project
          */
 
@@ -134,7 +152,7 @@ public class UserService {
         based on the OS of the virtual machine in which we will deploy the project.
         In my case i'm using windows 10 .
          */
-
+        if((file != null)||(user.getImageUrl() != null)) {
             Path storageDirectory = Paths.get(storageDirectoryPathOnLinux);
             /*
              * we'll do just a simple verification to check if the folder in which we will store our images exists or not
@@ -147,12 +165,12 @@ public class UserService {
                 }
             }
 
-            Path destination = Paths.get(storageDirectory.toString(), userId + ".jpg");
+            Path destination = Paths.get(storageDirectory.toString(), user.getId() + ".jpg");
             File out = new File(destination.toUri());
 
             // todo proper compression to webp , limit image size
             try {
-                ImageIO.write(ImageIO.read(file.getInputStream()), "jpg", out);
+                ImageIO.write(bufferedImage, "jpg", out);
                 System.out.println("copied to " + destination.toUri());
             } catch (IOException e) {
                 e.printStackTrace();
@@ -160,7 +178,7 @@ public class UserService {
             // the response will be the download URL of the image
             fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                     .path("api/user/images/getImage/")
-                    .path(userId + ".jpg")
+                    .path(user.getId() + ".jpg")
                     .toUriString();
         }
         return fileDownloadUri;
@@ -174,6 +192,8 @@ public class UserService {
         }
         return null;
     }
+
+
 
 }
 

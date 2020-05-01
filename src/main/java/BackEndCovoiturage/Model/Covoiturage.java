@@ -29,6 +29,10 @@ public class Covoiturage {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User owner;
 
+    @OneToMany(targetEntity = User.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private List<User> participants;
+
     @ManyToOne(targetEntity = Gouvernorat.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "gouv_dep_id", referencedColumnName = "id")
     private Gouvernorat gouvernoratDepart;
@@ -48,13 +52,12 @@ public class Covoiturage {
     public Covoiturage() {
     }
 
-    public Covoiturage(Instant oki, int nbrPlaceDispo, int price, String description, boolean isFumer, User owner, Gouvernorat gouvernoratDepart, Gouvernorat gouvernoratArrive, Ville villeDepart, Ville villeArrivee) {
-        this.dateDepart = oki;
+    public Covoiturage(Instant dateDepart, int nbrPlaceDispo, int price, User owner,String description, boolean isFumer, Gouvernorat gouvernoratDepart, Gouvernorat gouvernoratArrive, Ville villeDepart, Ville villeArrivee) {
+        this.dateDepart = dateDepart;
         this.nbrPlaceDispo = nbrPlaceDispo;
         this.price = price;
         this.description = description;
         this.isFumer = isFumer;
-        this.owner = owner;
         this.gouvernoratDepart = gouvernoratDepart;
         this.gouvernoratArrive = gouvernoratArrive;
         this.villeDepart = villeDepart;
@@ -106,7 +109,6 @@ public class Covoiturage {
                 ", price=" + price +
                 ", description='" + description + '\'' +
                 ", isFumer=" + isFumer +
-                ", owner=" + owner +
                 ", gouvernoratDepart=" + gouvernoratDepart +
                 ", gouvernoratArrive=" + gouvernoratArrive +
                 ", villeDepart=" + villeDepart +
@@ -150,13 +152,6 @@ public class Covoiturage {
         isFumer = fumer;
     }
 
-    public User getOwner() {
-        return owner;
-    }
-
-    public void setOwner(User owner) {
-        this.owner = owner;
-    }
 
     public Gouvernorat getGouvernoratDepart() {
         return gouvernoratDepart;
@@ -234,4 +229,19 @@ public class Covoiturage {
         }
     }
 
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public List<User> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(List<User> participatants) {
+        this.participants = participatants;
+    }
 }

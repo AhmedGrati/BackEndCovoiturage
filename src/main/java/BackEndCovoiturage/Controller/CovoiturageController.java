@@ -1,6 +1,7 @@
 package BackEndCovoiturage.Controller;
 
 import BackEndCovoiturage.Model.Covoiturage;
+import BackEndCovoiturage.Model.ObjectResponse;
 import BackEndCovoiturage.Repository.CovoiturageRepo;
 import BackEndCovoiturage.Repository.VilleRepo;
 import BackEndCovoiturage.Service.CovoiturageService;
@@ -124,6 +125,29 @@ public class CovoiturageController {
     ) {
         return covoiturageService.findCovoituragesByMultipleParameters(pageNo, pageSize, sortBy, direction, govDepart
                 , govArrive, min, max, dateDepart, place, fumer);
+    }
+
+
+    @PostMapping("participateToCovoiturage")
+    public ObjectResponse participateToCovoiturage(@RequestParam(defaultValue = "0") long userId , @RequestParam(defaultValue = "0") long covoiturageId) {
+        ObjectResponse objectResponse = new ObjectResponse();
+        if(this.covoiturageService.participateToCovoiturage(userId , covoiturageId)) {
+            objectResponse.setResponseMessage("ok");
+        } else {
+            objectResponse.setResponseError("not ok");
+        }
+        return objectResponse;
+    }
+
+    @PostMapping("submitCovoiturage/{userId}")
+    public ObjectResponse submitCovoiturage(@PathVariable(value = "userId") long userId , @RequestBody Covoiturage covoiturage) {
+        ObjectResponse objectResponse = new ObjectResponse();
+        if(this.covoiturageService.submitCovoiturage(userId , covoiturage)){
+            objectResponse.setResponseMessage("ok");
+        } else {
+            objectResponse.setResponseError("not ok");
+        }
+        return objectResponse;
     }
 
 }
