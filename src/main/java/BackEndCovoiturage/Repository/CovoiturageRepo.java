@@ -57,5 +57,8 @@ public interface CovoiturageRepo extends PagingAndSortingRepository<Covoiturage 
                            boolean fumer
             , Pageable pageable);
 
+    @Query(value = "SELECT COUNT(c.id) from covoiturage c where c.owner.id = :id")
+    int sumOfCovoituragesByUser(long id);
+
 
 }

@@ -150,4 +150,9 @@ public class CovoiturageController {
         return objectResponse;
     }
 
+    @GetMapping("sumOfCovoiturages")
+    public int sumOfCovoituragesByUser(@RequestParam(defaultValue = "0") long userId) {
+        return this.covoiturageService.sumOfCovoituragesByUser(userId);
+    }
+
 }
