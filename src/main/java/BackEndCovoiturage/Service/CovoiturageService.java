@@ -194,5 +194,9 @@ public class CovoiturageService {
         return false;
     }
 
+    public int sumOfCovoituragesByUser(long userId) {
+        return this.covoiturageRepo.sumOfCovoituragesByUser(userId);
+    }
+
 }
 
