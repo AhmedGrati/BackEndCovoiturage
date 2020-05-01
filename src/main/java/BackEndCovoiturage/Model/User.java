@@ -41,18 +41,23 @@ public class User {
     private String authorities;
     private Gender gender;
     private boolean hasUrl;
+    private String imageUrl;
 
-
-    @OneToMany(targetEntity = Covoiturage.class, cascade = CascadeType.ALL)
+    /*@OneToMany(targetEntity = Covoiturage.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private List<Covoiturage> covoiturage;
+    private List<Covoiturage> submittedCovoiturages;// liste des covoiturages dont le user est le "owner"*/
+
+
+    /*@OneToMany(targetEntity = Covoiturage.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private List<Covoiturage> participatedCovoiturage;// liste des covoiturages dont le user est le "participation"*/
 
     public User() {
     }
 
 
     public User(String firstName, String lastName, int age, double avis, String email, String password, String roles, String authorities,
-                String localisation, String numTel, String status, Instant inscriptionDate, Instant lastDateEnetered, Gender gender , boolean hasUrl) {
+                String localisation, String numTel, String status, Instant inscriptionDate, Instant lastDateEnetered, Gender gender , boolean hasUrl , String imageUrl) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
@@ -68,6 +73,7 @@ public class User {
         this.authorities = authorities;
         this.roles = roles;
         this.hasUrl = hasUrl;
+        this.imageUrl = imageUrl;
     }
 
     public String getFirstName() {
@@ -157,7 +163,8 @@ public class User {
                 Instant.now(),
                 Instant.now(),
                 f.bool().bool() ? male : female,
-                false
+                false,
+                ""
         );
     }
 
@@ -239,5 +246,21 @@ public class User {
         }else{
             return new ArrayList<>();
         }
+    }
+
+    /*public List<Covoiturage> getSubmittedCovoiturages() {
+        return submittedCovoiturages;
+    }*/
+
+    /*public List<Covoiturage> getParticipatedCovoiturage() {
+        return participatedCovoiturage;
+    }*/
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

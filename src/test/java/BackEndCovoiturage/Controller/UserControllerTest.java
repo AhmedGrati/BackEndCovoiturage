@@ -173,7 +173,7 @@ public class UserControllerTest {
                 "}";
 
         byte[] content = Files.readAllBytes(Paths.get("C:\\Users\\Ahmed\\Desktop\\spring\\images\\0.jpg"));
-        when(userService.uploadToLocalFileSystem( new MockMultipartFile("0.jpg","0.jpg","image/jpeg",content)  , "0"))
+        when(userService.uploadToLocalFileSystem( new MockMultipartFile("0.jpg","0.jpg","image/jpeg",content)  , new User()))
                 .thenReturn("localhost:90/api/user/images/getImage/wad.png");
 
         mockMvc.perform(post("/api/user/upload?file=0.jpg")

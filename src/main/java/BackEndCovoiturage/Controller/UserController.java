@@ -1,6 +1,7 @@
 package BackEndCovoiturage.Controller;
 
 import BackEndCovoiturage.Configuration.Security.UserPrincipalDetailService;
+import BackEndCovoiturage.Model.Covoiturage;
 import BackEndCovoiturage.Model.ObjectResponse;
 import BackEndCovoiturage.Model.User;
 import BackEndCovoiturage.Service.UserService;
@@ -123,15 +124,18 @@ public class UserController {
     @PostMapping("upload")
     public ResponseEntity<User> signUp(
             @RequestPart User user,
-            @Nullable @RequestParam(required = false) MultipartFile file) {
+            @Nullable @RequestParam(required = false) MultipartFile file) throws IOException {
+
+
 
         // todo: maybe add image entity  with date and order and other info
 
-        if (file != null) {
+        if ((file != null)||(user.getImageUrl() != null)) {
             user.setHasUrl(true);
         }
-        if(this.userPrincipalDetailService.save(user) != null){
-            this.userService.uploadToLocalFileSystem(file,user.getId()+ "");
+        if(this.userPrincipalDetailService.save(user) != null){ // check if the saving process was good
+            user.setImageUrl(userService.uploadToLocalFileSystem(file , user));
+            userPrincipalDetailService.save(user);// update the user
             return new ResponseEntity<>(user , HttpStatus.OK);
         }
         return new ResponseEntity<>((User) null, HttpStatus.CONFLICT);
@@ -144,4 +148,6 @@ public class UserController {
         //todo if user does not have an image return default picture
         return this.userService.getImageWithMediaType(fileName);
     }
+
+
 }

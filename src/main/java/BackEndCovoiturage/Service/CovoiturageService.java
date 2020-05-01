@@ -2,9 +2,11 @@ package BackEndCovoiturage.Service;
 
 import BackEndCovoiturage.Model.Covoiturage;
 import BackEndCovoiturage.Model.Gouvernorat;
+import BackEndCovoiturage.Model.User;
 import BackEndCovoiturage.Model.Ville;
 import BackEndCovoiturage.Repository.CovoiturageRepo;
 import BackEndCovoiturage.Repository.GouvernoratRepo;
+import BackEndCovoiturage.Repository.UserRepo;
 import BackEndCovoiturage.Repository.VilleRepo;
 import BackEndCovoiturage.tools.MyHelpers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,9 @@ public class CovoiturageService {
 
     @Autowired
     private GouvernoratRepo gouvernoratRepo;
+
+    @Autowired
+    private UserRepo userRepo;
 
     @Autowired
     private VilleRepo villeRepo;
@@ -165,6 +170,29 @@ public class CovoiturageService {
 
             return MyHelpers.pageNextAndPrevWrapper(pagedCovoiturage,nextPage,previousPage);*/
         }
+
+    public boolean participateToCovoiturage(long userId , long covoiturageId) {
+        User user = userRepo.findUserById(userId);
+        Covoiturage covoiturage = covoiturageRepo.getCovoiturageById(covoiturageId);
+        if((user != null)&&(covoiturage != null)&&(covoiturage.getNbrPlaceDispo()>0)) {
+            covoiturage.setNbrPlaceDispo(covoiturage.getNbrPlaceDispo()-1);
+            covoiturage.getParticipants().add(user);
+            covoiturageRepo.save(covoiturage);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean submitCovoiturage(long userId , Covoiturage covoiturage) {
+        User user = userRepo.findUserById(userId);
+        if(user != null) {
+            covoiturage.setOwner(user);
+            covoiturageRepo.save(covoiturage);
+            return true;
+        }
+
+        return false;
+    }
 
 }
 
