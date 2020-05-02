@@ -56,7 +56,6 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                         "/api/user/images/getImage/{fileName:.+}").permitAll()
                 .anyRequest().authenticated();
         // TODO change to .authenticated() in production mode
-        // khaliha permitAll for debugging plz
 
         http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
     }
