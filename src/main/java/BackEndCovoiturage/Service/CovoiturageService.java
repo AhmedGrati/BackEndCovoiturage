@@ -204,7 +204,7 @@ public class CovoiturageService {
         Pageable limit = PageRequest.of(0, 6);
         Covoiturage covoiturage = this.covoiturageRepo.getCovoiturageById(id);
         if(covoiturage != null) {
-            return this.covoiturageRepo.findCovoituragesByVilleArriveeAndVilleDepart(covoiturage.getVilleDepart(), covoiturage.getVilleArrivee(), limit);
+            return this.covoiturageRepo.findCovoituragesByVilleArriveeAndVilleDepart(covoiturage.getVilleDepart(), covoiturage.getVilleArrivee(), id, limit);
         }
         return List.of(); // empty list
     }
