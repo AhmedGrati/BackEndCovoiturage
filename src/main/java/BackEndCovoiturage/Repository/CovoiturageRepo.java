@@ -60,5 +60,6 @@ public interface CovoiturageRepo extends PagingAndSortingRepository<Covoiturage 
     @Query(value = "SELECT COUNT(c.id) from covoiturage c where c.owner.id = :id")
     int sumOfCovoituragesByUser(long id);
 
+    void deleteCovoituragesByOwnerId(long userId); // in case the user wants to delete all his covoiturages
 
 }

@@ -155,4 +155,9 @@ public class CovoiturageController {
         return this.covoiturageService.sumOfCovoituragesByUser(userId);
     }
 
+    @DeleteMapping("deleteAllByOwnerId")
+    public void deleteCovoituragesByOwnerId(@RequestParam(defaultValue = "0") long userId) {
+        this.covoiturageService.deleteCovoituragesByOwnerId(userId);
+    }
+
 }

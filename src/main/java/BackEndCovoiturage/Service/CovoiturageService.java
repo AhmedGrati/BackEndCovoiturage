@@ -198,5 +198,9 @@ public class CovoiturageService {
         return this.covoiturageRepo.sumOfCovoituragesByUser(userId);
     }
 
+    public void deleteCovoituragesByOwnerId(long userId) {
+        this.covoiturageRepo.deleteCovoituragesByOwnerId(userId);
+    }
+
 }
 
