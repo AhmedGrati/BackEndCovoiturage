@@ -49,17 +49,21 @@ public interface CovoiturageRepo extends PagingAndSortingRepository<Covoiturage 
             "(c.nbrPlaceDispo >= :place) and " +
             "(c.isFumer = :fumer or :fumer = true )")
     Page<Covoiturage> findCovoituragesByMultipleParameters(String govDepart,
-                           String govArrive,
-                           int min,
-                           int max,
-                           Instant dateDepart,
-                           int place,
-                           boolean fumer
+                                                           String govArrive,
+                                                           int min,
+                                                           int max,
+                                                           Instant dateDepart,
+                                                           int place,
+                                                           boolean fumer
             , Pageable pageable);
 
     @Query(value = "SELECT COUNT(c.id) from covoiturage c where c.owner.id = :id")
     int sumOfCovoituragesByUser(long id);
 
     void deleteCovoituragesByOwnerId(long userId); // in case the user wants to delete all his covoiturages
+
+    @Query(value = "SELECT c from covoiturage c where c.villeDepart = :villeDepart " +
+            "and c.villeArrivee = :villeArrivee and c.id <> :id order by function('RAND') ")
+    List<Covoiturage> findCovoituragesByVilleArriveeAndVilleDepart(Ville villeDepart, Ville villeArrivee, Long id, Pageable pageable); // return 6 random covoiturages where it matches with villeDepart and villeArrive
 
 }

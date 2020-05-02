@@ -13,11 +13,11 @@ public class MyHelpers {
         return res;
     }
 
-    static public <T> HashMap<String, Object> pageNextAndPrevWrapper(Page<T> page , Page<T> nextPageData , Page<T> prevägeData) {
+    static public <T> HashMap<String, Object> pageNextAndPrevWrapper(Page<T> page, Page<T> nextPageData, Page<T> prevPageData) {
         HashMap<String, Object> res = new HashMap<>();
         res.put("data", page.getContent());
-        res.put("nextPageData",nextPageData.getContent());
-        res.put("prevPageData",prevägeData.getContent());
+        res.put("nextPageData", nextPageData.getContent());
+        res.put("prevPageData", prevPageData.getContent());
         res.put("fullLength", page.getTotalElements());
         return res;
     }

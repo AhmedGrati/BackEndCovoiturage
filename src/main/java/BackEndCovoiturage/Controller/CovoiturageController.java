@@ -160,4 +160,9 @@ public class CovoiturageController {
         this.covoiturageService.deleteCovoituragesByOwnerId(userId);
     }
 
+    @GetMapping("randomLastCovoiturages")
+    public List<Covoiturage> getRandomCovsByVilleDepartAndVilleArrivee(@RequestParam(defaultValue = "0") long id) {
+        return this.covoiturageService.findRandomCovoituragesByVilleDepartAndVilleArrivee(id);
+    }
+
 }
