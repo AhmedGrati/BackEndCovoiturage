@@ -62,4 +62,7 @@ public interface CovoiturageRepo extends PagingAndSortingRepository<Covoiturage 
 
     void deleteCovoituragesByOwnerId(long userId); // in case the user wants to delete all his covoiturages
 
+    @Query(value = "SELECT ALL from covoiturage c where c.villeDepart = :villeDepart and c.villeArrivee = :villeArrivee order by RAND() LIMIT 6 " , nativeQuery = true)
+    List<Covoiturage> findCovoituragesByVilleArriveeAndVilleDepart(Ville villeDepart , Ville villeArrivee); // return 6 random covoiturages where it matches with villeDepart and villeArrive
+
 }

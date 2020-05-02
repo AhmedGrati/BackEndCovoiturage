@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.yaml.snakeyaml.util.ArrayUtils;
 
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -200,6 +201,14 @@ public class CovoiturageService {
 
     public void deleteCovoituragesByOwnerId(long userId) {
         this.covoiturageRepo.deleteCovoituragesByOwnerId(userId);
+    }
+
+    public List<Covoiturage> findRandomCovoituragesByVilleDepartAndVilleArrivee(long id) {
+        Covoiturage covoiturage = this.covoiturageRepo.getCovoiturageById(id);
+        if(covoiturage != null) {
+            return this.covoiturageRepo.findCovoituragesByVilleArriveeAndVilleDepart(covoiturage.getVilleDepart() , covoiturage.getVilleArrivee());
+        }
+        return List.of(); // empty list
     }
 
 }
