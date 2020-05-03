@@ -1,17 +1,16 @@
 package BackEndCovoiturage.Controller;
 
 import BackEndCovoiturage.Configuration.Security.UserPrincipalDetailService;
-import BackEndCovoiturage.Model.Covoiturage;
 import BackEndCovoiturage.Model.ObjectResponse;
 import BackEndCovoiturage.Model.User;
 import BackEndCovoiturage.Service.UserService;
 import com.sun.istack.Nullable;
-import jdk.jshell.Snippet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,20 +26,22 @@ public class UserController {
 
 
     @Autowired
-    private  UserService userService;
+    private UserService userService;
 
     @Autowired
     private UserPrincipalDetailService userPrincipalDetailService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     @GetMapping(path = "allUsers")
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         return this.userService.findAllUsers();
     }
 
     @GetMapping(path = "getUserById/{id}")
-    public User getUserById(@PathVariable("id") long id){
+    public User getUserById(@PathVariable("id") long id) {
         return this.userService.findUserById(id);
     }
 
@@ -56,7 +57,7 @@ public class UserController {
     public Iterable<User> addRandom() {
         ArrayList<User>  userArrayList = new ArrayList<>();
         for (int i = 0; i < 30; i++) {
-            userArrayList.add(User.getRandom());
+            userArrayList.add(User.getRandom(passwordEncoder));
         }
 
         return userService.userRepo.saveAll(userArrayList);

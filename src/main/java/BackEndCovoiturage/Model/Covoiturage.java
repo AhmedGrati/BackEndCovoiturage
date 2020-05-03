@@ -80,11 +80,11 @@ public class Covoiturage {
         Collections.shuffle(users);
         c.setOwner(users.get(0));
 
-        c.setDescription(f.lorem().characters(200));
+        c.setDescription(f.lorem().characters(20));
 
         c.setFumer(f.bool().bool());
 
-        c.setPrice((int) f.number().randomNumber(3, true));
+        c.setPrice((int) f.number().randomNumber(2, true));
         c.setNbrPlaceDispo(f.number().numberBetween(1, 5));
 
         c.dateDepart = Instant.now();

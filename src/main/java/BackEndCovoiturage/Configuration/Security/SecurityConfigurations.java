@@ -54,7 +54,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/api/user/emailExists",
                         "/api/covoiturage/covoiturages",
                         "/api/user/images/getImage/{fileName:.+}").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
         // TODO change to .authenticated() in production mode
 
         http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);

@@ -1,9 +1,8 @@
 package BackEndCovoiturage.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.javafaker.Faker;
-import net.minidev.json.annotate.JsonIgnore;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -148,24 +147,21 @@ public class User {
         this.status = status;
     }
 
-    public static User getRandom() {
-
-        return new User(f.name().firstName(),
-                f.name().lastName(),
-                f.number().numberBetween(10, 70),
-                f.number().randomDouble(3, 0, 20),
-                f.name().name() + "@gmail.com",
-                f.name().firstName(),
-                f.name().firstName(),
-                f.name().firstName(),
-                f.address().city(), f.phoneNumber().phoneNumber(),
-                f.bool().bool() ? "online " : "offline ",
-                Instant.now(),
-                Instant.now(),
-                f.bool().bool() ? male : female,
-                false,
-                ""
-        );
+    public static User getRandom(PasswordEncoder passwordEncoder) {
+        User u = new User();
+        u.firstName = f.name().firstName();
+        u.lastName = f.name().lastName();
+        u.age = f.number().numberBetween(20, 60);
+        u.avis = f.number().numberBetween(0, 100);
+        u.email = u.firstName.trim() + "@gmail.com";
+        u.numTel = f.phoneNumber().cellPhone();
+        u.status = f.bool().bool() ? "Online" : "Offline";
+        u.inscriptionDate = Instant.now();
+        u.lastDateEnetered = Instant.now();
+        u.gender = f.bool().bool() ? male : female;
+        u.password = passwordEncoder.encode("default");
+        u.hasUrl = false;
+        return u;
     }
 
     public Instant getInscriptionDate() {

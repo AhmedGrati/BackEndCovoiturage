@@ -1,6 +1,5 @@
 package BackEndCovoiturage.Service;
 
-import BackEndCovoiturage.Model.Covoiturage;
 import BackEndCovoiturage.Model.User;
 import BackEndCovoiturage.Repository.CovoiturageRepo;
 import BackEndCovoiturage.Repository.UserRepo;
@@ -23,8 +22,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -58,7 +55,7 @@ public class UserService {
     //for wadhah
     //public final String storageDirectoryPathOnLinux = "/home/boogiep/wassalni/images";
     //for VM
-    public final String storageDirectoryPathOnLinux = "/home/ubuntu/images";
+    public final String storageDirectoryPathOnLinux = "/home/boogiep/images";
 
     public UserService(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
