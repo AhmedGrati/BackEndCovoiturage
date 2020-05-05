@@ -29,7 +29,7 @@ public class Covoiturage {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User owner;
 
-    @OneToMany(targetEntity = User.class, cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = User.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private List<User> participants;
 

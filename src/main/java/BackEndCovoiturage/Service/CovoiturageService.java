@@ -200,11 +200,11 @@ public class CovoiturageService {
         this.covoiturageRepo.deleteCovoituragesByOwnerId(userId);
     }
 
-    public List<Covoiturage> findRandomCovoituragesByVilleDepartAndVilleArrivee(long id) {
-        Pageable limit = PageRequest.of(0, 6);
+    public List<Covoiturage> findRandomCovoituragesByGouvDepartAndGouvArrivee(long id) {
+        Pageable limit = PageRequest.of(0, 3);
         Covoiturage covoiturage = this.covoiturageRepo.getCovoiturageById(id);
-        if(covoiturage != null) {
-            return this.covoiturageRepo.findCovoituragesByVilleArriveeAndVilleDepart(covoiturage.getVilleDepart(), covoiturage.getVilleArrivee(), id, limit);
+        if (covoiturage != null) {
+            return this.covoiturageRepo.findCovoituragesByGouvArriveeAndGouvDepart(covoiturage.getGouvernoratDepart(), covoiturage.getGouvernoratArrive(), id, limit);
         }
         return List.of(); // empty list
     }

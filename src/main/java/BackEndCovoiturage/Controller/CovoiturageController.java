@@ -7,6 +7,8 @@ import BackEndCovoiturage.Repository.VilleRepo;
 import BackEndCovoiturage.Service.CovoiturageService;
 import BackEndCovoiturage.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -51,15 +53,16 @@ public class CovoiturageController {
     }
 
     @GetMapping(path = "{id}")
-    public Covoiturage getCovoiturageById(@PathVariable @NonNull long id){
+    public Covoiturage getCovoiturageById(@PathVariable @NonNull long id) {
         return this.covoiturageService.getCovoiturageById(id);
     }
 
     @DeleteMapping(path = "deleteCovoiturage/{id}")
     @Transactional
-    public void deleteCovoiturageById(@PathVariable @NonNull long id){
+    public void deleteCovoiturageById(@PathVariable @NonNull long id) {
         this.covoiturageService.deleteCovoiturageById(id);
     }
+
     @CrossOrigin(origins = "*")
     @GetMapping(path = "getPagedCovoiturages")
     public HashMap<String, Object> getPagedCovoiturages(@RequestParam(defaultValue = "0") int pageNo
@@ -77,11 +80,11 @@ public class CovoiturageController {
     }
 
     @GetMapping("findByGovName")
-    public HashMap<String,Object> findCovoiturageByGovDepartAndByGovArrive(@RequestParam(defaultValue = "0") int pageNo,
-                                                               @RequestParam(defaultValue = "3") int pageSize,
-                                                               @RequestParam(defaultValue = "dateDepart") String sortBy,
-                                                               @RequestParam(defaultValue = "") String nameOfGovDepart,
-                                                               @RequestParam(defaultValue = "") String nameOfGovArrive) {
+    public HashMap<String, Object> findCovoiturageByGovDepartAndByGovArrive(@RequestParam(defaultValue = "0") int pageNo,
+                                                                            @RequestParam(defaultValue = "3") int pageSize,
+                                                                            @RequestParam(defaultValue = "dateDepart") String sortBy,
+                                                                            @RequestParam(defaultValue = "") String nameOfGovDepart,
+                                                                            @RequestParam(defaultValue = "") String nameOfGovArrive) {
 
 
         return this.covoiturageService.findCovoituragesByGouvernoratDepartAndByGouvernoratArrive(pageNo, pageSize, sortBy, nameOfGovDepart, nameOfGovArrive);
@@ -89,11 +92,11 @@ public class CovoiturageController {
 
 
     @GetMapping("findByVilleName")
-    public HashMap<String,Object> findCovoiturageByVilleDepartAndByVilleArrivee(@RequestParam(defaultValue = "0") int pageNo,
-                                                                    @RequestParam(defaultValue = "3") int pageSize,
-                                                                    @RequestParam(defaultValue = "dateDepart") String sortBy,
-                                                                    @RequestParam(defaultValue = "") String nameOfVilleDepart,
-                                                                    @RequestParam(defaultValue = "") String nameOfVilleArrivee){
+    public HashMap<String, Object> findCovoiturageByVilleDepartAndByVilleArrivee(@RequestParam(defaultValue = "0") int pageNo,
+                                                                                 @RequestParam(defaultValue = "3") int pageSize,
+                                                                                 @RequestParam(defaultValue = "dateDepart") String sortBy,
+                                                                                 @RequestParam(defaultValue = "") String nameOfVilleDepart,
+                                                                                 @RequestParam(defaultValue = "") String nameOfVilleArrivee) {
         return this.covoiturageService.findCovoituragesByVilleDepartAndByVilleArrive(pageNo, pageSize, sortBy, nameOfVilleDepart, nameOfVilleArrivee);
     }
 
@@ -111,16 +114,16 @@ public class CovoiturageController {
 
     @GetMapping("covoiturages")
     public HashMap<String, Object> findCovoituragesByMultipleParameters(@RequestParam(defaultValue = "0") int pageNo,
-                                        @RequestParam(defaultValue = "9") int pageSize,
-                                        @RequestParam(defaultValue = "dateDepart") String sortBy,
-                                        @RequestParam(defaultValue = "ASC") String direction,
-                                        @RequestParam(defaultValue = "all") String govDepart,
-                                        @RequestParam(defaultValue = "all") String govArrive,
-                                        @RequestParam(defaultValue = "0") int min,
-                                        @RequestParam(defaultValue = "100000") int max,
-                                        @RequestParam(defaultValue = "2000-01-01T00:00:00Z") Instant dateDepart,
-                                        @RequestParam(defaultValue = "0") int place,
-                                        @RequestParam(defaultValue = "true") boolean fumer
+                                                                        @RequestParam(defaultValue = "9") int pageSize,
+                                                                        @RequestParam(defaultValue = "dateDepart") String sortBy,
+                                                                        @RequestParam(defaultValue = "ASC") String direction,
+                                                                        @RequestParam(defaultValue = "all") String govDepart,
+                                                                        @RequestParam(defaultValue = "all") String govArrive,
+                                                                        @RequestParam(defaultValue = "0") int min,
+                                                                        @RequestParam(defaultValue = "100000") int max,
+                                                                        @RequestParam(defaultValue = "2000-01-01T00:00:00Z") Instant dateDepart,
+                                                                        @RequestParam(defaultValue = "0") int place,
+                                                                        @RequestParam(defaultValue = "true") boolean fumer
 
     ) {
         return covoiturageService.findCovoituragesByMultipleParameters(pageNo, pageSize, sortBy, direction, govDepart
@@ -129,20 +132,19 @@ public class CovoiturageController {
 
 
     @PostMapping("participateToCovoiturage")
-    public ObjectResponse participateToCovoiturage(@RequestParam(defaultValue = "0") long userId , @RequestParam(defaultValue = "0") long covoiturageId) {
+    public ResponseEntity<String> participateToCovoiturage(@RequestParam(defaultValue = "0") long userId, @RequestParam(defaultValue = "0") long covoiturageId) {
         ObjectResponse objectResponse = new ObjectResponse();
-        if(this.covoiturageService.participateToCovoiturage(userId , covoiturageId)) {
-            objectResponse.setResponseMessage("ok");
-        } else {
-            objectResponse.setResponseError("not ok");
-        }
-        return objectResponse;
+
+        return (this.covoiturageService.participateToCovoiturage(userId, covoiturageId)) ?
+                new ResponseEntity<>("insert success", HttpStatus.OK) :
+                new ResponseEntity<>("something bad happened", HttpStatus.BAD_REQUEST);
+
     }
 
     @PostMapping("submitCovoiturage/{userId}")
-    public ObjectResponse submitCovoiturage(@PathVariable(value = "userId") long userId , @RequestBody Covoiturage covoiturage) {
+    public ObjectResponse submitCovoiturage(@PathVariable(value = "userId") long userId, @RequestBody Covoiturage covoiturage) {
         ObjectResponse objectResponse = new ObjectResponse();
-        if(this.covoiturageService.submitCovoiturage(userId , covoiturage)){
+        if (this.covoiturageService.submitCovoiturage(userId, covoiturage)) {
             objectResponse.setResponseMessage("ok");
         } else {
             objectResponse.setResponseError("not ok");
@@ -162,7 +164,7 @@ public class CovoiturageController {
 
     @GetMapping("randomLastCovoiturages")
     public List<Covoiturage> getRandomCovsByVilleDepartAndVilleArrivee(@RequestParam(defaultValue = "0") long id) {
-        return this.covoiturageService.findRandomCovoituragesByVilleDepartAndVilleArrivee(id);
+        return this.covoiturageService.findRandomCovoituragesByGouvDepartAndGouvArrivee(id);
     }
 
 }
