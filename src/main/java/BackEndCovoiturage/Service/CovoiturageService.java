@@ -169,7 +169,7 @@ public class CovoiturageService {
             return MyHelpers.pageNextAndPrevWrapper(pagedCovoiturage,nextPage,previousPage);*/
         }
 
-    public boolean participateToCovoiturage(long userId , long covoiturageId) {
+    /*public boolean participateToCovoiturage(long userId , long covoiturageId) {
         User user = userRepo.findUserById(userId);
         Covoiturage covoiturage = covoiturageRepo.getCovoiturageById(covoiturageId);
         if((user != null)&&(covoiturage != null)&&(covoiturage.getNbrPlaceDispo()>0)) {
@@ -178,7 +178,7 @@ public class CovoiturageService {
             return true;
         }
         return false;
-    }
+    }*/
 
     public boolean submitCovoiturage(long userId , Covoiturage covoiturage) {
         User user = userRepo.findUserById(userId);
@@ -207,6 +207,17 @@ public class CovoiturageService {
         }
         return List.of(); // empty list
     }
+
+    public List<Covoiturage> getAllCovoituragesOfOwner(long owner_id) {
+        User owner = this.userRepo.findUserById(owner_id);
+        if(owner != null) {
+            return this.covoiturageRepo.getAllCovoituragesOfOwner(owner_id);
+        }else {
+            return List.of();
+        }
+    }
+
+
 
 }
 

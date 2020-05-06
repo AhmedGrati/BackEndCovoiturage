@@ -134,10 +134,10 @@ public class UserService {
             case1 : image from google , in this case the image Url won't be null so we download the image in our server from the url given from google
             case2 : image sent from the user , simply we juste copy it in our machine
         */
-        BufferedImage bufferedImage;
+        BufferedImage bufferedImage = null;
         if(user.getImageUrl() != null) { // this is case 1
             bufferedImage = ImageIO.read(new URL(user.getImageUrl()).openStream());
-        }else{ // this is case 2
+        }else if(file!=null){ // this is case 2
             bufferedImage = ImageIO.read(file.getInputStream());
         }
         String fileDownloadUri = null;

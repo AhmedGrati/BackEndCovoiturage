@@ -133,7 +133,7 @@ public class CovoiturageController {
     }
 
 
-    @GetMapping("participateToCovoiturage")
+    /*@GetMapping("participateToCovoiturage")
     public ResponseEntity<JSONObject> participateToCovoiturage(@RequestParam(defaultValue = "0") long userId, @RequestParam(defaultValue = "0") long covoiturageId) throws JSONException {
         ObjectResponse objectResponse = new ObjectResponse();
 
@@ -143,7 +143,7 @@ public class CovoiturageController {
                 new ResponseEntity<>(obj.put("response", "succes"), HttpStatus.OK) :
                 new ResponseEntity<>(obj.put("response", "failed"), HttpStatus.BAD_REQUEST);
 
-    }
+    }*/
 
     @PostMapping("submitCovoiturage/{userId}")
     public ObjectResponse submitCovoiturage(@PathVariable(value = "userId") long userId, @RequestBody Covoiturage covoiturage) {
@@ -170,5 +170,15 @@ public class CovoiturageController {
     public List<Covoiturage> getRandomCovsByVilleDepartAndVilleArrivee(@RequestParam(defaultValue = "0") long id) {
         return this.covoiturageService.findRandomCovoituragesByGouvDepartAndGouvArrivee(id);
     }
+
+    @GetMapping("allCovByOwner")
+    public List<Covoiturage> getAllCovoituragesByOwnerId(@RequestParam(defaultValue = "0") long owner_id) {
+        List<Covoiturage> covoiturageList = this.covoiturageService.getAllCovoituragesOfOwner(owner_id);
+        return covoiturageList;
+    }
+
+
+
+
 
 }

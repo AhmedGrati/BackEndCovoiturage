@@ -46,14 +46,14 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .addFilter(new JwtAuthentiticationFilter(authenticationManager()))
                 .authorizeRequests()
                 // configure access rules
-                .antMatchers(HttpMethod.POST, "/api/user/rand",
-                        "/login",
-                        "/api/user/register",
-                        "/api/user/upload",
-                        "/api/covoiturage/rand").permitAll()
+
                 .antMatchers(HttpMethod.GET, "/api/user/emailExists",
                         "/api/covoiturage/covoiturages",
                         "/api/user/images/getImage/{fileName:.+}").permitAll()
+                .antMatchers(HttpMethod.POST, "/login","/api/user/rand",
+                        "/api/user/register",
+                        "/api/user/upload",
+                        "/api/covoiturage/rand").permitAll()
                 .anyRequest().permitAll();
         // TODO change to .authenticated() in production mode
 
