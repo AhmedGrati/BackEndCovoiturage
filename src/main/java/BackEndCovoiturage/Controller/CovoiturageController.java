@@ -6,6 +6,8 @@ import BackEndCovoiturage.Repository.CovoiturageRepo;
 import BackEndCovoiturage.Repository.VilleRepo;
 import BackEndCovoiturage.Service.CovoiturageService;
 import BackEndCovoiturage.Service.UserService;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -131,13 +133,15 @@ public class CovoiturageController {
     }
 
 
-    @PostMapping("participateToCovoiturage")
-    public ResponseEntity<String> participateToCovoiturage(@RequestParam(defaultValue = "0") long userId, @RequestParam(defaultValue = "0") long covoiturageId) {
+    @GetMapping("participateToCovoiturage")
+    public ResponseEntity<JSONObject> participateToCovoiturage(@RequestParam(defaultValue = "0") long userId, @RequestParam(defaultValue = "0") long covoiturageId) throws JSONException {
         ObjectResponse objectResponse = new ObjectResponse();
 
+        JSONObject obj = new JSONObject();
+
         return (this.covoiturageService.participateToCovoiturage(userId, covoiturageId)) ?
-                new ResponseEntity<>("insert success", HttpStatus.OK) :
-                new ResponseEntity<>("something bad happened", HttpStatus.BAD_REQUEST);
+                new ResponseEntity<>(obj.put("response", "succes"), HttpStatus.OK) :
+                new ResponseEntity<>(obj.put("response", "failed"), HttpStatus.BAD_REQUEST);
 
     }
 
