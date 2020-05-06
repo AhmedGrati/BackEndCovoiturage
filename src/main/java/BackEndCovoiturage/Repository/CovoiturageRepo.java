@@ -71,4 +71,5 @@ public interface CovoiturageRepo extends PagingAndSortingRepository<Covoiturage 
     List<Covoiturage> getAllCovoituragesOfOwner(long owner_id);
 
 
+
 }

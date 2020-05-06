@@ -20,4 +20,41 @@ public class Submission {
 
     private Status status;
 
+    public Submission(Instant submissionDate, User owner, Status status) {
+        this.submissionDate = submissionDate;
+        this.owner = owner;
+        this.status = status;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Instant getSubmissionDate() {
+        return submissionDate;
+    }
+
+    public void setSubmissionDate(Instant submissionDate) {
+        this.submissionDate = submissionDate;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 }

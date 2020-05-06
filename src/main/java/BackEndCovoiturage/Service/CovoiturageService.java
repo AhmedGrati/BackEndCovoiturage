@@ -172,8 +172,8 @@ public class CovoiturageService {
     /*public boolean participateToCovoiturage(long userId , long covoiturageId) {
         User user = userRepo.findUserById(userId);
         Covoiturage covoiturage = covoiturageRepo.getCovoiturageById(covoiturageId);
-        if((user != null)&&(covoiturage != null)&&(covoiturage.getNbrPlaceDispo()>0)) {
-            covoiturage.getParticipants().add(user);
+        if((user != null)&&(covoiturage != null)) {
+            covoiturage.getSubmissions().add(user);
             covoiturageRepo.save(covoiturage);
             return true;
         }
