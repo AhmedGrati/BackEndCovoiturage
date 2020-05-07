@@ -1,13 +1,7 @@
 package BackEndCovoiturage.Service;
 
-import BackEndCovoiturage.Model.Covoiturage;
-import BackEndCovoiturage.Model.Gouvernorat;
-import BackEndCovoiturage.Model.User;
-import BackEndCovoiturage.Model.Ville;
-import BackEndCovoiturage.Repository.CovoiturageRepo;
-import BackEndCovoiturage.Repository.GouvernoratRepo;
-import BackEndCovoiturage.Repository.UserRepo;
-import BackEndCovoiturage.Repository.VilleRepo;
+import BackEndCovoiturage.Model.*;
+import BackEndCovoiturage.Repository.*;
 import BackEndCovoiturage.tools.MyHelpers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,6 +27,9 @@ public class CovoiturageService {
 
     @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    private SubmissionRepo submissionRepo;
 
     @Autowired
     private VilleRepo villeRepo;
@@ -169,16 +167,17 @@ public class CovoiturageService {
             return MyHelpers.pageNextAndPrevWrapper(pagedCovoiturage,nextPage,previousPage);*/
         }
 
-    /*public boolean participateToCovoiturage(long userId , long covoiturageId) {
+    public boolean participateToCovoiturage(long userId , long covoiturageId) {
         User user = userRepo.findUserById(userId);
+        Submission submission = new Submission(Instant.now() ,user  , Status.pending);
         Covoiturage covoiturage = covoiturageRepo.getCovoiturageById(covoiturageId);
         if((user != null)&&(covoiturage != null)) {
-            covoiturage.getSubmissions().add(user);
+            covoiturage.getSubmissions().add(submission);
             covoiturageRepo.save(covoiturage);
             return true;
         }
         return false;
-    }*/
+    }
 
     public boolean submitCovoiturage(long userId , Covoiturage covoiturage) {
         User user = userRepo.findUserById(userId);
@@ -217,6 +216,29 @@ public class CovoiturageService {
         }
     }
 
+    public List<Covoiturage> getAllCovoituragesByParticipant(long user_id) {
+        User user = this.userRepo.findUserById(user_id);
+        List<Covoiturage> covoiturages = this.covoiturageRepo.findAll();
+        List<Covoiturage> returnedCovoiturages = new ArrayList<>();
+        if(user != null) {
+            boolean userExistsInSubmission = this.submissionRepo.existsByOwner(user);
+            if(userExistsInSubmission) { // if the user does not exist in submissions we shouldn't loop
+                for(int i=0;i<covoiturages.size();i++) {
+                    int j=0;
+                    while((covoiturages.get(i).getSubmissions().get(j).getOwner() != user)&&(j < covoiturages.get(i).getSubmissions().size())) { // tant qu'on ne trouve pas le covoiturage dont le participant est user on continue
+                        j++;
+                    }
+                    if(j< covoiturages.get(i).getSubmissions().size()) { // if we have a submission which its owner is our user we add it
+                        returnedCovoiturages.add(covoiturages.get(i));
+                    }
+                }
+            }else {
+                System.out.println("the user does not even exist");
+            }
+        }
+
+        return returnedCovoiturages;
+    }
 
 
 }
