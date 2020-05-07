@@ -20,6 +20,9 @@ public class Submission {
 
     private Status status;
 
+    public Submission() {
+
+    }
     public Submission(Instant submissionDate, User owner, Status status) {
         this.submissionDate = submissionDate;
         this.owner = owner;
