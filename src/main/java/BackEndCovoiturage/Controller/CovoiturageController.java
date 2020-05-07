@@ -2,6 +2,7 @@ package BackEndCovoiturage.Controller;
 
 import BackEndCovoiturage.Model.Covoiturage;
 import BackEndCovoiturage.Model.ObjectResponse;
+import BackEndCovoiturage.Model.Submission;
 import BackEndCovoiturage.Repository.CovoiturageRepo;
 import BackEndCovoiturage.Repository.VilleRepo;
 import BackEndCovoiturage.Service.CovoiturageService;
@@ -182,5 +183,23 @@ public class CovoiturageController {
         return covoiturageList;
     }
 
+
+    @GetMapping("acceptSubmission")
+    public ResponseEntity<JSONObject> acceptSubmission(@RequestParam(defaultValue = "0") long submission_id) throws JSONException {
+        JSONObject obj = new JSONObject();
+
+        return (this.covoiturageService.acceptSubmission(submission_id)) ?
+                new ResponseEntity<>(obj.put("response", "succes"), HttpStatus.OK) :
+                new ResponseEntity<>(obj.put("response", "failed"), HttpStatus.BAD_REQUEST);
+    }
+
+    @DeleteMapping("declineSubmission")
+    public ResponseEntity<JSONObject> declineSubmission(@RequestParam(defaultValue = "0") long submission_id) throws JSONException {
+        JSONObject obj = new JSONObject();
+
+        return (this.covoiturageService.declineSubmission(submission_id)) ?
+                new ResponseEntity<>(obj.put("response", "succes"), HttpStatus.OK) :
+                new ResponseEntity<>(obj.put("response", "failed"), HttpStatus.BAD_REQUEST);
+    }
 
 }

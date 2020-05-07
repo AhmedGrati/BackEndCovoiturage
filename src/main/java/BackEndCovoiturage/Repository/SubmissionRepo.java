@@ -9,4 +9,10 @@ import org.springframework.stereotype.Repository;
 public interface SubmissionRepo extends JpaRepository<Submission, Long> {
     boolean existsByOwner(User owner);
 
+    Submission findSubmissionById(long id);
+
+    @Override
+    <S extends Submission> S save(S s);
+
+    void deleteSubmissionById(long id);
 }

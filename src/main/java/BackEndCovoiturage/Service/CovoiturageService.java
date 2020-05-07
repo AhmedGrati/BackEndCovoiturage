@@ -240,6 +240,27 @@ public class CovoiturageService {
         return returnedCovoiturages;
     }
 
+     public boolean acceptSubmission(long submissionId) {
+        Submission submission = this.submissionRepo.findSubmissionById(submissionId);
+        if(submission != null) {
+            submission.setStatus(Status.accepted);
+            this.submissionRepo.save(submission);
+            return true;
+        }
+        return false;
+    }
+    public boolean declineSubmission(long submissionId) {
+        Submission submission = this.submissionRepo.findSubmissionById(submissionId);
+        if(submission != null) {
+            this.submissionRepo.deleteSubmissionById(submissionId);
+            return true;
+        }
+        return false;
+    }
+
+
+
+
 
 }
 
