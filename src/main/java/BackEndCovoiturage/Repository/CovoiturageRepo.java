@@ -70,4 +70,5 @@ public interface CovoiturageRepo extends PagingAndSortingRepository<Covoiturage 
     /*@Query("select c from covoiturage c where :participant in (c.submissions.owner)")
     List<Covoiturage> getCovoiturageByParticipant(User participant);*/
 
+
 }

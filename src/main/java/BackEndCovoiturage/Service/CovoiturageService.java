@@ -225,7 +225,7 @@ public class CovoiturageService {
             if(userExistsInSubmission) { // if the user does not exist in submissions we shouldn't loop
                 for(int i=0;i<covoiturages.size();i++) {
                     int j=0;
-                    while((covoiturages.get(i).getSubmissions().get(j).getOwner() != user)&&(j < covoiturages.get(i).getSubmissions().size())) { // tant qu'on ne trouve pas le covoiturage dont le participant est user on continue
+                    while((j < covoiturages.get(i).getSubmissions().size())&&(covoiturages.get(i).getSubmissions().get(j).getOwner() != user)) { // tant qu'on ne trouve pas le covoiturage dont le participant est user on continue
                         j++;
                     }
                     if(j< covoiturages.get(i).getSubmissions().size()) { // if we have a submission which its owner is our user we add it
