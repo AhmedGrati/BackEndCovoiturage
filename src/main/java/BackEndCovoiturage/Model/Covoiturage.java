@@ -29,10 +29,6 @@ public class Covoiturage {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User owner;
 
-    @OneToMany(targetEntity = Submission.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "submission_id", referencedColumnName = "id")
-    private List<Submission> submissions;
-
     @ManyToOne(targetEntity = Gouvernorat.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "gouv_dep_id", referencedColumnName = "id")
     private Gouvernorat gouvernoratDepart;
@@ -237,11 +233,7 @@ public class Covoiturage {
         return owner;
     }
 
-    public List<Submission> getSubmissions() {
-        return submissions;
-    }
 
-    public void setSubmissions(List<Submission> submissions) {
-        this.submissions = submissions;
-    }
+
+
 }

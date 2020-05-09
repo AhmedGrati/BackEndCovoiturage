@@ -67,8 +67,7 @@ public interface CovoiturageRepo extends PagingAndSortingRepository<Covoiturage 
     @Query(value = "SELECT c FROM covoiturage c where c.owner.id = :owner_id")
     List<Covoiturage> getAllCovoituragesOfOwner(long owner_id);
 
-    /*@Query("select c from covoiturage c where :participant in (c.submissions.owner)")
-    List<Covoiturage> getCovoiturageByParticipant(User participant);*/
 
+//    Page<Covoiturage> findCovoituragesByParticipant(User participant , Pageable pageable);
 
 }

@@ -18,15 +18,20 @@ public class Submission {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User owner;
 
+    @ManyToOne(targetEntity = Covoiturage.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "covoiturage_id", referencedColumnName = "id")
+    private Covoiturage covoiturage;
+
     private Status status;
 
     public Submission() {
 
     }
-    public Submission(Instant submissionDate, User owner, Status status) {
+    public Submission(Instant submissionDate, User owner, Status status , Covoiturage covoiturage) {
         this.submissionDate = submissionDate;
         this.owner = owner;
         this.status = status;
+        this.covoiturage = covoiturage;
     }
 
     public long getId() {
@@ -59,5 +64,13 @@ public class Submission {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public Covoiturage getCovoiturage() {
+        return covoiturage;
+    }
+
+    public void setCovoiturage(Covoiturage covoiturage) {
+        this.covoiturage = covoiturage;
     }
 }
