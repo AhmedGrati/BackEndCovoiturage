@@ -185,10 +185,10 @@ public class CovoiturageController {
 
 
     @GetMapping("acceptSubmission")
-    public ResponseEntity<JSONObject> acceptSubmission(@RequestParam(defaultValue = "0") long submission_id) throws JSONException {
+    public ResponseEntity<JSONObject> acceptSubmission(@RequestParam(defaultValue = "0") long submissionId , @RequestParam(defaultValue = "0") long covoiturageId) throws JSONException {
         JSONObject obj = new JSONObject();
 
-        return (this.covoiturageService.acceptSubmission(submission_id)) ?
+        return (this.covoiturageService.acceptSubmission(submissionId,covoiturageId)) ?
                 new ResponseEntity<>(obj.put("response", "succes"), HttpStatus.OK) :
                 new ResponseEntity<>(obj.put("response", "failed"), HttpStatus.BAD_REQUEST);
     }
