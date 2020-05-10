@@ -35,6 +35,7 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
 
 
+    @CrossOrigin(origins = "*")
     @GetMapping(path = "allUsers")
     public List<User> getAllUsers() {
         return this.userService.findAllUsers();
