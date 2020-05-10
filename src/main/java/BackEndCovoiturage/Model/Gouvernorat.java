@@ -13,6 +13,14 @@ public class Gouvernorat {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Override
+    public String toString() {
+        return "Gouvernorat{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
     @Nullable
     private String name;
 

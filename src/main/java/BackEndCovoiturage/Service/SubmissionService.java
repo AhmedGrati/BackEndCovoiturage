@@ -9,9 +9,11 @@ import BackEndCovoiturage.Repository.SubmissionRepo;
 import BackEndCovoiturage.Repository.UserRepo;
 import BackEndCovoiturage.tools.MyHelpers;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -68,9 +70,9 @@ public class SubmissionService {
             Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
             Page<Covoiturage> page = this.submissionRepo.getCovoituragesOfOwner(user_id , pageable);
             if(page.hasContent()) {
-                for(int i=0;i<page.getContent().size();i++) {
+                for (int i = 0; i < page.getContent().size(); i++) {
                     List<Submission> submissions = this.submissionRepo.findSubmissionByCovoiturageId(page.getContent().get(i).getId());
-                    HashMap<String , Object> element = MyHelpers.wrapCovAndSub(page.getContent().get(i) , submissions);
+                    HashMap<String, Object> element = MyHelpers.wrapCovAndSub(page.getContent().get(i), submissions);
                     returnedData.add(element);
                 }
             }
@@ -78,16 +80,39 @@ public class SubmissionService {
         return returnedData;
     }
 
-    public boolean leaveCovoiturageSubmission(long userId,long covoiturageId) {
-        Covoiturage covoiturage = this.covoiturageRepo.getCovoiturageById(covoiturageId);
-        User user = this.userRepo.findUserById(userId);
-        if((user!=null)&&(covoiturage!=null)) {
-            Submission submission = this.submissionRepo.findSubmissionByCovoiturage(covoiturage);
-            if((submission != null)&&(submission.getStatus() == Status.accepted)) {
-                this.submissionRepo.deleteSubmissionById(submission.getId());
-                return true;
-            }
+
+    // TODO TEST AND FIX
+    public boolean leaveCovoiturageSubmission(long userId, long covoiturageId) {
+
+        return submissionRepo.deleteByCovoiturageIdAndOwnerId(covoiturageId, userId);
+
+//        Covoiturage covoiturage = this.covoiturageRepo.getCovoiturageById(covoiturageId);
+//        User user = this.userRepo.findUserById(userId);
+//        if((user!=null)&&(covoiturage!=null)) {
+//            Submission submission = this.submissionRepo.findSubmissionByCovoiturageAndUserId(covoiturage , userId);
+//            if((submission != null)&&(submission.getStatus() == Status.accepted)) {
+//                this.submissionRepo.deleteSubmissionById(submission.getId());
+//                return true;
+//            }
+//        }
+//        return false;
+    }
+
+    public HashMap<String, Object> createdCovoiturageWithSubmissions(long userId, Pageable page) {
+
+        HashMap<String, Object> result = new HashMap<>();
+        Page<Covoiturage> covoiturageList = covoiturageRepo.getAllCovoituragesOfOwner(userId, page);
+        result.put("totalLength", covoiturageList.getTotalElements());
+        ArrayList<HashMap<String, Object>> data = new ArrayList<>();
+
+        for (Covoiturage e : covoiturageList) {
+            List<Submission> submissions = submissionRepo.findSubmissionByCovoiturage(e);
+            HashMap<String, Object> temp = new HashMap<>();
+            temp.put("cov", e);
+            temp.put("submission", submissions);
+            data.add(temp);
         }
-        return false;
+        result.put("data", data);
+        return result;
     }
 }

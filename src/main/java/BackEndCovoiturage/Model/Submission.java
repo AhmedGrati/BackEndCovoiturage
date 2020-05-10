@@ -2,7 +2,6 @@ package BackEndCovoiturage.Model;
 
 import javax.persistence.*;
 import java.time.Instant;
-import java.util.List;
 
 @Entity(name = "submission")
 @Table(name = "submission")
@@ -14,12 +13,10 @@ public class Submission {
 
     private Instant submissionDate;
 
-    @ManyToOne(targetEntity = User.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @OneToOne
     private User owner;
 
-    @ManyToOne(targetEntity = Covoiturage.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "covoiturage_id", referencedColumnName = "id")
+    @OneToOne
     private Covoiturage covoiturage;
 
     private Status status;
@@ -72,5 +69,16 @@ public class Submission {
 
     public void setCovoiturage(Covoiturage covoiturage) {
         this.covoiturage = covoiturage;
+    }
+
+    @Override
+    public String toString() {
+        return "Submission{" +
+                "id=" + id +
+                ", submissionDate=" + submissionDate +
+                ", owner=" + owner +
+                ", covoiturage=" + covoiturage +
+                ", status=" + status +
+                '}';
     }
 }

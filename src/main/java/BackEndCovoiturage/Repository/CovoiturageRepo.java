@@ -1,6 +1,8 @@
 package BackEndCovoiturage.Repository;
 
-import BackEndCovoiturage.Model.*;
+import BackEndCovoiturage.Model.Covoiturage;
+import BackEndCovoiturage.Model.Gouvernorat;
+import BackEndCovoiturage.Model.Ville;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -66,6 +68,9 @@ public interface CovoiturageRepo extends PagingAndSortingRepository<Covoiturage 
 
     @Query(value = "SELECT c FROM covoiturage c where c.owner.id = :owner_id")
     List<Covoiturage> getAllCovoituragesOfOwner(long owner_id);
+
+    @Query(value = "SELECT c FROM covoiturage c where c.owner.id = :owner_id")
+    Page<Covoiturage> getAllCovoituragesOfOwner(long owner_id, Pageable pageable);
 
 
 //    Page<Covoiturage> findCovoituragesByParticipant(User participant , Pageable pageable);

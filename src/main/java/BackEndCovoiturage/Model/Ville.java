@@ -15,13 +15,22 @@ public class Ville {
     private String name;
 
 
-    @OneToOne(targetEntity = Gouvernorat.class , cascade = CascadeType.ALL)
-    @JoinColumn(name = "gouv_id",referencedColumnName = "id")
+    @OneToOne(targetEntity = Gouvernorat.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "gouv_id", referencedColumnName = "id")
     private Gouvernorat gouvernorat;
 
 
-    public Ville(){
+    public Ville() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "Ville{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", gouvernorat=" + gouvernorat +
+                '}';
     }
 
     public Ville(String name, Gouvernorat gouvernorat) {
