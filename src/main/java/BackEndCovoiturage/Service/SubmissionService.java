@@ -7,6 +7,7 @@ import BackEndCovoiturage.Model.User;
 import BackEndCovoiturage.Repository.CovoiturageRepo;
 import BackEndCovoiturage.Repository.SubmissionRepo;
 import BackEndCovoiturage.Repository.UserRepo;
+import BackEndCovoiturage.tools.MyHelpers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -59,16 +61,21 @@ public class SubmissionService {
         return false;
     }
 
-    public List<Covoiturage> getAllCovoituragesByParticipant(long user_id , int pageNo , int pageSize , String sortBy) {
+    public List<HashMap<String,Object>> getAllCovoituragesByParticipant(long user_id , int pageNo , int pageSize , String sortBy) {
         User user = this.userRepo.findUserById(user_id);
+        List<HashMap<String,Object>> returnedData = new ArrayList<>();
         if (user != null) {
             Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
             Page<Covoiturage> page = this.submissionRepo.getCovoituragesOfOwner(user_id , pageable);
             if(page.hasContent()) {
-                return page.getContent();
+                for(int i=0;i<page.getContent().size();i++) {
+                    List<Submission> submissions = this.submissionRepo.findSubmissionByCovoiturageId(page.getContent().get(i).getId());
+                    HashMap<String , Object> element = MyHelpers.wrapCovAndSub(page.getContent().get(i) , submissions);
+                    returnedData.add(element);
+                }
             }
         }
-        return new ArrayList<Covoiturage>();
+        return returnedData;
     }
 
     public boolean leaveCovoiturageSubmission(long userId,long covoiturageId) {

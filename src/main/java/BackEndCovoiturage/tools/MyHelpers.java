@@ -1,11 +1,15 @@
 package BackEndCovoiturage.tools;
 
 
+import BackEndCovoiturage.Model.Covoiturage;
+import BackEndCovoiturage.Model.Submission;
 import org.springframework.data.domain.Page;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class MyHelpers {
+
     static public <T> HashMap<String, Object> pageWrapper(Page<T> page) {
         HashMap<String, Object> res = new HashMap<>();
         res.put("data", page.getContent());
@@ -22,5 +26,11 @@ public class MyHelpers {
         return res;
     }
 
+    static public <T> HashMap<String , Object> wrapCovAndSub(Covoiturage covoiturage , List<Submission> submissions) {
+        HashMap<String , Object> res = new HashMap<>();
+        res.put("covoiturage",covoiturage);
+        res.put("submissions",submissions);
+        return  res;
+    }
 
 }

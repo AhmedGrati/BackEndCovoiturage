@@ -10,6 +10,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface SubmissionRepo extends PagingAndSortingRepository<Submission, Long> {
     boolean existsByOwner(User owner);
@@ -27,4 +29,6 @@ public interface SubmissionRepo extends PagingAndSortingRepository<Submission, L
     Submission findSubmissionByCovoiturage(Covoiturage covoiturage);
 
 
+    @Query("SELECT s from submission s where s.covoiturage.id = :covoiturageId")
+    List<Submission> findSubmissionByCovoiturageId(long covoiturageId);
 }
