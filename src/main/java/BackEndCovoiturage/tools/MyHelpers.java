@@ -36,7 +36,7 @@ public class MyHelpers {
     static public <T> HashMap<String,Object> wrapArrays(List<HashMap<String,Object>> myObjectList) {
         HashMap <String , Object> res = new HashMap<>();
         res.put("data",myObjectList);
-        res.put("dataLength",myObjectList.size());
+        res.put("totalLength",myObjectList.size());
 
         return res;
     }
