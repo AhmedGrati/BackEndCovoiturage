@@ -1,7 +1,13 @@
 package BackEndCovoiturage.Model;
 
+import BackEndCovoiturage.Repository.CovoiturageRepo;
+import BackEndCovoiturage.Repository.SubmissionRepo;
+import BackEndCovoiturage.Repository.UserRepo;
+
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.Collections;
+import java.util.List;
 
 @Entity(name = "submission")
 @Table(name = "submission")
@@ -80,5 +86,21 @@ public class Submission {
                 ", covoiturage=" + covoiturage +
                 ", status=" + status +
                 '}';
+    }
+
+
+    public static void rand(UserRepo userRepo, CovoiturageRepo covoiturageRepo, SubmissionRepo submissionRepo) {
+        Submission s = new Submission();
+
+        List<User> users = userRepo.findAll();
+        Collections.shuffle(users);
+
+        List<Covoiturage> covoiturages = covoiturageRepo.findAll();
+        Collections.shuffle(covoiturages);
+
+        s.covoiturage = covoiturages.get(0);
+        s.owner = users.get(0);
+        s.status = Status.pending;
+        submissionRepo.save(s);
     }
 }

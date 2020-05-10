@@ -8,6 +8,9 @@ import BackEndCovoiturage.Repository.CovoiturageRepo;
 import BackEndCovoiturage.Repository.SubmissionRepo;
 import BackEndCovoiturage.Repository.UserRepo;
 import BackEndCovoiturage.tools.MyHelpers;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +25,10 @@ import java.util.List;
 
 @Service
 public class SubmissionService {
+
+    @Autowired
+    ObjectMapper mapper;
+
     @Autowired
     private UserRepo userRepo;
 
@@ -68,7 +75,7 @@ public class SubmissionService {
         List<HashMap<String,Object>> returnedData = new ArrayList<>();
         if (user != null) {
             Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-            Page<Covoiturage> page = this.submissionRepo.getCovoituragesOfOwner(user_id , pageable);
+            Page<Covoiturage> page = this.submissionRepo.getCovoituragesOfParticipant(user_id, pageable);
             if(page.hasContent()) {
                 for (int i = 0; i < page.getContent().size(); i++) {
                     List<Submission> submissions = this.submissionRepo.findSubmissionByCovoiturageId(page.getContent().get(i).getId());
@@ -81,7 +88,6 @@ public class SubmissionService {
     }
 
 
-    // TODO TEST AND FIX
     public boolean leaveCovoiturageSubmission(long userId, long covoiturageId) {
 
         return submissionRepo.deleteByCovoiturageIdAndOwnerId(covoiturageId, userId);
@@ -98,21 +104,20 @@ public class SubmissionService {
 //        return false;
     }
 
-    public HashMap<String, Object> createdCovoiturageWithSubmissions(long userId, Pageable page) {
+    public ObjectNode createdCovoiturageWithSubmissions(long userId, Pageable page) {
 
-        HashMap<String, Object> result = new HashMap<>();
+        ObjectNode result = mapper.createObjectNode();
         Page<Covoiturage> covoiturageList = covoiturageRepo.getAllCovoituragesOfOwner(userId, page);
         result.put("totalLength", covoiturageList.getTotalElements());
-        ArrayList<HashMap<String, Object>> data = new ArrayList<>();
-
+        ArrayNode data = result.putArray("data");
         for (Covoiturage e : covoiturageList) {
             List<Submission> submissions = submissionRepo.findSubmissionByCovoiturage(e);
-            HashMap<String, Object> temp = new HashMap<>();
-            temp.put("cov", e);
-            temp.put("submission", submissions);
+            ObjectNode temp = mapper.createObjectNode();
+            temp.putPOJO("cov", e);
+            temp.putPOJO("submission", submissions);
             data.add(temp);
         }
-        result.put("data", data);
+
         return result;
     }
 }

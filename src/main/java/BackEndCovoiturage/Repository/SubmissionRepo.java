@@ -23,10 +23,9 @@ public interface SubmissionRepo extends PagingAndSortingRepository<Submission, L
     void deleteSubmissionById(long id);
 
     @Query("SELECT s.covoiturage from submission s where s.owner.id = :user_id")
-    Page<Covoiturage> getCovoituragesOfOwner(long user_id, Pageable pageable);
+    Page<Covoiturage> getCovoituragesOfParticipant(long user_id, Pageable pageable);
 
 
-    // whaaaat ???
 //    Submission findSubmissionByCovoiturageAndUserId(Covoiturage covoiturage , long id);
 
     @Query("delete from submission s where s.covoiturage.id = :covId and s.owner.id = :ownerId")
