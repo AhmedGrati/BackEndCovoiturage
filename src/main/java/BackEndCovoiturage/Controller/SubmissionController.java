@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RequestMapping(value = "api/submission")
@@ -47,9 +48,9 @@ public class SubmissionController {
     }
 
     @GetMapping("allCovByParticipant")
-    public List<Covoiturage> getAllCovoituragesByParticipant(@RequestParam(defaultValue = "0") long participantId , @RequestParam(defaultValue = "1") int pageNo
+    public List<HashMap<String,Object>> getAllCovoituragesByParticipant(@RequestParam(defaultValue = "0") long participantId , @RequestParam(defaultValue = "1") int pageNo
             , @RequestParam(defaultValue = "5") int pageSize , @RequestParam(defaultValue = "submissionDate") String sortBy) {
-        List<Covoiturage> covoiturageList = this.submissionService.getAllCovoituragesByParticipant(participantId, pageNo, pageSize, sortBy);
+        List<HashMap<String,Object>> covoiturageList = this.submissionService.getAllCovoituragesByParticipant(participantId, pageNo, pageSize, sortBy);
         return covoiturageList;
     }
 
