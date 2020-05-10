@@ -61,11 +61,11 @@ public class SubmissionController {
     }
 
     @GetMapping("allCovByParticipant")
-    public List<HashMap<String, Object>> getAllCovoituragesByParticipant(@RequestParam(defaultValue = "0") long participantId,
+    public HashMap<String, Object> getAllCovoituragesByParticipant(@RequestParam(defaultValue = "0") long participantId,
                                                                          @RequestParam(defaultValue = "0") int pageNo,
                                                                          @RequestParam(defaultValue = "5") int pageSize,
                                                                          @RequestParam(defaultValue = "submissionDate") String sortBy) {
-        List<HashMap<String, Object>> covoiturageList = this.submissionService.getAllCovoituragesByParticipant(participantId, pageNo, pageSize, sortBy);
+        HashMap<String, Object> covoiturageList = this.submissionService.getAllCovoituragesByParticipant(participantId, pageNo, pageSize, sortBy);
         return covoiturageList;
     }
 

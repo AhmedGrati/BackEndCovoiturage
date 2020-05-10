@@ -70,13 +70,15 @@ public class SubmissionService {
         return false;
     }
 
-    public List<HashMap<String,Object>> getAllCovoituragesByParticipant(long user_id , int pageNo , int pageSize , String sortBy) {
+    public HashMap<String,Object> getAllCovoituragesByParticipant(long user_id , int pageNo , int pageSize , String sortBy) {
         User user = this.userRepo.findUserById(user_id);
         List<HashMap<String,Object>> returnedData = new ArrayList<>();
         if (user != null) {
             Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
             Page<Covoiturage> page = this.submissionRepo.getCovoituragesOfParticipant(user_id, pageable);
+            System.out.println(page.hasContent());
             if(page.hasContent()) {
+
                 for (int i = 0; i < page.getContent().size(); i++) {
                     List<Submission> submissions = this.submissionRepo.findSubmissionByCovoiturageId(page.getContent().get(i).getId());
                     HashMap<String, Object> element = MyHelpers.wrapCovAndSub(page.getContent().get(i), submissions);
@@ -84,7 +86,7 @@ public class SubmissionService {
                 }
             }
         }
-        return returnedData;
+        return MyHelpers.wrapArrays(returnedData);
     }
 
 
