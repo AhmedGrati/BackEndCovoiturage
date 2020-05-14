@@ -2,16 +2,11 @@ package BackEndCovoiturage.Controller;
 
 import BackEndCovoiturage.Model.Covoiturage;
 import BackEndCovoiturage.Model.ObjectResponse;
-import BackEndCovoiturage.Model.Submission;
 import BackEndCovoiturage.Repository.CovoiturageRepo;
 import BackEndCovoiturage.Repository.VilleRepo;
 import BackEndCovoiturage.Service.CovoiturageService;
 import BackEndCovoiturage.Service.UserService;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;

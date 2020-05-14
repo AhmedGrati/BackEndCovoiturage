@@ -122,4 +122,8 @@ public class SubmissionService {
 
         return result;
     }
+
+    public List<Submission> findAllSubmissions() {
+        return this.submissionRepo.findAll();
+    }
 }
