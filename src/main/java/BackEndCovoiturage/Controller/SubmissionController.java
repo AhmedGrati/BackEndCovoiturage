@@ -5,9 +5,9 @@ import BackEndCovoiturage.Repository.CovoiturageRepo;
 import BackEndCovoiturage.Repository.SubmissionRepo;
 import BackEndCovoiturage.Repository.UserRepo;
 import BackEndCovoiturage.Service.SubmissionService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +24,9 @@ import java.util.List;
 public class SubmissionController {
 
     @Autowired
+    ObjectMapper mapper;
+
+    @Autowired
     SubmissionRepo submissionRepo;
     @Autowired
     CovoiturageRepo covoiturageRepo;
@@ -34,17 +37,25 @@ public class SubmissionController {
     private SubmissionService submissionService;
 
     @GetMapping("addSubmission")
-    public ResponseEntity<JSONObject> addSubmission(@RequestParam(defaultValue = "0") long userId, @RequestParam(defaultValue = "0") long covoiturageId) throws JSONException {
-        JSONObject obj = new JSONObject();
+    public ResponseEntity<ObjectNode> addSubmission(@RequestParam(defaultValue = "0") long userId, @RequestParam(defaultValue = "0") long covoiturageId) {
+        ObjectNode obj = mapper.createObjectNode();
 
         return (this.submissionService.addSubmission(userId, covoiturageId)) ?
                 new ResponseEntity<>(obj.put("response", "success"), HttpStatus.OK) :
                 new ResponseEntity<>(obj.put("response", "failed"), HttpStatus.BAD_REQUEST);
     }
 
+    @GetMapping("canSubmit")
+    public ResponseEntity<ObjectNode> canSubmit(long covoiturageId, long userId) {
+        ObjectNode obj = mapper.createObjectNode();
+        Boolean result = !this.submissionRepo.existsByCovoiturageIdAndOwnerId(covoiturageId, userId);
+        return new ResponseEntity<>(obj.put("response", result), HttpStatus.OK);
+    }
+
+
     @GetMapping("acceptSubmission")
-    public ResponseEntity<JSONObject> acceptSubmission(@RequestParam(defaultValue = "0") long submissionId , @RequestParam(defaultValue = "0") long covoiturageId) throws JSONException {
-        JSONObject obj = new JSONObject();
+    public ResponseEntity<ObjectNode> acceptSubmission(@RequestParam(defaultValue = "0") long submissionId, @RequestParam(defaultValue = "0") long covoiturageId) {
+        ObjectNode obj = mapper.createObjectNode();
 
         return (this.submissionService.acceptSubmission(submissionId, covoiturageId)) ?
                 new ResponseEntity<>(obj.put("response", "success"), HttpStatus.OK) :
@@ -52,8 +63,8 @@ public class SubmissionController {
     }
 
     @DeleteMapping("declineSubmission")
-    public ResponseEntity<JSONObject> declineSubmission(@RequestParam long submission_id) throws JSONException {
-        JSONObject obj = new JSONObject();
+    public ResponseEntity<ObjectNode> declineSubmission(@RequestParam long submission_id) throws JSONException {
+        ObjectNode obj = mapper.createObjectNode();
 
         return (this.submissionService.declineSubmission(submission_id)) ?
                 new ResponseEntity<>(obj.put("response", "success"), HttpStatus.OK) :
@@ -70,8 +81,8 @@ public class SubmissionController {
     }
 
     @DeleteMapping("leaveCovoiturage")
-    public ResponseEntity<JSONObject> leaveCovoiturageSubmission(@RequestParam long userId, @RequestParam long covoiturageId) throws JSONException {
-        JSONObject obj = new JSONObject();
+    public ResponseEntity<ObjectNode> leaveCovoiturageSubmission(@RequestParam long userId, @RequestParam long covoiturageId) {
+        ObjectNode obj = mapper.createObjectNode();
 
         return (this.submissionService.leaveCovoiturageSubmission(userId, covoiturageId)) ?
                 new ResponseEntity<>(obj.put("response", "succes"), HttpStatus.OK) :
@@ -83,7 +94,7 @@ public class SubmissionController {
                                                         @RequestParam(defaultValue = "5") int pageSize,
                                                         @RequestParam(defaultValue = "0") int pageNo,
                                                         @RequestParam(defaultValue = "dateDepart") String sortBy,
-                                                        @RequestParam(defaultValue = "ASC") Sort.Direction direction) throws JSONException {
+                                                        @RequestParam(defaultValue = "ASC") Sort.Direction direction) {
 
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(direction, sortBy));
         return submissionService.createdCovoiturageWithSubmissions(userId, pageable);
@@ -95,7 +106,6 @@ public class SubmissionController {
         for (int i = 0; i < 500; i++) {
             Submission.rand(userRepo, covoiturageRepo, submissionRepo);
         }
-
         return "ok";
     }
 
