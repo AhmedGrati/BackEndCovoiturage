@@ -4,8 +4,6 @@ import BackEndCovoiturage.Model.LoginViewModel;
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.minidev.json.JSONObject;
-import netscape.javascript.JSException;
-import org.json.JSONException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
