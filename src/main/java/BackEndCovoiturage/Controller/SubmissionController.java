@@ -46,14 +46,14 @@ public class SubmissionController {
                 new ResponseEntity<>(obj.put("response", "failed"), HttpStatus.BAD_REQUEST);
     }
 
-<<<<<<<HEAD
+
 
     @GetMapping("allSubmission")
     public List<Submission> findAllSubmissions() {
         return this.submissionService.findAllSubmissions();
     }
 
-=======
+
 
     @GetMapping("canSubmit")
     public ResponseEntity<ObjectNode> canSubmit(long covoiturageId, long userId) {
@@ -63,7 +63,7 @@ public class SubmissionController {
     }
 
 
->>>>>>>wadhah
+
     @GetMapping("acceptSubmission")
 
     public ResponseEntity<ObjectNode> acceptSubmission(@RequestParam(defaultValue = "0") long submissionId, @RequestParam(defaultValue = "0") long covoiturageId) {
