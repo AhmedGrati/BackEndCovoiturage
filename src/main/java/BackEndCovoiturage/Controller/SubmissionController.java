@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -42,6 +43,11 @@ public class SubmissionController {
                 new ResponseEntity<>(obj.put("response", "failed"), HttpStatus.BAD_REQUEST);
     }
 
+    @GetMapping("allSubmission")
+    public List<Submission> findAllSubmissions() {
+        return this.submissionService.findAllSubmissions();
+    }
+
     @GetMapping("acceptSubmission")
     public ResponseEntity<JSONObject> acceptSubmission(@RequestParam(defaultValue = "0") long submissionId , @RequestParam(defaultValue = "0") long covoiturageId) throws JSONException {
         JSONObject obj = new JSONObject();
@@ -52,6 +58,7 @@ public class SubmissionController {
     }
 
     @DeleteMapping("declineSubmission")
+    @Transactional
     public ResponseEntity<JSONObject> declineSubmission(@RequestParam long submission_id) throws JSONException {
         JSONObject obj = new JSONObject();
 

@@ -37,4 +37,6 @@ public interface SubmissionRepo extends PagingAndSortingRepository<Submission, L
 
     @Query("SELECT s from submission s where s.covoiturage.id = :covoiturageId")
     List<Submission> findSubmissionByCovoiturageId(long covoiturageId);
+
+    List<Submission> findAll();
 }

@@ -25,23 +25,23 @@ public class Covoiturage {
     private String description;
     private boolean isFumer;
 
-    @OneToOne(targetEntity = User.class, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User owner;
 
-    @ManyToOne(targetEntity = Gouvernorat.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Gouvernorat.class)
     @JoinColumn(name = "gouv_dep_id", referencedColumnName = "id")
     private Gouvernorat gouvernoratDepart;
 
-    @ManyToOne(targetEntity = Gouvernorat.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Gouvernorat.class)
     @JoinColumn(name = "gouv_arr_id", referencedColumnName = "id")
     private Gouvernorat gouvernoratArrive;
 
-    @ManyToOne(targetEntity = Ville.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Ville.class)
     @JoinColumn(name = "ville_dep_id", referencedColumnName = "id")
     private Ville villeDepart;
 
-    @ManyToOne(targetEntity = Ville.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Ville.class)
     @JoinColumn(name = "ville_arr_id", referencedColumnName = "id")
     private Ville villeArrivee;
 

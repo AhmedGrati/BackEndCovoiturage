@@ -19,11 +19,11 @@ public class Submission {
 
     private Instant submissionDate;
 
-    @ManyToOne(targetEntity = User.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name = "owner_id", referencedColumnName = "id")
     private User owner;
 
-    @ManyToOne(targetEntity = Covoiturage.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Covoiturage.class)
     @JoinColumn(name = "covoiturage_id", referencedColumnName = "id")
     private Covoiturage covoiturage;
 
