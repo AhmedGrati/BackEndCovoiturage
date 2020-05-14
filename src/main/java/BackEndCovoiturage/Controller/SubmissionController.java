@@ -122,4 +122,14 @@ public class SubmissionController {
         return "ok";
     }
 
+    @DeleteMapping("deleteCovWithSubs")
+    @Transactional
+    public ResponseEntity<ObjectNode> deleteCovoiturageWithItsSubmissions(@RequestParam long covoiturageId) throws JSONException {
+        ObjectNode obj = mapper.createObjectNode();
+
+        return (this.submissionService.deleteCovoiturageWithItsSubmissions(covoiturageId)) ?
+                new ResponseEntity<>(obj.put("response", "success"), HttpStatus.OK) :
+                new ResponseEntity<>(obj.put("response", "failed"), HttpStatus.BAD_REQUEST);
+    }
+
 }

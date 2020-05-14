@@ -126,4 +126,18 @@ public class SubmissionService {
     public List<Submission> findAllSubmissions() {
         return this.submissionRepo.findAll();
     }
+
+    public boolean deleteCovoiturageWithItsSubmissions(long covoiturageId) {
+        Covoiturage covoiturage = covoiturageRepo.getCovoiturageById(covoiturageId);
+        if(covoiturage != null) {
+            List<Submission> submissions = this.submissionRepo.findSubmissionByCovoiturageId(covoiturageId);
+            for(int i=0;i<submissions.size();i++) {
+                this.submissionRepo.deleteSubmissionById(submissions.get(i).getId());
+            }
+            this.covoiturageRepo.deleteCovoiturageById(covoiturageId);
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
