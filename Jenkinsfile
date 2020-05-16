@@ -5,4 +5,7 @@ node{
     stage('Mvn Package'){
         "jenkinsMaven.sh"
     }
+    stage('Build Docker Image') {
+        sh 'docker build -t ahmedgrati/wassalni:1.0.0 .'
+    }
 }
