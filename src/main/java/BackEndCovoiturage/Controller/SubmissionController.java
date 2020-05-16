@@ -95,6 +95,7 @@ public class SubmissionController {
     }
 
     @DeleteMapping("leaveCovoiturage")
+    @Transactional
     public ResponseEntity<ObjectNode> leaveCovoiturageSubmission(@RequestParam long userId, @RequestParam long covoiturageId) {
         ObjectNode obj = new ObjectMapper().createObjectNode();
 
