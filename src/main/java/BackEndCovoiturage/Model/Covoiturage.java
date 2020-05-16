@@ -45,11 +45,11 @@ public class Covoiturage {
     @ManyToOne(targetEntity = Ville.class)
     @JoinColumn(name = "ville_arr_id", referencedColumnName = "id")
     private Ville villeArrivee;
-/*
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(targetEntity = Covoiturage.class , cascade = CascadeType.ALL)
     @JoinColumn(name = "submission_id", referencedColumnName = "id")
-    private List<Submission> submissions;*/
+    private List<Submission> submissions;
 
     public Covoiturage() {
     }

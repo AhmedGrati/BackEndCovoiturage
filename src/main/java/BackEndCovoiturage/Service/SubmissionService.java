@@ -91,19 +91,23 @@ public class SubmissionService {
 
 
     public boolean leaveCovoiturageSubmission(long userId, long covoiturageId) {
-
-        return submissionRepo.deleteByCovoiturageIdAndOwnerId(covoiturageId, userId);
-
+//        User owner = this.userRepo.findUserById(userId);
 //        Covoiturage covoiturage = this.covoiturageRepo.getCovoiturageById(covoiturageId);
-//        User user = this.userRepo.findUserById(userId);
-//        if((user!=null)&&(covoiturage!=null)) {
-//            Submission submission = this.submissionRepo.findSubmissionByCovoiturageAndUserId(covoiturage , userId);
-//            if((submission != null)&&(submission.getStatus() == Status.accepted)) {
-//                this.submissionRepo.deleteSubmissionById(submission.getId());
-//                return true;
-//            }
-//        }
-//        return false;
+//        return submissionRepo.deleteSubmissionByCovoiturageAndOwner(covoiturage, owner);
+
+        Covoiturage covoiturage = this.covoiturageRepo.getCovoiturageById(covoiturageId);
+        User user = this.userRepo.findUserById(userId);
+        if((user!=null)&&(covoiturage!=null)) {
+            Submission submission = this.submissionRepo.findSubmissionByCovoiturageAndUserId(covoiturageId , userId);
+            System.out.println("submission id : "+submission.getId());
+            if((submission != null)&&(submission.getStatus() == Status.accepted)) {
+                covoiturage.setNbrPlaceDispo(covoiturage.getNbrPlaceDispo()+1);
+                covoiturageRepo.save(covoiturage);
+                this.submissionRepo.deleteSubmissionById(submission.getId());
+                return true;
+            }
+        }
+        return false;
     }
 
     public ObjectNode createdCovoiturageWithSubmissions(long userId, Pageable page) {
