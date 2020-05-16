@@ -6,13 +6,13 @@ node{
         "jenkinsMaven.sh"
     }
     stage('Build Docker Image') {
-        sh 'docker build -t wassalni/wassalniBackend:1.0.0 .'
+        sh 'docker build -t wassalni/wassalnibackend:1.0.0 .'
     }
     stage('Push Docker Image') {
         withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerHubPwd')]) {
             sh "docker login -u wassalni -p ${dockerHubPwd}"
         }
-        sh 'docker push wassalni/wassalniBackend:1.0.0'
+        sh 'docker push wassalni/wassalnibackend:1.0.0'
     }
 
 }
