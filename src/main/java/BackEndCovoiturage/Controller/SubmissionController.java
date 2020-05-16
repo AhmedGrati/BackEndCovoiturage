@@ -39,7 +39,8 @@ public class SubmissionController {
 
     @GetMapping("addSubmission")
     public ResponseEntity<ObjectNode> addSubmission(@RequestParam(defaultValue = "0") long userId, @RequestParam(defaultValue = "0") long covoiturageId) {
-        ObjectNode obj = mapper.createObjectNode();
+//        System.out.println(new ObjectMapper());
+        ObjectNode obj = new ObjectMapper().createObjectNode();
 
         return (this.submissionService.addSubmission(userId, covoiturageId)) ?
                 new ResponseEntity<>(obj.put("response", "success"), HttpStatus.OK) :
@@ -56,8 +57,8 @@ public class SubmissionController {
 
 
     @GetMapping("canSubmit")
-    public ResponseEntity<ObjectNode> canSubmit(long covoiturageId, long userId) {
-        ObjectNode obj = mapper.createObjectNode();
+    public ResponseEntity<ObjectNode> canSubmit(@RequestParam long covoiturageId,@RequestParam long userId) {
+        ObjectNode obj = new ObjectMapper().createObjectNode();
         Boolean result = !this.submissionRepo.existsByCovoiturageIdAndOwnerId(covoiturageId, userId);
         return new ResponseEntity<>(obj.put("response", result), HttpStatus.OK);
     }
@@ -67,7 +68,7 @@ public class SubmissionController {
     @GetMapping("acceptSubmission")
 
     public ResponseEntity<ObjectNode> acceptSubmission(@RequestParam(defaultValue = "0") long submissionId, @RequestParam(defaultValue = "0") long covoiturageId) {
-        ObjectNode obj = mapper.createObjectNode();
+        ObjectNode obj = new ObjectMapper().createObjectNode();
 
         return (this.submissionService.acceptSubmission(submissionId, covoiturageId)) ?
                 new ResponseEntity<>(obj.put("response", "success"), HttpStatus.OK) :
@@ -77,7 +78,7 @@ public class SubmissionController {
     @DeleteMapping("declineSubmission")
     @Transactional
     public ResponseEntity<ObjectNode> declineSubmission(@RequestParam long submission_id) throws JSONException {
-        ObjectNode obj = mapper.createObjectNode();
+        ObjectNode obj = new ObjectMapper().createObjectNode();
 
         return (this.submissionService.declineSubmission(submission_id)) ?
                 new ResponseEntity<>(obj.put("response", "success"), HttpStatus.OK) :
@@ -95,7 +96,7 @@ public class SubmissionController {
 
     @DeleteMapping("leaveCovoiturage")
     public ResponseEntity<ObjectNode> leaveCovoiturageSubmission(@RequestParam long userId, @RequestParam long covoiturageId) {
-        ObjectNode obj = mapper.createObjectNode();
+        ObjectNode obj = new ObjectMapper().createObjectNode();
 
         return (this.submissionService.leaveCovoiturageSubmission(userId, covoiturageId)) ?
                 new ResponseEntity<>(obj.put("response", "succes"), HttpStatus.OK) :
@@ -125,7 +126,7 @@ public class SubmissionController {
     @DeleteMapping("deleteCovWithSubs")
     @Transactional
     public ResponseEntity<ObjectNode> deleteCovoiturageWithItsSubmissions(@RequestParam long covoiturageId) throws JSONException {
-        ObjectNode obj = mapper.createObjectNode();
+        ObjectNode obj = new ObjectMapper().createObjectNode();
 
         return (this.submissionService.deleteCovoiturageWithItsSubmissions(covoiturageId)) ?
                 new ResponseEntity<>(obj.put("response", "success"), HttpStatus.OK) :
