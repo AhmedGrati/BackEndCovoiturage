@@ -18,7 +18,7 @@ node{
         //def dockerRun = 'docker run -p 8080:8080 -d --name wassalnibackend wassalni/wassalnibackend:1.0.0'${dockerRun}
         sshagent(['amazon-server']) {
              sh 'chmod 400 EC2WassalniInstance.pem'
-             sh 'ssh -o -i StrictHostKeyChecking=no "EC2WassalniInstance.pem" ubuntu@ec2-54-174-148-166.compute-1.amazonaws.com'
+             sh 'ssh -o StrictHostKeyChecking=no -i "EC2WassalniInstance.pem" ubuntu@ec2-54-174-148-166.compute-1.amazonaws.com'
         }
     }
 
