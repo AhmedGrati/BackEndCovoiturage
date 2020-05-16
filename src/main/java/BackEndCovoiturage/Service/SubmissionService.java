@@ -101,6 +101,8 @@ public class SubmissionService {
             Submission submission = this.submissionRepo.findSubmissionByCovoiturageAndUserId(covoiturageId , userId);
             System.out.println("submission id : "+submission.getId());
             if((submission != null)&&(submission.getStatus() == Status.accepted)) {
+                covoiturage.setNbrPlaceDispo(covoiturage.getNbrPlaceDispo()+1);
+                covoiturageRepo.save(covoiturage);
                 this.submissionRepo.deleteSubmissionById(submission.getId());
                 return true;
             }
