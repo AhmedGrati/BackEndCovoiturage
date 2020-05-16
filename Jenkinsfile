@@ -15,10 +15,9 @@ node{
         sh 'docker push wassalni/wassalnibackend:1.0.0'
     }
     stage('Run Container On dev Server'){
-        //def dockerRun = 'docker run -p 8080:8080 -d --name wassalnibackend wassalni/wassalnibackend:1.0.0'${dockerRun}
+        def dockerRun = 'sudo docker run -p 8080:8080 -d --name wassalnibackend wassalni/wassalnibackend:1.0.0'
           sh 'chmod 400 EC2WassalniInstance.pem'
-          sh 'ssh -o StrictHostKeyChecking=no -i "EC2WassalniInstance.pem" ubuntu@ec2-54-174-148-166.compute-1.amazonaws.com'
-          sh 'docker run -p 8085:8085 -d --name wassalnibackend wassalni/wassalnibackend:1.0.0'
+          sh "ssh -o StrictHostKeyChecking=no -i 'EC2WassalniInstance.pem' ubuntu@ec2-54-174-148-166.compute-1.amazonaws.com ${dockerRun}"
 
     }
 
