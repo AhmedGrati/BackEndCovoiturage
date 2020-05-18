@@ -105,7 +105,7 @@ public class SubmissionController {
     }
 
     @GetMapping("createdCovoiturageWithSubmissions")
-    public ObjectNode createdCovoiturageWithSubmissions(long userId,
+    public ObjectNode createdCovoiturageWithSubmissions(@RequestParam long userId,
                                                         @RequestParam(defaultValue = "5") int pageSize,
                                                         @RequestParam(defaultValue = "0") int pageNo,
                                                         @RequestParam(defaultValue = "dateDepart") String sortBy,
