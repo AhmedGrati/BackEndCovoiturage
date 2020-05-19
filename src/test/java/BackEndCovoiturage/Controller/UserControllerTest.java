@@ -140,7 +140,7 @@ public class UserControllerTest {
     public void downloadImagePositiveTest() throws Exception {
 
         String imageName = "0.jpg";
-        String storageDirectoryPath = "C:\\Users\\Ahmed\\Desktop\\spring\\images";
+        String storageDirectoryPath = "/home/ubuntu/linux";
         when(userService.getImageWithMediaType(imageName)).thenReturn(
             IOUtils.toByteArray(Paths.get(storageDirectoryPath+"\\"+imageName).toUri()));
         mockMvc.perform(get("/api/user/images/getImage/"+imageName))
@@ -156,7 +156,7 @@ public class UserControllerTest {
     public void downloadImageNegativeTest() throws Exception {
 
         String imageName = "jheyehehe.png";
-        String storageDirectoryPath = "C:\\Users\\Ahmed\\Desktop\\spring\\image";
+        String storageDirectoryPath = "/home/ubuntu/images";
         when(userService.getImageWithMediaType(imageName)).thenReturn(null);
         mockMvc.perform(get("/api/user/images/getImage/"+imageName))
                 .andExpect(status().isOk());
@@ -172,7 +172,7 @@ public class UserControllerTest {
                 "  \"gender\" : \"male\"\n" +
                 "}";
 
-        byte[] content = Files.readAllBytes(Paths.get("C:\\Users\\Ahmed\\Desktop\\spring\\images\\0.jpg"));
+        byte[] content = Files.readAllBytes(Paths.get("/home/ubuntu/images/0.jpg"));
         when(userService.uploadToLocalFileSystem( new MockMultipartFile("0.jpg","0.jpg","image/jpeg",content)  , new User()))
                 .thenReturn("localhost:90/api/user/images/getImage/wad.png");
 
