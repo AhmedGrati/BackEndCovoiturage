@@ -1,4 +1,6 @@
 pipeline{
+
+   agent any
    stages{
          stage('SCM Checkout'){
                 steps {
@@ -7,29 +9,40 @@ pipeline{
             }
             stage('Mvn Package'){
                 steps{
-                    "jenkinsMaven.sh"
+                    script {
+                        sh "mvn  clean package"
+                    }
                 }
             }
             stage('Build Docker Image') {
                 steps{
-                    sh 'sudo -n docker build -t wassalni/wassalnibackend:1.0.0 .'
+                    script {
+                        sh 'sudo -n docker build -t wassalni/wassalnibackend:1.0.0 .'
+                    }
                 }
             }
             stage('Push Docker Image') {
                 steps {
-                    withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerHubPwd')]) {
+                    script {
+                        withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerHubPwd')]) {
 
-                        sh "sudo -n docker login -u wassalni -p ${dockerHubPwd}"
+                            sh "sudo -n docker login -u wassalni -p ${dockerHubPwd}"
 
+                        }
+
+                        sh 'sudo -n docker push wassalni/wassalnibackend:1.0.0'
                     }
-                    sh 'sudo -n docker push wassalni/wassalnibackend:1.0.0'
+
                 }
             }
             stage('Run Container On dev Server'){
                 steps {
-                    def downCommand = "sudo docker-compose -f /home/ubuntu/wasalni-docker/docker-compose.yml down"
-                    def upCommand = "sudo docker-compose -f /home/ubuntu/wasalni-docker/docker-compose.yml up -d"
-                    sh "${downCommand} && ${upCommand}"
+                    script {
+                         def downCommand = "sudo docker-compose -f /home/ubuntu/wasalni-docker/docker-compose.yml down"
+                         def upCommand = "sudo docker-compose -f /home/ubuntu/wasalni-docker/docker-compose.yml up -d"
+                         sh "${downCommand} && ${upCommand}"
+                    }
+
                 }
             }
    }
