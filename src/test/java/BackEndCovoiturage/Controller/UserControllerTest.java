@@ -156,7 +156,7 @@ public class UserControllerTest {
     public void downloadImageNegativeTest() throws Exception {
 
         String imageName = "jheyehehe.png";
-        String storageDirectoryPath = "C:\\Users\\Ahmed\\Desktop\\spring\\image";
+        String storageDirectoryPath = "C:\\Users\\Ahmed\\Desktop\\spring\\images";
         when(userService.getImageWithMediaType(imageName)).thenReturn(null);
         mockMvc.perform(get("/api/user/images/getImage/"+imageName))
                 .andExpect(status().isOk());
