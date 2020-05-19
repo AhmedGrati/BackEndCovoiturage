@@ -15,9 +15,9 @@ node{
         sh 'sudo -n docker push wassalni/wassalnibackend:1.0.0'
     }
     stage('Run Container On dev Server'){
-        def redirectionCommand = "sudo -n cd /home/ubuntu/wasalni-docker"
-        def downCommand = "sudo -n docker-compose -d down"
-        def upCommand = "sudo -n docker-compose -d up"
+        def redirectionCommand = "sudo -n sh -c 'cd /home/ubuntu/wasalni-docker'"
+        def downCommand = "sudo -n sh -c 'docker-compose -d down'"
+        def upCommand = "sudo -n sh -c 'docker-compose -d up'"
         sh "${redirectionCommand} && ${downCommand} && ${upCommand}"
     }
 
