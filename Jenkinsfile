@@ -10,14 +10,14 @@ node{
     }
     stage('Push Docker Image') {
         withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerHubPwd')]) {
-            sh "sudo docker login -u wassalni -p ${dockerHubPwd}"
+            sh "sudo -n docker login -u wassalni -p ${dockerHubPwd}"
         }
-        sh 'sudo docker push wassalni/wassalnibackend:1.0.0'
+        sh 'sudo -n docker push wassalni/wassalnibackend:1.0.0'
     }
     stage('Run Container On dev Server'){
-        def redirectionCommand = "sudo cd /home/ubuntu/wasalni-docker"
-        def downCommand = "sudo docker-compose -d down"
-        def upCommand = "sudo docker-compose -d up"
+        def redirectionCommand = "sudo -n cd /home/ubuntu/wasalni-docker"
+        def downCommand = "sudo -n docker-compose -d down"
+        def upCommand = "sudo -n docker-compose -d up"
         sh "${redirectionCommand} && ${downCommand} && ${upCommand}"
     }
 
