@@ -49,18 +49,20 @@ pipeline{
     post {
         success {
               emailext (
-                  to: 'wassalni.tech@gamil.com',
+                  from:'wassalni.tech@gmail.com',
+                  to: 'ahmedgrati1999@gamil.com',
                   subject: 'Build Log !',
                   body: 'The build was successful  and your product is on now . Check it out on http://3.84.152.145:8080/',
-                  recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+                  //recipientProviders: [[$class: 'DevelopersRecipientProvider']]
                 )
         }
         failure {
               emailext (
-                  to: 'wassalni.tech@gamil.com',
+                  from:'wassalni.tech@gmail.com',
+                  to: 'ahmedgrati1999@gamil.com',
                   subject: 'Build Log !',
                   body: 'The build failed and your product is not on production now . To Debug it check out the last build on http://3.84.152.145:9090/job/WassalniCICD',
-                  recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+                  //recipientProviders: [[$class: 'DevelopersRecipientProvider']]
                 )
         }
     }
