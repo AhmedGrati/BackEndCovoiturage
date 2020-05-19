@@ -5,7 +5,7 @@ mariadb
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**
 !**/src/test/**
-
+WassalniNewAWS.pem
 ### STS ###
 .apt_generated
 .classpath
@@ -14,7 +14,7 @@ mariadb
 .settings
 .springBeans
 .sts4-cache
-WassalniNewAWS.pem
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
