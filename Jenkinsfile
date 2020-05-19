@@ -6,13 +6,13 @@ node{
         "jenkinsMaven.sh"
     }
     stage('Build Docker Image') {
-        sh 'sudo -n docker build -t wassalni/wassalnibackend:1.0.0 .'
+        sh 'sudo docker build -t wassalni/wassalnibackend:1.0.0 .'
     }
     stage('Push Docker Image') {
         withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerHubPwd')]) {
             sh "sudo docker login -u wassalni -p ${dockerHubPwd}"
         }
-        sh 'sudp docker push wassalni/wassalnibackend:1.0.0'
+        sh 'sudo docker push wassalni/wassalnibackend:1.0.0'
     }
     stage('Run Container On dev Server'){
         def redirectionCommand = "sudo cd /home/ubuntu/wasalni-docker"
