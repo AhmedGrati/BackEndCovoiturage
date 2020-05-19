@@ -6,7 +6,7 @@ node{
         "jenkinsMaven.sh"
     }
     stage('Build Docker Image') {
-        sh 'sudo -u root docker build -t wassalni/wassalnibackend:1.0.0 .'
+        sh 'sudo docker build -t wassalni/wassalnibackend:1.0.0 .'
     }
     stage('Push Docker Image') {
         withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerHubPwd')]) {
