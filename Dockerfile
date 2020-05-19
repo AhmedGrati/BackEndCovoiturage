@@ -1,3 +1,3 @@
-FROM maven:3.6.3-openjdk-14-slim as MAVEN_BUILD
-WORKDIR /tmp/project
-CMD [ "bash" , "/scripts/back.sh" ]
+FROM openjdk:14-oracle
+COPY target/BackEndCovoiturage-0.0.1-SNAPSHOT.jar  /project
+CMD java -jar /project/BackEndCovoiturage-0.0.1-SNAPSHOT.jar

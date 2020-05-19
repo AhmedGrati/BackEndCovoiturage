@@ -38,7 +38,7 @@ pipeline{
             stage('Run Container On dev Server'){
                 steps {
                     script {
-                         def downCommand = "sudo docker-compose -f /home/ubuntu/wasalni-docker/docker-compose.yml down"
+                         def downCommand = "sudo docker-compose -f /home/ubuntu/wasalni-docker/docker-compose.yml down backend"
                          def upCommand = "sudo docker-compose -f /home/ubuntu/wasalni-docker/docker-compose.yml up -d"
                          sh "${downCommand} && ${upCommand}"
                     }
@@ -69,3 +69,6 @@ pipeline{
     }
 
 }
+
+// build image back
+// pull
