@@ -1,3 +1,4 @@
+properties([pipelineTriggers([githubPush()])])
 node{
     stage('SCM Checkout'){
         git branch: 'ahmedCICD', credentialsId: 'MyGitCred', url: 'https://github.com/AhmedGrati/BackEndCovoiturage'
