@@ -1,5 +1,6 @@
 properties([pipelineTriggers([githubPush()])])
 node{
+    git branch: 'ahmedCICD', credentialsId: 'MyGitCred', url: 'https://github.com/AhmedGrati/BackEndCovoiturage'
     stage('SCM Checkout'){
         git branch: 'ahmedCICD', credentialsId: 'MyGitCred', url: 'https://github.com/AhmedGrati/BackEndCovoiturage'
     }
