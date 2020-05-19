@@ -15,11 +15,10 @@ node{
         sh 'docker push wassalni/wassalnibackend:1.0.0'
     }
     stage('Run Container On dev Server'){
-        def redirectionCommand = "sudo cd wasalni-docker"
+        def redirectionCommand = "sudo cd /home/ubuntu/wasalni-docker"
         def downCommand = "sudo docker-compose -d down"
         def upCommand = "sudo docker-compose -d up"
-        sh 'chmod 400 WassalniNewAWS.pem'
-        sh "ssh -o StrictHostKeyChecking=no -i 'WassalniNewAWS.pem' ubuntu@ec2-3-84-152-145.compute-1.amazonaws.com && ${redirectionCommand} && ${downCommand} && ${upCommand}"
+        sh "${redirectionCommand} && ${downCommand} && ${upCommand}"
     }
 
 }
