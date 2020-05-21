@@ -33,10 +33,10 @@ public class MyHelpers {
         return  res;
     }
 
-    static public <T> HashMap<String,Object> wrapArrays(List<HashMap<String,Object>> myObjectList) {
+    static public <T> HashMap<String,Object> wrapArrays(List<HashMap<String,Object>> myObjectList , Page<T> page) {
         HashMap <String , Object> res = new HashMap<>();
         res.put("data",myObjectList);
-        res.put("totalLength",myObjectList.size());
+        res.put("totalLength",page.getTotalElements());
 
         return res;
     }
