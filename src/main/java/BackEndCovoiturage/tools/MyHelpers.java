@@ -28,8 +28,8 @@ public class MyHelpers {
 
     static public <T> HashMap<String , Object> wrapCovAndSub(Covoiturage covoiturage , List<Submission> submissions) {
         HashMap<String , Object> res = new HashMap<>();
-        res.put("covoiturage",covoiturage);
-        res.put("submissions",submissions);
+        res.put("cov",covoiturage);
+        res.put("submission",submissions);
         return  res;
     }
 

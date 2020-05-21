@@ -80,8 +80,8 @@ public class SubmissionService {
             if(page.hasContent()) {
 
                 for (int i = 0; i < page.getContent().size(); i++) {
-                    List<Submission> submissions = this.submissionRepo.findSubmissionByCovoiturageId(page.getContent().get(i).getId());
-                    HashMap<String, Object> element = MyHelpers.wrapCovAndSub(page.getContent().get(i), submissions);
+                    List<Submission> submission = this.submissionRepo.findSubmissionByCovoiturageId(page.getContent().get(i).getId());
+                    HashMap<String, Object> element = MyHelpers.wrapCovAndSub(page.getContent().get(i), submission);
                     returnedData.add(element);
                 }
             }
