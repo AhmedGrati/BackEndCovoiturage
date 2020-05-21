@@ -78,7 +78,7 @@ public class SubmissionControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-        verify(submissionService);
+        verify(submissionService).acceptSubmission(submissionId , covoiturageId);
     }
 
     @Test
@@ -89,7 +89,7 @@ public class SubmissionControllerTest {
         mockMvc.perform(get("/api/submission/declineSubmission"))
                 .andExpect(status().is(405));
 
-        verify(submissionService);
+        verifyNoInteractions(submissionService);
     }
 
     @Test
@@ -104,7 +104,7 @@ public class SubmissionControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-        verify(submissionService);
+        verify(submissionService).getAllCovoituragesByParticipant(participantId , pageNo , pageSize , sortBy);
     }
 
     @Test
@@ -115,7 +115,7 @@ public class SubmissionControllerTest {
         mockMvc.perform(delete("/api/submission/leaveCovoiturage"))
                 .andExpect(status().isBadRequest());
 
-        verify(submissionService);
+        verifyNoInteractions(submissionService);
     }
 
     @Test
@@ -126,7 +126,7 @@ public class SubmissionControllerTest {
         mockMvc.perform(delete("/api/submission/deleteCovWithSubs"))
                 .andExpect(status().isBadRequest());
 
-        verify(submissionService);
+        verifyNoInteractions(submissionService);
     }
 
 
