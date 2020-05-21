@@ -1,53 +1,26 @@
 package BackEndCovoiturage.Controller;
 
-import BackEndCovoiturage.Configuration.Security.UserPrincipalDetailService;
-import BackEndCovoiturage.Model.ObjectResponse;
 import BackEndCovoiturage.Model.User;
-import BackEndCovoiturage.Repository.UserRepo;
 import BackEndCovoiturage.Service.UserService;
-
 import org.apache.commons.io.IOUtils;
-import org.aspectj.lang.annotation.Before;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-
-import static net.bytebuddy.matcher.ElementMatchers.is;
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.junit.jupiter.api.Assumptions.*;
-
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultMatcher;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -56,6 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 public class UserControllerTest {
 
+    public final String storageDirectoryPathOnLinux = "/home/ubuntu/images";
 
 
     MockMvc mockMvc;
@@ -140,12 +114,11 @@ public class UserControllerTest {
     public void downloadImagePositiveTest() throws Exception {
 
         String imageName = "0.jpg";
-        String storageDirectoryPath = "C:\\Users\\Ahmed\\Desktop\\spring\\images";
         when(userService.getImageWithMediaType(imageName)).thenReturn(
-            IOUtils.toByteArray(Paths.get(storageDirectoryPath+"\\"+imageName).toUri()));
-        mockMvc.perform(get("/api/user/images/getImage/"+imageName))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.IMAGE_JPEG));
+                IOUtils.toByteArray(Paths.get(storageDirectoryPathOnLinux + "\\" + imageName).toUri()));
+        mockMvc.perform(get("/api/user/images/getImage/" + imageName))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.IMAGE_JPEG));
 
         verify(userService).getImageWithMediaType(imageName);
 
@@ -156,7 +129,7 @@ public class UserControllerTest {
     public void downloadImageNegativeTest() throws Exception {
 
         String imageName = "jheyehehe.png";
-        String storageDirectoryPath = "C:\\Users\\Ahmed\\Desktop\\spring\\images";
+        String storageDirectoryPath = storageDirectoryPathOnLinux;
         when(userService.getImageWithMediaType(imageName)).thenReturn(null);
         mockMvc.perform(get("/api/user/images/getImage/"+imageName))
                 .andExpect(status().isOk());
@@ -172,7 +145,7 @@ public class UserControllerTest {
                 "  \"gender\" : \"male\"\n" +
                 "}";
 
-        byte[] content = Files.readAllBytes(Paths.get("C:\\Users\\Ahmed\\Desktop\\spring\\images\\0.jpg"));
+        byte[] content = Files.readAllBytes(Paths.get(storageDirectoryPathOnLinux));
         when(userService.uploadToLocalFileSystem( new MockMultipartFile("0.jpg","0.jpg","image/jpeg",content)  , new User()))
                 .thenReturn("localhost:90/api/user/images/getImage/wad.png");
 

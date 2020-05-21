@@ -18,8 +18,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+//import springfox.documentation.swagger.web.SecurityConfiguration;
+//import springfox.documentation.swagger.web.SecurityConfigurationBuilder;
+
+
 @Configuration
 @EnableWebSecurity
+
 public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     private UserPrincipalDetailService userPrincipalDetailsService;
     private UserRepo userRepo;
@@ -47,7 +52,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 // configure access rules
 
-                .antMatchers(HttpMethod.GET, "/api/user/emailExists",
+                .antMatchers(HttpMethod.GET,"/v2/api-docs", "/api/user/emailExists",
                         "/api/covoiturage/covoiturages",
                         "/api/user/images/getImage/{fileName:.+}").permitAll()
                 .antMatchers(HttpMethod.POST, "/login","/api/user/rand",

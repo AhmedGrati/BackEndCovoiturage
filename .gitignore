@@ -14,7 +14,7 @@ mariadb
 .settings
 .springBeans
 .sts4-cache
-
+EC2WassalniInstance.pem
 ### IntelliJ IDEA ###
 .idea
 *.iws
