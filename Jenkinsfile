@@ -70,5 +70,4 @@ pipeline{
 
 }
 
-// build image back
-// pull
+

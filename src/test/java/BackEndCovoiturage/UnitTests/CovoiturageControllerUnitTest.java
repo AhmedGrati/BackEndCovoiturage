@@ -1,8 +1,8 @@
-package BackEndCovoiturage.Controller;
+package BackEndCovoiturage.UnitTests;
 
+import BackEndCovoiturage.Controller.CovoiturageController;
 import BackEndCovoiturage.Model.Covoiturage;
 import BackEndCovoiturage.Service.CovoiturageService;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-public class CovoiturageControllerTest {
+public class CovoiturageControllerUnitTest {
     MockMvc mockMvc;
 
     @Mock
@@ -103,7 +103,7 @@ public class CovoiturageControllerTest {
 
 
     @Test
-    public void saveCovoituragePositiveTest() throws Exception {
+    public void saveCovoiturageNegativeTest() throws Exception {
 
         Covoiturage covoiturage = new Covoiturage();
         when(covoiturageService.saveCovoiturage(covoiturage)).thenReturn(new Covoiturage());
@@ -115,10 +115,7 @@ public class CovoiturageControllerTest {
 
     }
 
-    @Test
-    public void saveCovoiturageNegativeTest() throws Exception {
 
-    }
 
     @Test
     public void findAllPagedCovoituragesTest() throws Exception {

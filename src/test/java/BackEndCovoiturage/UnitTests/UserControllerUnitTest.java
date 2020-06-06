@@ -1,13 +1,9 @@
-package BackEndCovoiturage.Controller;
+package BackEndCovoiturage.UnitTests;
 
-import BackEndCovoiturage.Configuration.Security.UserPrincipalDetailService;
-import BackEndCovoiturage.Model.ObjectResponse;
+import BackEndCovoiturage.Controller.UserController;
 import BackEndCovoiturage.Model.User;
-import BackEndCovoiturage.Repository.UserRepo;
 import BackEndCovoiturage.Service.UserService;
 
-import org.apache.commons.io.IOUtils;
-import org.aspectj.lang.annotation.Before;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,36 +11,18 @@ import org.junit.jupiter.api.Test;
 
 import static net.bytebuddy.matcher.ElementMatchers.is;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.junit.jupiter.api.Assumptions.*;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultMatcher;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -54,7 +32,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-public class UserControllerTest {
+public class UserControllerUnitTest {
 
 
 
@@ -151,7 +129,7 @@ public class UserControllerTest {
 //
 //
 //    }
-//
+
 //    @Test
 //    public void downloadImageNegativeTest() throws Exception {
 //
@@ -183,7 +161,7 @@ public class UserControllerTest {
 //
 //        verifyNoInteractions(userService);// because when the file is null we don't call the userService so there's no interactions with the userService
 //    }
-//
+
 
 
 }
