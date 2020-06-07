@@ -97,7 +97,7 @@ public class UserController {
     ObjectResponse sendingEmail(@RequestParam(defaultValue = "defaultValue@gmail.com") String email){
         ObjectResponse objectResponse = new ObjectResponse();
         try {
-
+            System.out.println(email);
             if(this.userService.sendEmail(email)){
                 objectResponse.setResponseMessage("ok");
             }else{
