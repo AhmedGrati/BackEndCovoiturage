@@ -10,6 +10,6 @@ import org.springframework.web.servlet.view.RedirectView;
 public class MainController {
     @GetMapping("")
     public RedirectView redirectToDocs(){
-        return new RedirectView("/swagger-ui/index.html?configUrl=%2Fapi-docs%2Fswagger-config");
+        return new RedirectView("swagger-ui/index.html?configUrl=%2Fapi-docs%2Fswagger-config");
     }
 }

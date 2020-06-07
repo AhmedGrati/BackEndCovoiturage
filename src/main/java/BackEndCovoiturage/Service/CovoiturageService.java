@@ -4,13 +4,10 @@ import BackEndCovoiturage.Model.*;
 import BackEndCovoiturage.Repository.*;
 import BackEndCovoiturage.tools.MyHelpers;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.support.MutableSortDefinition;
-import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -198,13 +195,13 @@ public class CovoiturageService {
         this.covoiturageRepo.deleteCovoituragesByOwnerId(userId);
     }
 
-    public List<Covoiturage> findRandomCovoituragesByGouvDepartAndGouvArrivee(long id) {
-        Pageable limit = PageRequest.of(0, 3);
+    public List<Covoiturage> findRandomCovoituragesByGouvDepartAndGouvArrivee(long id , int max) {
+        Pageable limit = PageRequest.of(0, max);
         Covoiturage covoiturage = this.covoiturageRepo.getCovoiturageById(id);
-        if (covoiturage != null) {
-            return this.covoiturageRepo.findCovoituragesByGouvArriveeAndGouvDepart(covoiturage.getGouvernoratDepart(), covoiturage.getGouvernoratArrive(), id, limit);
-        }
-        return List.of(); // empty list
+        return covoiturage != null ? this.covoiturageRepo.
+                findRandomCovoituragesByGouvArriveeAndGouvDepart(covoiturage.getGouvernoratDepart()
+                        , covoiturage.getGouvernoratArrive(), id, limit)
+                : List.of();
     }
 
     public List<Covoiturage> getAllCovoituragesOfOwner(long owner_id) {

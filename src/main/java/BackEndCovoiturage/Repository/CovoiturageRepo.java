@@ -64,7 +64,7 @@ public interface CovoiturageRepo extends PagingAndSortingRepository<Covoiturage 
 
     @Query(value = "SELECT c from covoiturage c where c.gouvernoratDepart = :depart " +
             "and c.gouvernoratArrive = :arriv and c.id <> :id order by function('RAND') ")
-    List<Covoiturage> findCovoituragesByGouvArriveeAndGouvDepart(Gouvernorat depart, Gouvernorat arriv, Long id, Pageable pageable); // return 6 random covoiturages where it matches with villeDepart and villeArrive
+    List<Covoiturage> findRandomCovoituragesByGouvArriveeAndGouvDepart(Gouvernorat depart, Gouvernorat arriv, Long id, Pageable pageable); // return 6 random covoiturages where it matches with villeDepart and villeArrive
 
     @Query(value = "SELECT c FROM covoiturage c where c.owner.id = :owner_id")
     List<Covoiturage> getAllCovoituragesOfOwner(long owner_id);

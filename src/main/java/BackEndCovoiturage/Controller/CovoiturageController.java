@@ -162,8 +162,8 @@ public class CovoiturageController {
     }
 
     @GetMapping("randomLastCovoiturages")
-    public List<Covoiturage> getRandomCovsByVilleDepartAndVilleArrivee(@RequestParam(defaultValue = "0") long id) {
-        return this.covoiturageService.findRandomCovoituragesByGouvDepartAndGouvArrivee(id);
+    public List<Covoiturage> getRandomCovsByVilleDepartAndVilleArrivee(long id , int max) {
+        return this.covoiturageService.findRandomCovoituragesByGouvDepartAndGouvArrivee(id , max);
     }
 
     @GetMapping("allCovByOwner")

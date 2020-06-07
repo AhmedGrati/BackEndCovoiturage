@@ -47,7 +47,7 @@ public class UserService {
 
     private PasswordEncoder passwordEncoder;
 
-    private final String myUrl = "https://localhost:4200/home";
+    private final String myUrl = "https://localhost:4200/reset";
 
 
 
