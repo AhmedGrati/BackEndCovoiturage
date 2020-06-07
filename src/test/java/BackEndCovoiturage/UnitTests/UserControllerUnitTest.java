@@ -1,12 +1,5 @@
 package BackEndCovoiturage.UnitTests;
 
-<<<<<<< HEAD:src/test/java/BackEndCovoiturage/Controller/UserControllerTest.java
-import BackEndCovoiturage.Model.User;
-import BackEndCovoiturage.Service.UserService;
-import org.hamcrest.Matchers;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-=======
 import BackEndCovoiturage.Controller.UserController;
 import BackEndCovoiturage.Model.User;
 import BackEndCovoiturage.Service.UserService;
@@ -19,24 +12,17 @@ import org.junit.jupiter.api.Test;
 import static net.bytebuddy.matcher.ElementMatchers.is;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 
->>>>>>> ahmedCICD:src/test/java/BackEndCovoiturage/UnitTests/UserControllerUnitTest.java
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-<<<<<<< HEAD:src/test/java/BackEndCovoiturage/Controller/UserControllerTest.java
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-=======
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
->>>>>>> ahmedCICD:src/test/java/BackEndCovoiturage/UnitTests/UserControllerUnitTest.java
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
