@@ -127,6 +127,7 @@ public class UserService {
             User user = this.userRepo.findByResetToken(resetToken);
             if(user != null) {
                 user.setPassword(this.passwordEncoder.encode(newPassword));
+                user.setResetToken(null); // the token is no longer available after we use it
                 this.userRepo.save(user);
                 return true;// return true if the user exists
             }else{
