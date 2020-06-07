@@ -111,8 +111,8 @@ public class UserController {
     }
 
     @PostMapping("resetPassword")
-    public @ResponseBody ObjectResponse resetPassword(String token
-                                                    , String password){
+    public @ResponseBody ObjectResponse resetPassword(@RequestParam String token
+                                                    , @RequestParam String password){
         ObjectResponse objectResponse = new ObjectResponse();
         if(this.userService.resetPassword(token,password)){
             objectResponse.setResponseMessage("ok");
