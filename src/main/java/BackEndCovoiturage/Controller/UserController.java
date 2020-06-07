@@ -111,10 +111,10 @@ public class UserController {
     }
 
     @PostMapping("resetPassword")
-    public @ResponseBody ObjectResponse resetPassword(@RequestParam(defaultValue = "0") long id
-                                                    , @RequestParam(defaultValue = "0000") String password){
+    public @ResponseBody ObjectResponse resetPassword(String token
+                                                    , String password){
         ObjectResponse objectResponse = new ObjectResponse();
-        if(this.userService.resetPassword(id,password)){
+        if(this.userService.resetPassword(token,password)){
             objectResponse.setResponseMessage("ok");
         }else{
             objectResponse.setResponseError("user does not exist");

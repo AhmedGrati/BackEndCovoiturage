@@ -121,13 +121,17 @@ public class UserService {
 
     // reseting password
     public boolean resetPassword(String resetToken , String newPassword) {
-        User user = this.userRepo.findByResetToken(resetToken);
-        if(user != null) {
-            user.setPassword(this.passwordEncoder.encode(newPassword));
-            this.userRepo.save(user);
-            return true;// return true if the user exists
+        if((resetToken == "") || (newPassword == "")) {
+            return false;
         }else{
-            return false;//return false if the user doesn't exists
+            User user = this.userRepo.findByResetToken(resetToken);
+            if(user != null) {
+                user.setPassword(this.passwordEncoder.encode(newPassword));
+                this.userRepo.save(user);
+                return true;// return true if the user exists
+            }else{
+                return false;//return false if the user doesn't exists
+            }
         }
     }
 
