@@ -99,14 +99,17 @@ public class UserController {
             System.out.println(email);
             if(this.userService.sendEmail(email)){
                 objectResponse.setResponseMessage("ok");
+                return new ResponseEntity<ObjectResponse>(objectResponse , HttpStatus.OK);
             }else{
                 objectResponse.setResponseError("not ok");
+                return new ResponseEntity<ObjectResponse>(objectResponse , HttpStatus.CONFLICT);
             }
         }catch (MailException e){
             e.printStackTrace();//print the exception
             objectResponse.setResponseError("not ok");
+            return new ResponseEntity<ObjectResponse>(objectResponse , HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<ObjectResponse>(objectResponse , HttpStatus.OK);
+
     }
 
     @PostMapping("resetPassword")
@@ -115,10 +118,12 @@ public class UserController {
         ObjectResponse objectResponse = new ObjectResponse();
         if(this.userService.resetPassword(token,password)){
             objectResponse.setResponseMessage("ok");
+            return new ResponseEntity<ObjectResponse>(objectResponse , HttpStatus.OK);
         }else{
             objectResponse.setResponseError("user does not exist");
+            return new ResponseEntity<ObjectResponse>(objectResponse , HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<ObjectResponse>(objectResponse , HttpStatus.OK);
+
     }
 
 
