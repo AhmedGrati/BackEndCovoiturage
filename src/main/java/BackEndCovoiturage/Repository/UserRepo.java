@@ -38,4 +38,6 @@ public interface UserRepo extends PagingAndSortingRepository<User, Long> {
 
     boolean existsByEmail(String email);
 
+    User findByResetToken(String resetToken);
+
 }

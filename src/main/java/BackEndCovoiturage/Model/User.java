@@ -41,7 +41,8 @@ public class User {
     private Gender gender;
     private boolean hasUrl;
     private String imageUrl;
-
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String resetToken;
     /*@OneToMany(targetEntity = Covoiturage.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private List<Covoiturage> submittedCovoiturages;// liste des covoiturages dont le user est le "owner"*/
@@ -258,5 +259,13 @@ public class User {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getResetToken() {
+        return resetToken;
+    }
+
+    public void setResetToken(String resetToken) {
+        this.resetToken = resetToken;
     }
 }

@@ -105,6 +105,8 @@ public class UserService {
             simpleMailMessage.setSubject("Bienvenu Cher client .");
             String uuid = UUID.randomUUID().toString();
             String url = myUrl+"?id="+user.getId()+"&token="+uuid;
+            user.setResetToken(uuid);
+            userRepo.save(user);//update the user
             System.out.println(url);
             simpleMailMessage.setText("Bienvenu chez wassalni . On Vous aide à chercher des covoiturages sécurisée et comfortable . Réinitialisez votre mot de passe ici : "+url);
 
@@ -118,8 +120,8 @@ public class UserService {
     }
 
     // reseting password
-    public boolean resetPassword(long id , String newPassword) {
-        User user = this.userRepo.findUserById(id);
+    public boolean resetPassword(String resetToken , String newPassword) {
+        User user = this.userRepo.findByResetToken(resetToken);
         if(user != null) {
             user.setPassword(this.passwordEncoder.encode(newPassword));
             this.userRepo.save(user);
