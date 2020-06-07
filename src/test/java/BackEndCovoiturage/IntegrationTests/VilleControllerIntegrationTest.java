@@ -1,21 +1,30 @@
-package BackEndCovoiturage.Controller;
-
+package BackEndCovoiturage.IntegrationTests;
+import BackEndCovoiturage.BackEndWasalniApplication;
 import BackEndCovoiturage.Service.VilleService;
+import BackEndCovoiturage.Controller.VilleController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-@SpringBootTest
-public class VilleControllerTest {
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+@SpringBootTest(
+        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+        classes = BackEndWasalniApplication.class
+)
+@AutoConfigureMockMvc
+@TestPropertySource(locations = "classpath:application-test.properties")
+public class VilleControllerIntegrationTest {
     MockMvc mockMvc;
 
     @Mock
@@ -32,24 +41,18 @@ public class VilleControllerTest {
     @Test
     public void villeExistsByNamePositiveTest() throws Exception {
         String villeName ="Sfax";
-        when(villeService.villeExistsByName(villeName)).thenReturn(true);
 
-        mockMvc.perform(get("/api/ville/"+villeName))
-                .andExpect(status().isOk())
-                .andExpect(content().string("true"));
+        MvcResult mvcResult = mockMvc.perform(get("/api/ville/"+villeName))
+                .andExpect(status().isOk()).andReturn();
 
-        verify(villeService).villeExistsByName(villeName);
+        assertEquals(MediaType.APPLICATION_JSON_VALUE,mvcResult.getResponse().getContentType());
     }
 
     @Test
     public void villeExistsByNameNegativeTest() throws Exception {
-        String villeName ="";
-        when(villeService.villeExistsByName(villeName)).thenReturn(false);
 
-        mockMvc.perform(get("/api/ville/"+villeName))
+        mockMvc.perform(get("/api/ville/"))
                 .andExpect(status().is(404));// because the ville name should not be null
 
-        // because when the ville name is null it will crash immediately and we won't call the ville service
-        verifyNoInteractions(villeService);
     }
 }

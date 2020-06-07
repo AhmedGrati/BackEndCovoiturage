@@ -1,19 +1,17 @@
-package BackEndCovoiturage.Controller;
+package BackEndCovoiturage.UnitTests;
 
+import BackEndCovoiturage.Controller.SubmissionController;
 import BackEndCovoiturage.Model.Submission;
 import BackEndCovoiturage.Service.SubmissionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -25,7 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 @SpringBootTest
-public class SubmissionControllerTest {
+public class SubmissionControllerUnitTest {
     MockMvc mockMvc;
     @Mock
     SubmissionService submissionService;

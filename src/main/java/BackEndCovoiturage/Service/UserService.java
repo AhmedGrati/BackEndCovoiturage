@@ -92,6 +92,7 @@ public class UserService {
 
     public boolean sendEmail(String email) throws MailException {
         User user = this.userRepo.findUserByEmail(email);
+        System.out.println(user);
         if(user != null){
             String senderEmail = environment.getProperty("spring.mail.username");
 
