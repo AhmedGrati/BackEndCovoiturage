@@ -91,32 +91,35 @@ public class UserService {
     }
 
     public boolean sendEmail(String email) throws MailException {
-        User user = this.userRepo.findUserByEmail(email);
-        System.out.println(user);
-        if(user != null){
-            String senderEmail = environment.getProperty("spring.mail.username");
+        if(email != null) {
+            User user = this.userRepo.findUserByEmail(email);
+            System.out.println(user);
+            if(user != null){
+                String senderEmail = environment.getProperty("spring.mail.username");
 
-            String receiverEmail = user.getEmail();
+                String receiverEmail = user.getEmail();
 
-            //filling the message data : sender , receiver , subject and text
-            SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-            simpleMailMessage.setTo(receiverEmail);
-            simpleMailMessage.setFrom(senderEmail);
-            simpleMailMessage.setSubject("Bienvenu Cher client .");
-            String uuid = UUID.randomUUID().toString();
-            String url = myUrl+"?id="+user.getId()+"&token="+uuid;
-            user.setResetToken(uuid);
-            userRepo.save(user);//update the user
-            System.out.println(url);
-            simpleMailMessage.setText("Bienvenu chez wassalni . On Vous aide à chercher des covoiturages sécurisée et comfortable . Réinitialisez votre mot de passe ici : "+url);
+                //filling the message data : sender , receiver , subject and text
+                SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+                simpleMailMessage.setTo(receiverEmail);
+                simpleMailMessage.setFrom(senderEmail);
+                simpleMailMessage.setSubject("Bienvenu Cher client .");
+                String uuid = UUID.randomUUID().toString();
+                String url = myUrl+"?id="+user.getId()+"&token="+uuid;
+                user.setResetToken(uuid);
+                userRepo.save(user);//update the user
+                System.out.println(url);
+                simpleMailMessage.setText("Bienvenu chez wassalni . On Vous aide à chercher des covoiturages sécurisée et comfortable . Réinitialisez votre mot de passe ici : "+url);
 
 
-            //sending the message via email
-            this.javaMailSender.send(simpleMailMessage);
-            return true;//this indicates that the email was sent successfully
-        } else {
-            return false;//this indicates that an error occurred while sending the mail
+                //sending the message via email
+                this.javaMailSender.send(simpleMailMessage);
+                return true;//this indicates that the email was sent successfully
+            } else {
+                return false;//this indicates that an error occurred while sending the mail
+            }
         }
+        return false;
     }
 
     // reseting password

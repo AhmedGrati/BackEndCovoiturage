@@ -93,8 +93,7 @@ public class UserController {
     }
 
     @GetMapping("sendEmail")
-    public @ResponseBody
-    ObjectResponse sendingEmail(@RequestParam(defaultValue = "defaultValue@gmail.com") String email){
+    public ResponseEntity<ObjectResponse> sendingEmail(String email){
         ObjectResponse objectResponse = new ObjectResponse();
         try {
             System.out.println(email);
@@ -107,11 +106,11 @@ public class UserController {
             e.printStackTrace();//print the exception
             objectResponse.setResponseError("not ok");
         }
-        return objectResponse;
+        return new ResponseEntity<ObjectResponse>(objectResponse , HttpStatus.OK);
     }
 
     @PostMapping("resetPassword")
-    public @ResponseBody ObjectResponse resetPassword(@RequestParam String token
+    public ResponseEntity<ObjectResponse> resetPassword(@RequestParam String token
                                                     , @RequestParam String password){
         ObjectResponse objectResponse = new ObjectResponse();
         if(this.userService.resetPassword(token,password)){
@@ -119,7 +118,7 @@ public class UserController {
         }else{
             objectResponse.setResponseError("user does not exist");
         }
-        return objectResponse;
+        return new ResponseEntity<ObjectResponse>(objectResponse , HttpStatus.OK);
     }
 
 
