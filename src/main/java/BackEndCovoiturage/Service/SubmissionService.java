@@ -38,12 +38,19 @@ public class SubmissionService {
     @Autowired
     private SubmissionRepo submissionRepo;
 
+    @Autowired
+    private NotificationService notificationService;
+
     public boolean addSubmission(long userId , long covoiturageId) {
         User user = userRepo.findUserById(userId);
         Covoiturage covoiturage = covoiturageRepo.getCovoiturageById(covoiturageId);
         if((user != null)&&(covoiturage != null)) {
             Submission submission = new Submission(Instant.now() ,user  , Status.pending , covoiturage);
             this.submissionRepo.save(submission);
+            // add notification for the owner of cov
+            String notificationContent = "Monsieur "+user.getFirstName()+" "+user.getLastName()+" a postulé pour votre covoiturage";
+            System.out.println(notificationContent);
+            this.notificationService.addNotification(covoiturage.getOwner().getId() , notificationContent);
             return true;
         }
         return false;
@@ -57,6 +64,10 @@ public class SubmissionService {
             covoiturage.setNbrPlaceDispo(covoiturage.getNbrPlaceDispo()-1);
             this.submissionRepo.save(submission);
             this.covoiturageRepo.save(covoiturage);
+            // add notification for the owner of the submission
+            String notificationContent = "Monsieur "+covoiturage.getOwner().getFirstName()+" "+covoiturage.getOwner().getLastName()+" a accepté votre postulation";
+            System.out.println(notificationContent);
+            this.notificationService.addNotification(submission.getOwner().getId() , notificationContent);
             return true;
         }
         return false;
@@ -65,6 +76,10 @@ public class SubmissionService {
         Submission submission = this.submissionRepo.findSubmissionById(submissionId);
         if(submission != null) {
             this.submissionRepo.deleteSubmissionById(submissionId);
+            // add notification for the owner of the submission
+            String notificationContent = "Monsieur "+submission.getCovoiturage().getOwner().getFirstName()+" "+submission.getCovoiturage().getOwner().getLastName()+" a rejeté votre postulation";
+            System.out.println(notificationContent);
+            this.notificationService.addNotification(submission.getOwner().getId() , notificationContent);
             return true;
         }
         return false;

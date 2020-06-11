@@ -1,6 +1,8 @@
 package BackEndCovoiturage.Repository;
 
 import BackEndCovoiturage.Model.Notification;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -16,5 +18,8 @@ public interface NotificationRepo extends JpaRepository<Notification, Long> {
     Notification findById(long id);
 
     @Query(value = "SELECT n from notification n where n.receiver.id = :receiverId")
-    List<Notification> findAllByReceiver(long receiverId);
+    Page<Notification> findAllByReceiver(long receiverId, Pageable pageable);
+
+
+    boolean existsById(Long id);
 }
