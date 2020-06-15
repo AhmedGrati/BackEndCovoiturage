@@ -1,10 +1,16 @@
 package BackEndCovoiturage.Service;
 
-import BackEndCovoiturage.Model.*;
+import BackEndCovoiturage.Model.Covoiturage;
+import BackEndCovoiturage.Model.Gouvernorat;
+import BackEndCovoiturage.Model.User;
+import BackEndCovoiturage.Model.Ville;
 import BackEndCovoiturage.Repository.*;
 import BackEndCovoiturage.tools.MyHelpers;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -116,23 +122,23 @@ public class CovoiturageService {
 
 
     public HashMap<String, Object> findCovoituragesByMultipleParameters(int pageNo,
-                                        int pageSize,
-                                        String sortBy,
-                                        String direction,
-                                        String govDepart,
-                                        String govArrive,
-                                        int min,
-                                        int max,
-                                        Instant dateDepart,
-                                        int place,
-                                        boolean fumer) {
+                                                                        int pageSize,
+                                                                        String sortBy,
+                                                                        String direction,
+                                                                        String villeDepart,
+                                                                        String villeArrive,
+                                                                        int min,
+                                                                        int max,
+                                                                        Instant dateDepart,
+                                                                        int place,
+                                                                        boolean fumer) {
 
         Sort.Direction d = direction.equals("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC;
 
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(d, sortBy));
 
-        Page<Covoiturage> pagedCovoiturage = this.covoiturageRepo.findCovoituragesByMultipleParameters(govDepart
-                , govArrive, min, max, dateDepart, place, fumer, pageable);
+        Page<Covoiturage> pagedCovoiturage = this.covoiturageRepo.findCovoituragesByMultipleParameters(villeDepart
+                , villeArrive, min, max, dateDepart, place, fumer, pageable);
 
         return MyHelpers.pageWrapper(pagedCovoiturage);
 

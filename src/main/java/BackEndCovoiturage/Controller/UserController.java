@@ -133,9 +133,6 @@ public class UserController {
             @Nullable @RequestParam(required = false) MultipartFile file) throws IOException {
 
 
-
-        // todo: maybe add image entity  with date and order and other info
-
         if ((file != null)||(user.getImageUrl() != null)) {
             user.setHasUrl(true);
         }
@@ -151,7 +148,6 @@ public class UserController {
             produces = {MediaType.IMAGE_JPEG_VALUE,MediaType.IMAGE_GIF_VALUE, MediaType.IMAGE_PNG_VALUE}
     )
     public  @ResponseBody byte[] downloadImage(@PathVariable String fileName) throws IOException {
-        //todo if user does not have an image return default picture
         return this.userService.getImageWithMediaType(fileName);
     }
 

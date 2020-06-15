@@ -41,15 +41,15 @@ public interface CovoiturageRepo extends PagingAndSortingRepository<Covoiturage 
     Page<Covoiturage> findAllByVilleDepartAndVilleArrivee(Ville villeDepart, Ville villeArrivee, Pageable pageable);
 
     @Query(value = "SELECT c from covoiturage  c where  " +
-            "(c.gouvernoratDepart.name = :govDepart or :govDepart = 'all') and " +
-            "(c.gouvernoratArrive.name = :govArrive or :govArrive = 'all') and" +
+            "(c.villeDepart.name = :villeDepart or :villeDepart = 'all') and " +
+            "(c.villeArrivee.name = :villeArrive or :villeArrive = 'all') and" +
             "(c.dateDepart >= :dateDepart ) and " +
             "(c.price >= :min) and " +
             "c.price <= :max and " +
             "(c.nbrPlaceDispo >= :place) and " +
             "(c.isFumer = :fumer or :fumer = true )")
-    Page<Covoiturage> findCovoituragesByMultipleParameters(String govDepart,
-                                                           String govArrive,
+    Page<Covoiturage> findCovoituragesByMultipleParameters(String villeDepart,
+                                                           String villeArrive,
                                                            int min,
                                                            int max,
                                                            Instant dateDepart,

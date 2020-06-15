@@ -114,9 +114,9 @@ public class CovoiturageController {
     public HashMap<String, Object> findCovoituragesByMultipleParameters(@RequestParam(defaultValue = "0") int pageNo,
                                                                         @RequestParam(defaultValue = "9") int pageSize,
                                                                         @RequestParam(defaultValue = "dateDepart") String sortBy,
-                                                                        @RequestParam(defaultValue = "ASC") String direction,
-                                                                        @RequestParam(defaultValue = "all") String govDepart,
-                                                                        @RequestParam(defaultValue = "all") String govArrive,
+                                                                        @RequestParam(defaultValue = "DSC") String direction,
+                                                                        @RequestParam(defaultValue = "all") String villeDepart,
+                                                                        @RequestParam(defaultValue = "all") String villeArriv,
                                                                         @RequestParam(defaultValue = "0") int min,
                                                                         @RequestParam(defaultValue = "100000") int max,
                                                                         @RequestParam(defaultValue = "2000-01-01T00:00:00Z") Instant dateDepart,
@@ -124,8 +124,8 @@ public class CovoiturageController {
                                                                         @RequestParam(defaultValue = "true") boolean fumer
 
     ) {
-        return covoiturageService.findCovoituragesByMultipleParameters(pageNo, pageSize, sortBy, direction, govDepart
-                , govArrive, min, max, dateDepart, place, fumer);
+        return covoiturageService.findCovoituragesByMultipleParameters(pageNo, pageSize, sortBy, direction, villeDepart
+                , villeArriv, min, max, dateDepart, place, fumer);
     }
 
     /*@GetMapping("participateToCovoiturage")
