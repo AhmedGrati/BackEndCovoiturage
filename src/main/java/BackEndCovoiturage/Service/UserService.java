@@ -184,10 +184,7 @@ public class UserService {
                 e.printStackTrace();
             }
             // the response will be the download URL of the image
-            fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("api/user/images/getImage/")
-                    .path(user.getId() + ".jpg")
-                    .toUriString();
+            fileDownloadUri = "api/user/images/getImage/"+user.getId()+".jpg";
         }
         return fileDownloadUri;
 
