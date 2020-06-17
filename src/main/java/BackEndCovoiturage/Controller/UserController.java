@@ -138,7 +138,7 @@ public class UserController {
         }
         if(this.userPrincipalDetailService.save(user) != null){ // check if the saving process was good
             user.setImageUrl(userService.uploadToLocalFileSystem(file , user));
-            userPrincipalDetailService.save(user);// update the user
+            userService.saveUser(user);// update the user
             return new ResponseEntity<>(user , HttpStatus.OK);
         }
         return new ResponseEntity<>((User) null, HttpStatus.CONFLICT);

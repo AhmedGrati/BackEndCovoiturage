@@ -198,6 +198,10 @@ public class UserService {
         return null;
     }
 
+    public User saveUser(User user) {
+        return this.userRepo.save(user);
+    }
+
 }
 
 
