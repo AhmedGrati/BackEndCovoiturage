@@ -78,6 +78,7 @@ public class JwtAuthentiticationFilter extends UsernamePasswordAuthenticationFil
         user.put("id",principal.getUser().getId());
         user.put("imageUrl",principal.getUser().getImageUrl());
         user.put("inscriptionDate",principal.getUser().getInscriptionDate().toString());
+        user.put("hasUrl",principal.getUser().isHasUrl());
         user.put("age",principal.getUser().getAge());
         user.put("avis",principal.getUser().getAvis());
         user.put("lastDateEntered",principal.getUser().getLastDateEnetered());
