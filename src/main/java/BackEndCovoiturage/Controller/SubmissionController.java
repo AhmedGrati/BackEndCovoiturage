@@ -1,5 +1,6 @@
 package BackEndCovoiturage.Controller;
 
+import BackEndCovoiturage.Model.Covoiturage;
 import BackEndCovoiturage.Model.Submission;
 import BackEndCovoiturage.Repository.CovoiturageRepo;
 import BackEndCovoiturage.Repository.SubmissionRepo;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping(value = "api/submission")
 @RestController
@@ -55,12 +57,20 @@ public class SubmissionController {
     }
 
 
-
+    // todo optimize as sql query
     @GetMapping("canSubmit")
     public ResponseEntity<ObjectNode> canSubmit(@RequestParam long covoiturageId,@RequestParam long userId) {
         ObjectNode obj = new ObjectMapper().createObjectNode();
-        Boolean result = !this.submissionRepo.existsByCovoiturageIdAndOwnerId(covoiturageId, userId);
-        return new ResponseEntity<>(obj.put("response", result), HttpStatus.OK);
+        final Optional<Covoiturage> target = this.covoiturageRepo.findById(covoiturageId);
+        if (target.isPresent()) {
+            if (target.get().getOwner().getId() == userId)
+                return new ResponseEntity<>(obj.put("response", "Self"), HttpStatus.OK);
+            else {
+                Boolean result = !this.submissionRepo.existsByCovoiturageIdAndOwnerId(covoiturageId, userId);
+                return new ResponseEntity<>(obj.put("response", result), HttpStatus.OK);
+            }
+        } else
+            return new ResponseEntity<>(obj.put("response", "error covoiturage not found"), HttpStatus.NOT_FOUND);
     }
 
 
