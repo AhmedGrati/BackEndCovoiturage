@@ -91,7 +91,7 @@ public class UserControllerIntegrationTest {
         String receiverMail = "noexistantemail@gmail.com";
 
         MvcResult mvcResult = mockMvc.perform(get("/api/user/sendEmail?email="+receiverMail))
-                .andExpect(status().isOk()).andReturn();
+                .andExpect(status().is(409)).andReturn();
 
         assertEquals(MediaType.APPLICATION_JSON_VALUE,mvcResult.getResponse().getContentType());
     }
@@ -101,7 +101,7 @@ public class UserControllerIntegrationTest {
         String receiverMail = "ahmedgrati1999@gmail.com";
 
         MvcResult mvcResult = mockMvc.perform(get("/api/user/sendEmail?email="+receiverMail))
-                .andExpect(status().isOk()).andReturn();
+                .andReturn();
 
         assertEquals(MediaType.APPLICATION_JSON_VALUE,mvcResult.getResponse().getContentType());
     }

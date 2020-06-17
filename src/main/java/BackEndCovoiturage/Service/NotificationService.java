@@ -29,6 +29,7 @@ public class NotificationService {
     private UserRepo userRepo;
 
     public boolean markNotificationsAsRead(List<Long> idList){
+        System.out.println("list : "+idList);
 
         for(int i=0;i<idList.size();i++) {
             Optional<Notification> notification = this.notificationRepo.findById(idList.get(i));
@@ -40,6 +41,7 @@ public class NotificationService {
                 this.notificationRepo.save(notification.get());
             }
         }
+
         return true;
     }
 

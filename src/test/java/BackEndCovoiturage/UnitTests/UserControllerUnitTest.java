@@ -108,7 +108,7 @@ public class UserControllerUnitTest {
         when(userService.sendEmail(receiverMail)).thenReturn(false);// when the returned result from the service is false it means that we didn't send the emai so the response image is null
 
         mockMvc.perform(get("/api/user/sendEmail?email="+receiverMail))
-                .andExpect(status().isOk())
+                .andExpect(status().is(409))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.responseMessage", Matchers.blankOrNullString()));
 
