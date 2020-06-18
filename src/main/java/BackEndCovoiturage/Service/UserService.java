@@ -16,7 +16,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -45,24 +44,23 @@ public class UserService {
     @Autowired
     private Environment environment;
 
-    private PasswordEncoder passwordEncoder;
+    //for wadhah
+    public final String storageDirectoryPathOnLinux = "/home/boogie/wasalni/images/";
 
     private final String myUrl = "https://localhost:4200/reset";
 
 
-
     public final String storageDirectoryPathOnWindows = "C:\\Users\\Ahmed\\Desktop\\spring\\images";
-    //for wadhah
-    //public final String storageDirectoryPathOnLinux = "/home/boogiep/wassalni/images";
+    private final PasswordEncoder passwordEncoder;
     //for VM
-    public final String storageDirectoryPathOnLinux = "/home/ubuntu/images";
+//    public final String storageDirectoryPathOnLinux = "/home/ubuntu/images";
 
     public UserService(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
 
 
-    public User findUserById(long id){
+    public User findUserById(long id) {
         return (this.userRepo.findUserById(id));
     }
 

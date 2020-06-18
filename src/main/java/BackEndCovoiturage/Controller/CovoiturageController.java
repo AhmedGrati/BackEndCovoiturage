@@ -103,7 +103,7 @@ public class CovoiturageController {
     public Iterable<Covoiturage> seed() {
 
         ArrayList<Covoiturage> c = new ArrayList<>();
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 150; i++) {
             c.add(Covoiturage.rand(userService, villeRepo));
         }
         return covoiturageRepo.saveAll(c);

@@ -148,7 +148,7 @@ public class User {
         this.status = status;
     }
 
-    public static User getRandom(PasswordEncoder passwordEncoder) {
+    public static User getRandom(PasswordEncoder passwordEncoder, Faker f) {
         User u = new User();
         u.firstName = f.name().firstName();
         u.lastName = f.name().lastName();
@@ -161,7 +161,8 @@ public class User {
         u.lastDateEnetered = Instant.now();
         u.gender = f.bool().bool() ? male : female;
         u.password = passwordEncoder.encode("default");
-        u.hasUrl = false;
+        u.hasUrl = true;
+        u.imageUrl = "";
         return u;
     }
 
@@ -207,7 +208,6 @@ public class User {
                 '}';
     }
 
-    private static Faker f = new Faker();
 
     public void setLastDateEnetered(Instant lastDateEnetered) {
         this.lastDateEnetered = lastDateEnetered;

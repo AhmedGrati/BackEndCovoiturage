@@ -4,6 +4,7 @@ import BackEndCovoiturage.Configuration.Security.UserPrincipalDetailService;
 import BackEndCovoiturage.Model.ObjectResponse;
 import BackEndCovoiturage.Model.User;
 import BackEndCovoiturage.Service.UserService;
+import com.github.javafaker.Faker;
 import com.sun.istack.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,12 +57,14 @@ public class UserController {
 
     @PostMapping("rand")
     public Iterable<User> addRandom() {
-        ArrayList<User>  userArrayList = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
-            userArrayList.add(User.getRandom(passwordEncoder));
+        ArrayList<User> userArrayList = new ArrayList<>();
+        Faker f = new Faker();
+        for (int i = 0; i < 15; i++) {
+            userArrayList.add(User.getRandom(passwordEncoder, f));
         }
-
-        return userService.userRepo.saveAll(userArrayList);
+        Iterable<User> t = userService.userRepo.saveAll(userArrayList);
+        t.forEach(e -> e.setImageUrl("api/user/images/getImage/" + e.getId() + ".jpg"));
+        return userService.userRepo.saveAll(t);
 
     }
 
