@@ -10,8 +10,8 @@ pipeline{
             stage('Stop Server Container'){
                 steps{
                     script{
-                        
-                        def downCommand = "sudo docker-compose -f /home/ubuntu/wassalni/wasalni-docker/docker-compose.yml down"
+
+                        def downCommand = "sudo docker-compose -f /home/ubuntu/wassalni/wasalni-docker/docker-compose.yml down backend"
                         sh "${downCommand}"
                     }
                 }
