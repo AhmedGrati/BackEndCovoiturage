@@ -19,7 +19,7 @@ pipeline{
             stage('Mvn Package'){
                 steps{
                     script {
-                        sh "mvn  clean package"
+                        sh "mvn  clean -Dmaven.test.skip=true package"
                     }
                 }
             }
