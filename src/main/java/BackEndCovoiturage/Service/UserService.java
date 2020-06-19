@@ -45,7 +45,7 @@ public class UserService {
     private Environment environment;
 
     //for wadhah
-    public final String storageDirectoryPathOnLinux = "/home/boogie/wasalni/images/";
+    //public final String storageDirectoryPathOnLinux = "/home/boogie/wasalni/images/";
 
     private final String myUrl = "https://localhost:4200/reset";
 
@@ -53,7 +53,7 @@ public class UserService {
     public final String storageDirectoryPathOnWindows = "C:\\Users\\Ahmed\\Desktop\\spring\\images";
     private final PasswordEncoder passwordEncoder;
     //for VM
-//    public final String storageDirectoryPathOnLinux = "/home/ubuntu/images";
+    public final String storageDirectoryPathOnLinux = "/home/ubuntu/images";
 
     public UserService(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
