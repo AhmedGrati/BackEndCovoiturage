@@ -159,7 +159,7 @@ public class CovoiturageControllerUnitTest {
     @Test
     public void findCovoituragesByMultipleParametersTest() throws Exception {
 
-        when(covoiturageService.findCovoituragesByMultipleParameters(0,0,"price","ASC",
+        when(covoiturageService.findCovoituragesByMultipleParameters(0,0,"price","DSC",
                 "tunis","sfax",0,10,Instant.now(),4,true))
                 .thenReturn(new HashMap<>());
 
@@ -167,7 +167,7 @@ public class CovoiturageControllerUnitTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-        verify(covoiturageService).findCovoituragesByMultipleParameters(0,9,"dateDepart","ASC",
+        verify(covoiturageService).findCovoituragesByMultipleParameters(0,9,"dateDepart","DSC",
                 "all","all",0,
                 100000 , Instant.parse("2000-01-01T00:00:00Z"), 0 , true );
     }

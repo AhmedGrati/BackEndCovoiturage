@@ -4,7 +4,7 @@ pipeline{
    stages{
          stage('SCM Checkout'){
                 steps {
-                    git branch: 'ahmedCICD', credentialsId: 'MyGitCred', url: 'https://github.com/AhmedGrati/BackEndCovoiturage'
+                    git branch: 'master', credentialsId: 'MyGitCred', url: 'https://github.com/AhmedGrati/BackEndCovoiturage'
                 }
             }
             stage('Mvn Package'){
