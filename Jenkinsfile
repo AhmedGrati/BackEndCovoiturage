@@ -11,7 +11,7 @@ pipeline{
                 steps{
                     script{
 
-                        def downCommand = "sudo docker-compose -f /home/ubuntu/wassalni/wasalni-docker/docker-compose.yml down back"
+                        def downCommand = "sudo docker-compose -f /home/ubuntu/wassalni/wasalni-docker/docker-compose.yml down"
                         sh "${downCommand}"
                     }
                 }
