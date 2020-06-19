@@ -7,9 +7,10 @@ import com.github.javafaker.Faker;
 
 import javax.persistence.*;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Entity(name = "covoiturage")
 @Table(name="covoiturage")
@@ -47,8 +48,8 @@ public class Covoiturage {
     private Ville villeArrivee;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany(targetEntity = Covoiturage.class , cascade = CascadeType.ALL)
-    @JoinColumn(name = "submission_id", referencedColumnName = "id")
+    @OneToMany(targetEntity = Covoiturage.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id", referencedColumnName = "id")
     private List<Submission> submissions;
 
     public Covoiturage() {
@@ -68,15 +69,15 @@ public class Covoiturage {
 
     public static Covoiturage rand(UserService userService, VilleRepo villeRepo) {
         Covoiturage c = new Covoiturage();
-        ArrayList<Ville> v = new ArrayList<>();
-        villeRepo.findAll().forEach(v::add);
-        Collections.shuffle(v);
 
-        c.setVilleDepart(v.get(0));
-        c.setVilleArrivee(v.get(1));
+        List<Ville> villeList = StreamSupport.stream(villeRepo.findAll().spliterator(), false)
+                .collect(Collectors.toList());
+        Collections.shuffle(villeList);
 
-        c.setGouvernoratDepart(v.get(0).getGouvernorats());
-        c.setGouvernoratArrive(v.get(1).getGouvernorats());
+        c.setVilleDepart(villeList.get(0));
+        c.setVilleArrivee(villeList.get(1));
+        c.setGouvernoratDepart(villeList.get(0).getGouvernorats());
+        c.setGouvernoratArrive(villeList.get(1).getGouvernorats());
 
         List<User> users = userService.findAllUsers();
         Collections.shuffle(users);
@@ -84,8 +85,7 @@ public class Covoiturage {
         c.setFumer(f.bool().bool());
         c.setPrice((int) f.number().randomNumber(2, true));
         c.setNbrPlaceDispo(f.number().numberBetween(1, 5));
-        c.dateDepart = Instant.now();
-
+        c.dateDepart = Instant.now().plusSeconds(f.number().numberBetween(0, 3600 * 24 * 60));
         return c;
     }
 
