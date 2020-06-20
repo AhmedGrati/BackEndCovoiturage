@@ -23,27 +23,6 @@ pipeline{
                     }
                 }
             }
-            stage('Build Docker Image') {
-                steps{
-                    script {
-                        sh 'sudo -n docker build -t wassalni/wassalnibackend:1.0.0 .'
-                    }
-                }
-            }
-            stage('Push Docker Image') {
-                steps {
-                    script {
-                        withCredentials([string(credentialsId: 'docker-new-pwd', variable: 'dockerHubNewPwd')]) {
-
-                            sh "sudo -n docker login -u wassalni -p ${dockerHubNewPwd}"
-
-                        }
-
-                        sh 'sudo -n docker push wassalni/wassalnibackend:1.0.0'
-                    }
-
-                }
-            }
             stage('Run Container On dev Server'){
                 steps {
                     script {
