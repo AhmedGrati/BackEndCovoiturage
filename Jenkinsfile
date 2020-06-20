@@ -33,9 +33,9 @@ pipeline{
             stage('Push Docker Image') {
                 steps {
                     script {
-                        withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerHubPwd')]) {
+                        withCredentials([string(credentialsId: 'docker-new-pwd', variable: 'dockerHubNewPwd')]) {
 
-                            sh "sudo -n docker login -u wassalni -p ${dockerHubPwd}"
+                            sh "sudo -n docker login -u wassalni -p ${dockerHubNewPwd}"
 
                         }
 
