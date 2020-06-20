@@ -7,10 +7,19 @@ pipeline{
                     git branch: 'master', credentialsId: 'MyGitCred', url: 'https://github.com/AhmedGrati/BackEndCovoiturage'
                 }
             }
+            stage('Stop Server Container'){
+                steps{
+                    script{
+
+                        def downCommand = "sudo docker-compose -f /home/ubuntu/wassalni/wasalni-docker/docker-compose.yml down"
+                        sh "${downCommand}"
+                    }
+                }
+            }
             stage('Mvn Package'){
                 steps{
                     script {
-                        sh "mvn  clean package"
+                        sh "mvn  clean -Dmaven.test.skip=true package"
                     }
                 }
             }
@@ -24,9 +33,9 @@ pipeline{
             stage('Push Docker Image') {
                 steps {
                     script {
-                        withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerHubPwd')]) {
+                        withCredentials([string(credentialsId: 'docker-new-pwd', variable: 'dockerHubNewPwd')]) {
 
-                            sh "sudo -n docker login -u wassalni -p ${dockerHubPwd}"
+                            sh "sudo -n docker login -u wassalni -p ${dockerHubNewPwd}"
 
                         }
 
@@ -38,8 +47,7 @@ pipeline{
             stage('Run Container On dev Server'){
                 steps {
                     script {
-                         def downCommand = "sudo docker-compose -f /home/ubuntu/wasalni-docker/docker-compose.yml down backend"
-                         def upCommand = "sudo docker-compose -f /home/ubuntu/wasalni-docker/docker-compose.yml up -d"
+                         def upCommand = "sudo docker-compose -f /home/ubuntu/wassalni/wasalni-docker/docker-compose.yml up -d"
                          sh "${upCommand}"
                     }
 
@@ -51,7 +59,7 @@ pipeline{
               emailext (
                   from:"wassalni.tech@gmail.com",
                   to: "ahmedgrati1999@gamil.com",
-                  subject: "Build Log !",
+                  subject: "Build Log ",
                   body: "The build was successful  and your product is on now . Check it out on http://3.84.152.145:8080/",
                   recipientProviders: [[$class: 'DevelopersRecipientProvider']]
                 )
