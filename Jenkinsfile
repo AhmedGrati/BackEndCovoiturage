@@ -10,7 +10,9 @@ pipeline{
             stage('Stop Server Container'){
                 steps{
                     script{
-                        sh "cd && pwd && ${downCommand}"
+
+                        def downCommand = "sudo docker-compose -f /home/ubuntu/wassalni/wasalni-docker/docker-compose.yml down"
+                        sh "cd && pwd && sudo docker-compose -f /home/ubuntu/wassalni/wasalni-docker/docker-compose.yml down"
                     }
                 }
             }
@@ -45,14 +47,35 @@ pipeline{
             stage('Run Container On dev Server'){
                 steps {
                     script {
-                        sh "pwd"
                          def upCommand = "sudo docker-compose -f /home/ubuntu/wassalni/wasalni-docker/docker-compose.yml up -d"
-                         sh "cd && pwd && ${upCommand}"
+                         sh "cd && pwd && sudo docker-compose -f /home/ubuntu/wassalni/wasalni-docker/docker-compose.yml up -d"
                     }
 
                 }
             }
    }
+    post {
+        success {
+              emailext (
+                  from:"wassalni.tech@gmail.com",
+                  to: "ahmedgrati1999@gamil.com",
+                  subject: "Build Log ",
+                  body: "The build was successful  and your product is on now . Check it out on http://3.84.152.145:8080/",
+                  recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+                )
+        }
+        failure {
+              emailext (
+                  from:"wassalni.tech@gmail.com",
+                  to: "ahmedgrati1999@gamil.com",
+                  attachLog:true,
+                  subject: "Build Log !",
+                  body: "The build failed and your product is not on production now . To Debug it check out the last build on http://3.84.152.145:9090/job/WassalniCICD",
+                  recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+                )
+        }
+    }
+
 }
 
 
