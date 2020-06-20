@@ -48,7 +48,7 @@ pipeline{
                 steps {
                     script {
                          def upCommand = "sudo docker-compose -f /home/ubuntu/wassalni/wasalni-docker/docker-compose.yml up -d"
-                         sh "cd && pwd && sudo docker-compose -f /home/ubuntu/wassalni/wasalni-docker/docker-compose.yml up -d"
+                         sh "cd /home/ubuntu && pwd && sudo docker-compose -f /home/ubuntu/wassalni/wasalni-docker/docker-compose.yml up -d"
                     }
 
                 }
