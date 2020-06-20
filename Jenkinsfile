@@ -10,16 +10,13 @@ pipeline{
             stage('Stop Server Container'){
                 steps{
                     script{
-                        sh "pwd"
-                        def downCommand = "sudo docker-compose -f /home/ubuntu/wassalni/wasalni-docker/docker-compose.yml down"
-                        sh "${downCommand}"
+                        sh "cd && pwd && ${downCommand}"
                     }
                 }
             }
             stage('Mvn Package'){
                 steps{
                     script {
-                        sh "pwd"
                         sh "mvn  clean -Dmaven.test.skip=true package"
                     }
                 }
@@ -50,7 +47,7 @@ pipeline{
                     script {
                         sh "pwd"
                          def upCommand = "sudo docker-compose -f /home/ubuntu/wassalni/wasalni-docker/docker-compose.yml up -d"
-                         sh "${upCommand}"
+                         sh "cd && pwd && ${upCommand}"
                     }
 
                 }
