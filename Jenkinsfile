@@ -7,13 +7,6 @@ pipeline{
                     git branch: 'master', credentialsId: 'MyGitCred', url: 'https://github.com/AhmedGrati/BackEndCovoiturage'
                 }
             }
-            stage('Pulling Images'){
-                   steps {
-                      script {
-                        sh 'git clone https://github.com/wadhah101/wasalni-data'
-                      }
-                 }
-            }
             stage('Stop Server Container'){
                 steps{
                     script{
