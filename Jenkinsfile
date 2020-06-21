@@ -12,7 +12,7 @@ pipeline{
                     script{
 
                         def downCommand = "sudo docker-compose -f /home/ubuntu/wassalni/wasalni-docker/docker-compose.yml down"
-                        sh "pwd && sudo docker-compose -f /home/ubuntu/wassalni/wasalni-docker/docker-compose.yml down"
+                        sh "ls wasalni-data/images && sudo docker-compose -f /home/ubuntu/wassalni/wasalni-docker/docker-compose.yml down"
                     }
                 }
             }
