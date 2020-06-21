@@ -3,7 +3,7 @@ pipeline{
    agent {
         node {
             label 'aws-node'
-            customWorkspace '/home/ubuntu'
+            customWorkspace '/home/ubuntu/wassalni'
         }
    }
    stages{
