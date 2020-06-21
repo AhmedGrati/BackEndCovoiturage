@@ -2,7 +2,7 @@ pipeline{
 
    agent {
         node {
-            label 'aws-vm'
+            label 'aws-node'
             customWorkspace '/home/ubuntu'
         }
    }
