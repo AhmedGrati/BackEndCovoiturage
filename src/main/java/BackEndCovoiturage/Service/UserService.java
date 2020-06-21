@@ -198,6 +198,7 @@ public class UserService {
         if(System.getProperty("os.name").toLowerCase().contains("windows")){
             destination = Paths.get(storageDirectoryPathOnWindows , imageName);// retrieve the image by its name
         }
+        System.out.println(destination.toString());
         if(Files.exists(destination)){
             return IOUtils.toByteArray(destination.toUri());
         }
