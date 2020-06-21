@@ -164,6 +164,7 @@ public class UserService {
             if(System.getProperty("os.name").toLowerCase().contains("windows")){
                 storageDirectory = Paths.get(storageDirectoryPathOnWindows);
             }
+            System.out.println(storageDirectory.toString());
             /*
              * we'll do just a simple verification to check if the folder in which we will store our images exists or not
              * */
