@@ -65,7 +65,7 @@ pipeline{
         failure {
               emailext (
                   attachLog:true,
-                  subject: "Build Log !",
+                  subject: "Build Log ",
                   body: "The build failed and your product is not on production now . To Debug it check out the last build on http://3.84.152.145:9090/job/WassalniCICD",
                   recipientProviders: [[$class: 'DevelopersRecipientProvider']]
                 )
