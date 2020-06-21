@@ -57,7 +57,7 @@ pipeline{
     post {
         success {
               emailext (
-                  subject: "Build Log ",
+                  subject: "Build Log !",
                   body: "The build was successful  and your product is on now . Check it out on http://3.84.152.145:8080/",
                   recipientProviders: [[$class: 'DevelopersRecipientProvider']]
                 )
