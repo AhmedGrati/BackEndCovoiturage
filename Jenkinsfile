@@ -1,6 +1,11 @@
 pipeline{
 
-   agent any
+   agent {
+        node {
+            label 'aws-vm'
+            customWorkspace '/home/ubuntu'
+        }
+   }
    stages{
          stage('SCM Checkout'){
                 steps {
