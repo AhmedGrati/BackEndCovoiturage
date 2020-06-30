@@ -146,6 +146,15 @@ public class SubmissionService {
     public List<Submission> findAllSubmissions() {
         return this.submissionRepo.findAll();
     }
+    public boolean leaveYourOwnSubmission(long submissionId) {
+        Submission submission = this.submissionRepo.findSubmissionById(submissionId);
+        // if the submission status is not pending we should not execute this method , instead we should execute the previous one
+        if((submission != null)&&(submission.getStatus() != Status.accepted)) {
+            this.submissionRepo.deleteSubmissionById(submissionId);
+            return true;
+        }
+        return false;
+    }
 
     public boolean deleteCovoiturageWithItsSubmissions(long covoiturageId) {
         Covoiturage covoiturage = covoiturageRepo.getCovoiturageById(covoiturageId);

@@ -143,5 +143,15 @@ public class SubmissionController {
                 new ResponseEntity<>(obj.put("response", "success"), HttpStatus.OK) :
                 new ResponseEntity<>(obj.put("response", "failed"), HttpStatus.BAD_REQUEST);
     }
+    @DeleteMapping("deleteOwnSubmission")
+    @Transactional
+    public ResponseEntity<ObjectNode> deleteOwnSubmission(@RequestParam long submissionId) throws JSONException{
+        ObjectNode obj = new ObjectMapper().createObjectNode();
+
+        return (this.submissionService.leaveYourOwnSubmission(submissionId)) ?
+                new ResponseEntity<>(obj.put("response", "success"), HttpStatus.OK) :
+                new ResponseEntity<>(obj.put("response", "failed"), HttpStatus.BAD_REQUEST);
+    }
+
 
 }

@@ -43,9 +43,6 @@ public class Submission {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public Instant getSubmissionDate() {
         return submissionDate;

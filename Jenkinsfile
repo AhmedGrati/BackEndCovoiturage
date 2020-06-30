@@ -1,6 +1,8 @@
 pipeline{
 
-   agent any
+   agent {
+       label 'master'
+   }
    stages{
          stage('SCM Checkout'){
                 steps {
@@ -12,11 +14,11 @@ pipeline{
                     script{
 
                         def downCommand = "sudo docker-compose -f /home/ubuntu/wassalni/wasalni-docker/docker-compose.yml down"
-                        sh "pwd && sudo docker-compose -f /home/ubuntu/wassalni/wasalni-docker/docker-compose.yml down"
+                        sh "${downCommand}"
                     }
                 }
             }
-            stage('Build'){
+            stage('Build And Test'){
                 steps{
                     script {
                         sh "mvn  clean -Dmaven.test.skip=true package"
@@ -48,7 +50,7 @@ pipeline{
                 steps {
                     script {
                          def upCommand = "sudo docker-compose -f /home/ubuntu/wassalni/wasalni-docker/docker-compose.yml up -d"
-                         sh "pwd && sudo docker-compose -f /home/ubuntu/wassalni/wasalni-docker/docker-compose.yml up -d"
+                         sh "${upCommand}"
                     }
 
                 }
