@@ -136,16 +136,17 @@ public class SubmissionController {
 
     @DeleteMapping("deleteCovWithSubs")
     @Transactional
-    public ResponseEntity<ObjectNode> deleteCovoiturageWithItsSubmissions(@RequestParam long covoiturageId) throws JSONException {
+    public ResponseEntity<ObjectNode> deleteCovoiturageWithItsSubmissions(@RequestParam long covoiturageId) {
         ObjectNode obj = new ObjectMapper().createObjectNode();
 
         return (this.submissionService.deleteCovoiturageWithItsSubmissions(covoiturageId)) ?
                 new ResponseEntity<>(obj.put("response", "success"), HttpStatus.OK) :
-                new ResponseEntity<>(obj.put("response", "failed"), HttpStatus.BAD_REQUEST);
+                new ResponseEntity<>(obj.put("response", "0 target found"), HttpStatus.BAD_REQUEST);
     }
+
     @DeleteMapping("deleteOwnSubmission")
     @Transactional
-    public ResponseEntity<ObjectNode> deleteOwnSubmission(@RequestParam long submissionId) throws JSONException{
+    public ResponseEntity<ObjectNode> deleteOwnSubmission(@RequestParam long submissionId) throws JSONException {
         ObjectNode obj = new ObjectMapper().createObjectNode();
 
         return (this.submissionService.leaveYourOwnSubmission(submissionId)) ?

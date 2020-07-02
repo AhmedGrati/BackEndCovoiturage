@@ -56,10 +56,10 @@ public class UserController {
     }
 
     @PostMapping("rand")
-    public Iterable<User> addRandom() {
+    public Iterable<User> addRandom(Long count) {
         ArrayList<User> userArrayList = new ArrayList<>();
         Faker f = new Faker();
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < count; i++) {
             userArrayList.add(User.getRandom(passwordEncoder, f));
         }
         Iterable<User> t = userService.userRepo.saveAll(userArrayList);

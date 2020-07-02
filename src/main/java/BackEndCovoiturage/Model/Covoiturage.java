@@ -48,7 +48,7 @@ public class Covoiturage {
     private Ville villeArrivee;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany(targetEntity = Covoiturage.class, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Submission.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "id", referencedColumnName = "id")
     private List<Submission> submissions;
 

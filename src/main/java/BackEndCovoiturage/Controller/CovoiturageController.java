@@ -100,10 +100,10 @@ public class CovoiturageController {
 
 
     @PostMapping("rand")
-    public Iterable<Covoiturage> seed() {
+    public Iterable<Covoiturage> seed(long count) {
 
         ArrayList<Covoiturage> c = new ArrayList<>();
-        for (int i = 0; i < 150; i++) {
+        for (int i = 0; i < count; i++) {
             c.add(Covoiturage.rand(userService, villeRepo));
         }
         return covoiturageRepo.saveAll(c);

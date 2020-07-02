@@ -20,7 +20,7 @@ public interface CovoiturageRepo extends PagingAndSortingRepository<Covoiturage 
     Covoiturage getCovoiturageById(long id);
 
 
-    void deleteCovoiturageById(long id);
+    int deleteCovoiturageById(long id);
 
 
     @Override
