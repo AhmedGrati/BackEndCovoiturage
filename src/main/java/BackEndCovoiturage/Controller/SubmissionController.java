@@ -28,7 +28,6 @@ public class SubmissionController {
 
     @Autowired
     ObjectMapper mapper;
-
     @Autowired
     SubmissionRepo submissionRepo;
     @Autowired
