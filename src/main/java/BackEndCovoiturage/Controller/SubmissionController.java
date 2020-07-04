@@ -107,7 +107,7 @@ public class SubmissionController {
                                                                    @RequestParam(defaultValue = "0") int pageNo,
                                                                    @RequestParam(defaultValue = "5") int pageSize,
                                                                    @RequestParam(defaultValue = "submissionDate") String sortBy) {
-        HashMap<String, Object> covoiturageList = this.submissionService.getAllCovoituragesByParticipant(participantId, pageNo, pageSize, sortBy);
+        HashMap<String, Object> covoiturageList = this.submissionService.getAllPendingSubmissionsOfUser(participantId, pageNo, pageSize, sortBy);
         return covoiturageList;
     }
 
