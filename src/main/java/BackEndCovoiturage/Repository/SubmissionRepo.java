@@ -29,6 +29,9 @@ public interface SubmissionRepo extends PagingAndSortingRepository<Submission, L
     @Query("SELECT s.covoiturage from submission s where s.owner.id = :user_id and s.status = 1")
     Page<Covoiturage> getCovoituragesOfParticipant(long user_id, Pageable pageable);
 
+    @Query("SELECT s.covoiturage from submission s where s.owner.id = :user_id and s.status = 0")
+    Page<Covoiturage> getAllPendingSubmissionsOfUser(long user_id, Pageable pageable);
+
     @Query("SELECT s from submission s where s.covoiturage.id = :covoiturageId and s.owner.id = :ownerId")
     Submission findSubmissionByCovoiturageAndUserId(long covoiturageId, long ownerId);
 

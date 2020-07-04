@@ -36,7 +36,11 @@ public class MyHelpers {
     static public <T> HashMap<String,Object> wrapArrays(List<HashMap<String,Object>> myObjectList , Page<T> page) {
         HashMap <String , Object> res = new HashMap<>();
         res.put("data",myObjectList);
-        res.put("totalLength",page.getTotalElements());
+        if(page != null) {
+            res.put("totalLength",page.getTotalElements());
+        }else{
+            res.put("totalLength",0);
+        }
 
         return res;
     }

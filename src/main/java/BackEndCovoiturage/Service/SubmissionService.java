@@ -165,4 +165,24 @@ public class SubmissionService {
         return false;
 
     }
+
+    public HashMap<String , Object> getAllPendingSubmissionsOfUser(long userId , int pageNo , int pageSize , String sortBy) {
+        User user = this.userRepo.findUserById(userId);
+        List<HashMap<String,Object>> returnedData = new ArrayList<>();
+        Page<Covoiturage> page = null;
+        if (user != null) {
+            Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+            page = this.submissionRepo.getAllPendingSubmissionsOfUser(userId, pageable);
+            System.out.println(page.hasContent());
+            if(page.hasContent()) {
+
+                for (int i = 0; i < page.getContent().size(); i++) {
+                    List<Submission> submission = this.submissionRepo.findSubmissionByCovoiturageId(page.getContent().get(i).getId());
+                    HashMap<String, Object> element = MyHelpers.wrapCovAndSub(page.getContent().get(i), submission);
+                    returnedData.add(element);
+                }
+            }
+        }
+        return MyHelpers.wrapArrays(returnedData , page);
+    }
 }
