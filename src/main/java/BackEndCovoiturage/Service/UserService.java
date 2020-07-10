@@ -194,12 +194,16 @@ public class UserService {
     }
 
     public  byte[] getImageWithMediaType(String imageName) throws IOException {
-        Path destination = Paths.get(storageDirectoryPathOnLinux , imageName);
-        if(System.getProperty("os.name").toLowerCase().contains("windows")){
-            destination = Paths.get(storageDirectoryPathOnWindows , imageName);// retrieve the image by its name
-        }
-        System.out.println("the destinnaaaaaaaaaation is : "+destination.toString());
-        if(Files.exists(destination)){
+//        Path destination = Paths.get(storageDirectoryPathOnLinux , imageName);
+//        if(System.getProperty("os.name").toLowerCase().contains("windows")){
+//            destination = Paths.get(storageDirectoryPathOnWindows , imageName);// retrieve the image by its name
+//        }
+
+
+        Path destination = Paths.get("images", imageName);
+
+        System.out.println("the destinnaaaaaaaaaation is : " + destination.toString());
+        if (Files.exists(destination)) {
             return IOUtils.toByteArray(destination.toUri());
         }
         return null;
