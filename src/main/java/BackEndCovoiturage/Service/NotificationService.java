@@ -49,12 +49,12 @@ public class NotificationService {
         return this.notificationRepo.findAll();
     }
 
-    public boolean addNotification(long receiverId , String content) {
+    public boolean addNotification(long receiverId , String content , String fullUserName) {
         User user = this.userRepo.findUserById(receiverId);
         if(user == null) {
             return false;
         }else{
-            Notification notification = new Notification(user , user.getFirstName()+" "+user.getLastName(),content , Instant.now() , false); // by default the notification is not read
+            Notification notification = new Notification(user , fullUserName,content , Instant.now() , false); // by default the notification is not read
             this.notificationRepo.save(notification);
         }
 
