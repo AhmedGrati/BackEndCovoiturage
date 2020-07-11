@@ -14,26 +14,27 @@ public class Notification {
     private Instant date;
     private boolean isRead;
     private String fullUserName;
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User receiver;
 
     Notification(){
 
     }
-    public Notification(User receiver , String fullUserName , String content, Instant date, boolean isRead) {
+    public Notification(User receiver,String fullUserName , String content, Instant date, boolean isRead) {
         this.content = content;
-        this.fullUserName = fullUserName;
         this.date = date;
         this.isRead = isRead;
-
+        this.fullUserName = fullUserName;
         this.receiver = receiver;
-    }
-
-    public String getFullUserName() {
-        return fullUserName;
     }
 
     public void setFullUserName(String fullUserName) {
         this.fullUserName = fullUserName;
+    }
+
+    public String getFullUserName() {
+        return fullUserName;
     }
 
     public User getReceiver() {
