@@ -115,10 +115,7 @@ public class UserControllerUnitTest {
         verify(userService).sendEmail(receiverMail);
     }
 
-    @Test
-    public void changeJenkinsTest() {
 
-    }
 
 //    @Test
 //    public void downloadImagePositiveTest() throws Exception {
