@@ -49,7 +49,7 @@ public class NotificationService {
         return this.notificationRepo.findAll();
     }
 
-    public boolean addNotification(long receiverId , String content , String fullUserName) {
+    public boolean addNotification(long receiverId , String fullUserName, String content ) {
         User user = this.userRepo.findUserById(receiverId);
         if(user == null) {
             return false;
