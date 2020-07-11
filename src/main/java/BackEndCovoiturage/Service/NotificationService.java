@@ -54,7 +54,7 @@ public class NotificationService {
         if(user == null) {
             return false;
         }else{
-            Notification notification = new Notification(user.getFirstName()+user.getLastName() , content , Instant.now() , false); // by default the notification is not read
+            Notification notification = new Notification(user , user.getFirstName()+" "+user.getLastName(),content , Instant.now() , false); // by default the notification is not read
             this.notificationRepo.save(notification);
         }
 

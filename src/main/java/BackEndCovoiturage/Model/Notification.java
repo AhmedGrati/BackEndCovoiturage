@@ -13,18 +13,19 @@ public class Notification {
     private String content;
     private Instant date;
     private boolean isRead;
-
     private String fullUserName;
+    private User receiver;
 
     Notification(){
 
     }
-    public Notification(String fullUserName , String content, Instant date, boolean isRead) {
+    public Notification(User receiver , String fullUserName , String content, Instant date, boolean isRead) {
         this.content = content;
+        this.fullUserName = fullUserName;
         this.date = date;
         this.isRead = isRead;
 
-        this.fullUserName = fullUserName;
+        this.receiver = receiver;
     }
 
     public String getFullUserName() {
@@ -33,6 +34,14 @@ public class Notification {
 
     public void setFullUserName(String fullUserName) {
         this.fullUserName = fullUserName;
+    }
+
+    public User getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(User receiver) {
+        this.receiver = receiver;
     }
 
     public String getContent() {
