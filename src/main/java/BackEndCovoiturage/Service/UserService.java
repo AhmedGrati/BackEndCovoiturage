@@ -160,10 +160,12 @@ public class UserService {
          */
 
         if((file != null)||(user.getImageUrl() != null)) {
-            Path storageDirectory = Paths.get(storageDirectoryPathOnLinux);
-            if(System.getProperty("os.name").toLowerCase().contains("windows")){
-                storageDirectory = Paths.get(storageDirectoryPathOnWindows);
-            }
+            // bjeh rabi khaliha images
+            Path storageDirectory = Paths.get("images");
+//            Path storageDirectoryx = Paths.get(storageDirectoryPathOnLinux);
+//            if(System.getProperty("os.name").toLowerCase().contains("windows")){
+//                storageDirectory = Paths.get(storageDirectoryPathOnWindows);
+//            }
             System.out.println(storageDirectory.toString());
             /*
              * we'll do just a simple verification to check if the folder in which we will store our images exists or not
