@@ -53,4 +53,8 @@ public class VilleControllerUnitTest {
         // because when the ville name is null it will crash immediately and we won't call the ville service
         verifyNoInteractions(villeService);
     }
+    @Test
+    public void triggerTest() {
+
+    }
 }
