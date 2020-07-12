@@ -60,7 +60,7 @@ public class SubmissionService {
     public boolean acceptSubmission(long submissionId , long covoiturageId) {
         Submission submission = this.submissionRepo.findSubmissionById(submissionId);
         Covoiturage covoiturage = this.covoiturageRepo.getCovoiturageById(covoiturageId);
-        if((submission != null)&&(covoiturage != null)) {
+        if((submission != null)&&(covoiturage != null)&&(covoiturage.getNbrPlaceDispo()>0)) {
             submission.setStatus(Status.accepted);
             covoiturage.setNbrPlaceDispo(covoiturage.getNbrPlaceDispo()-1);
             this.submissionRepo.save(submission);
