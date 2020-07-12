@@ -83,5 +83,8 @@ public class NotificationControllerUnitTest {
         verify(notificationService).markNotificationsAsRead(new ArrayList<>());
     }
 
+    @Test
+    public void triggerJenkins() {
 
+    }
 }
