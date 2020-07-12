@@ -13,32 +13,30 @@ public class Notification {
     private String content;
     private Instant date;
     private boolean isRead;
-//    private String fullUserName;
+    private String fullUserName;
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User receiver;
 
-    @ManyToOne
-    @JoinColumn(name = "declencher_id", referencedColumnName = "id")
-    private User declencher;
+
 
     Notification(){
 
     }
-    public Notification(User receiver,User declencher , String content, Instant date, boolean isRead) {
+    public Notification(User receiver,String fullUserName , String content, Instant date, boolean isRead) {
         this.content = content;
         this.date = date;
         this.isRead = isRead;
-        this.declencher = declencher;
+        this.fullUserName = fullUserName;
         this.receiver = receiver;
     }
 
-    public User getDeclencher() {
-        return declencher;
+    public void setFullUserName(String fullUserName) {
+        this.fullUserName = fullUserName;
     }
 
-    public void setDeclencher(User declencher) {
-        this.declencher = declencher;
+    public String getFullUserName() {
+        return fullUserName;
     }
 
     public User getReceiver() {
