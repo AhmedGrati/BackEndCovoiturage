@@ -49,9 +49,8 @@ public class SubmissionService {
             this.submissionRepo.save(submission);
             // add notification for the owner of cov
             String notificationContent = " a postulé pour votre covoiturage";
-            String fullUserName = user.getFirstName()+" "+user.getLastName(); // full username of the user who add a submission not the owner of the cov
-            System.out.println(notificationContent);
-            this.notificationService.addNotification(covoiturage.getOwner().getId(), fullUserName, notificationContent);
+
+            this.notificationService.addNotification(covoiturage.getOwner().getId(), user, notificationContent);
             return true;
         }
         return false;
@@ -67,9 +66,9 @@ public class SubmissionService {
             this.covoiturageRepo.save(covoiturage);
             // add notification for the owner of the submission
             String notificationContent =" a accepté votre postulation";
-            String fullUserName = covoiturage.getOwner().getFirstName()+" "+covoiturage.getOwner().getLastName(); // full username of the owner of cov
+
             System.out.println(notificationContent);
-            this.notificationService.addNotification(submission.getOwner().getId(),fullUserName , notificationContent);
+            this.notificationService.addNotification(submission.getOwner().getId(),covoiturage.getOwner() , notificationContent);
             return true;
         }
         return false;
@@ -80,9 +79,7 @@ public class SubmissionService {
             this.submissionRepo.deleteSubmissionById(submissionId);
             // add notification for the owner of the submission
             String notificationContent = " a rejeté votre postulation";
-            String fullUserName = submission.getCovoiturage().getOwner().getFirstName()+" "+submission.getCovoiturage().getOwner().getLastName(); // the full username of the owner of the cov
-            System.out.println(notificationContent);
-            this.notificationService.addNotification(submission.getOwner().getId(),fullUserName , notificationContent);
+            this.notificationService.addNotification(submission.getOwner().getId(),submission.getCovoiturage().getOwner() , notificationContent);
             return true;
         }
         return false;
