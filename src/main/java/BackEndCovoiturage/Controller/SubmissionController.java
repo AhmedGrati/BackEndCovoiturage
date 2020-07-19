@@ -18,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -39,7 +41,8 @@ public class SubmissionController {
     private SubmissionService submissionService;
 
     @GetMapping("addSubmission")
-    public ResponseEntity<ObjectNode> addSubmission(@RequestParam(defaultValue = "0") long userId, @RequestParam(defaultValue = "0") long covoiturageId) {
+    public ResponseEntity<ObjectNode> addSubmission(@RequestParam @NotNull(message = "the user Id should not be null") long userId,
+                                                    @RequestParam @NotNull(message = "the covoiturage Id should not be null") long covoiturageId) {
 //        System.out.println(new ObjectMapper());
         ObjectNode obj = new ObjectMapper().createObjectNode();
 
@@ -58,7 +61,8 @@ public class SubmissionController {
 
     // todo optimize as sql query
     @GetMapping("canSubmit")
-    public ResponseEntity<ObjectNode> canSubmit(@RequestParam long covoiturageId,@RequestParam long userId) {
+    public ResponseEntity<ObjectNode> canSubmit(@RequestParam @NotNull(message = "the covoiturage Id should not be null")  long covoiturageId,
+                                                @RequestParam @NotNull(message = "the user Id should not be null") long userId) {
         ObjectNode obj = new ObjectMapper().createObjectNode();
         final Optional<Covoiturage> target = this.covoiturageRepo.findById(covoiturageId);
         if (target.isPresent()) {
@@ -76,7 +80,8 @@ public class SubmissionController {
 
     @GetMapping("acceptSubmission")
 
-    public ResponseEntity<ObjectNode> acceptSubmission(@RequestParam(defaultValue = "0") long submissionId, @RequestParam(defaultValue = "0") long covoiturageId) {
+    public ResponseEntity<ObjectNode> acceptSubmission(@RequestParam @NotNull(message = "the submission Id should not be null") long submissionId,
+                                                       @RequestParam @NotNull(message = "the covoiturage Id should not be null") long covoiturageId) {
         ObjectNode obj = new ObjectMapper().createObjectNode();
 
         return (this.submissionService.acceptSubmission(submissionId, covoiturageId)) ?
@@ -86,7 +91,7 @@ public class SubmissionController {
 
     @DeleteMapping("declineSubmission")
     @Transactional
-    public ResponseEntity<ObjectNode> declineSubmission(@RequestParam long submission_id) throws JSONException {
+    public ResponseEntity<ObjectNode> declineSubmission(@RequestParam @NotNull(message = "the submission Id should not be null")  long submission_id) throws JSONException {
         ObjectNode obj = new ObjectMapper().createObjectNode();
 
         return (this.submissionService.declineSubmission(submission_id)) ?
@@ -95,7 +100,7 @@ public class SubmissionController {
     }
 
     @GetMapping("allCovByParticipant")
-    public HashMap<String, Object> getAllCovoituragesByParticipant(@RequestParam(defaultValue = "0") long participantId,
+    public HashMap<String, Object> getAllCovoituragesByParticipant(@RequestParam @NotNull(message = "the participant Id should not be null")  long participantId,
                                                                          @RequestParam(defaultValue = "0") int pageNo,
                                                                          @RequestParam(defaultValue = "5") int pageSize,
                                                                          @RequestParam(defaultValue = "submissionDate") String sortBy) {
@@ -103,7 +108,7 @@ public class SubmissionController {
         return covoiturageList;
     }
     @GetMapping("pendingSubmissions")
-    public HashMap<String, Object> getAllPendingSubmissions(@RequestParam(defaultValue = "0") long participantId,
+    public HashMap<String, Object> getAllPendingSubmissions(@RequestParam @NotNull(message = "the participant Id should not be null") long participantId,
                                                                    @RequestParam(defaultValue = "0") int pageNo,
                                                                    @RequestParam(defaultValue = "5") int pageSize,
                                                                    @RequestParam(defaultValue = "submissionDate") String sortBy) {
@@ -113,7 +118,8 @@ public class SubmissionController {
 
     @DeleteMapping("leaveCovoiturage")
     @Transactional
-    public ResponseEntity<ObjectNode> leaveCovoiturageSubmission(@RequestParam long userId, @RequestParam long covoiturageId) {
+    public ResponseEntity<ObjectNode> leaveCovoiturageSubmission(@RequestParam @NotNull(message = "the userId should not be empty") long userId,
+                                                                 @RequestParam @NotNull(message = "the covoiturageId should not be empty") long covoiturageId) {
         ObjectNode obj = new ObjectMapper().createObjectNode();
 
         return (this.submissionService.leaveCovoiturageSubmission(userId, covoiturageId)) ?
@@ -122,7 +128,7 @@ public class SubmissionController {
     }
 
     @GetMapping("createdCovoiturageWithSubmissions")
-    public ObjectNode createdCovoiturageWithSubmissions(@RequestParam long userId,
+    public ObjectNode createdCovoiturageWithSubmissions(@RequestParam @NotNull(message = "the userId should not be empty") long userId,
                                                         @RequestParam(defaultValue = "5") int pageSize,
                                                         @RequestParam(defaultValue = "0") int pageNo,
                                                         @RequestParam(defaultValue = "dateDepart") String sortBy,
@@ -143,7 +149,7 @@ public class SubmissionController {
 
     @DeleteMapping("deleteCovWithSubs")
     @Transactional
-    public ResponseEntity<ObjectNode> deleteCovoiturageWithItsSubmissions(@RequestParam long covoiturageId) {
+    public ResponseEntity<ObjectNode> deleteCovoiturageWithItsSubmissions(@RequestParam @NotNull(message = "the covoiturage id should not be empty")long covoiturageId) {
         ObjectNode obj = new ObjectMapper().createObjectNode();
 
         return (this.submissionService.deleteCovoiturageWithItsSubmissions(covoiturageId)) ?
@@ -153,7 +159,7 @@ public class SubmissionController {
 
     @DeleteMapping("deleteOwnSubmission")
     @Transactional
-    public ResponseEntity<ObjectNode> deleteOwnSubmission(@RequestParam long submissionId) throws JSONException {
+    public ResponseEntity<ObjectNode> deleteOwnSubmission(@RequestParam @NotNull(message = "the submission id should not be empty") long submissionId) throws JSONException {
         ObjectNode obj = new ObjectMapper().createObjectNode();
 
         return (this.submissionService.leaveYourOwnSubmission(submissionId)) ?

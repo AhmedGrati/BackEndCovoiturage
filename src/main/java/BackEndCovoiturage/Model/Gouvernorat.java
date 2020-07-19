@@ -3,6 +3,7 @@ package BackEndCovoiturage.Model;
 import com.sun.istack.Nullable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 
 @Entity(name = "gouvernorat")
@@ -21,7 +22,7 @@ public class Gouvernorat {
                 '}';
     }
 
-    @Nullable
+    @NotEmpty(message = "gouvernorat must not be empty")
     private String name;
 
 

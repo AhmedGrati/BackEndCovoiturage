@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotEmpty;
+
 @RestController
 @RequestMapping(value = "api/ville")
 @CrossOrigin
@@ -20,7 +22,7 @@ public class VilleController {
     private VilleService villeService;
 
     @GetMapping(value = "{nameOfVille}")
-    public boolean villeExistByName(@PathVariable @NonNull String nameOfVille) {
+    public boolean villeExistByName(@PathVariable @NotEmpty String nameOfVille) {
         System.out.println(nameOfVille);
         return this.villeService.villeExistsByName(nameOfVille);
     }

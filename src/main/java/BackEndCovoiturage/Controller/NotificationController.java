@@ -13,6 +13,8 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,7 +30,7 @@ public class NotificationController {
     public HashMap<String , Object> getNotificatiosnByReceiverId(@RequestParam(defaultValue = "0")int pageNo ,
                                                               @RequestParam(defaultValue = "8") int pageSize ,
                                                               @RequestParam(defaultValue = "date") String sortBy,
-                                                              @RequestParam long id) {
+                                                              @RequestParam @NotNull(message = "the id should not be empty") long id) {
         return this.notificationService.getNotificationsByReceiverId(pageNo , pageSize , sortBy ,id);
     }
 
@@ -38,7 +40,7 @@ public class NotificationController {
     }
 
     @PostMapping("markAsRead")
-    public ResponseEntity<ObjectResponse> markNotificationsAsRead(@RequestBody List<Long> idList) {
+    public ResponseEntity<ObjectResponse> markNotificationsAsRead(@RequestBody @NotNull(message = "id list should not be null") List<Long> idList) {
         ObjectResponse objectResponse = new ObjectResponse();
         if(this.notificationService.markNotificationsAsRead(idList)){
             objectResponse.setResponseMessage("ok");

@@ -6,6 +6,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.javafaker.Faker;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
@@ -21,35 +25,49 @@ public class Covoiturage {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @NotNull(message = "you should specify the department date")
     private Instant dateDepart;
+    @Min(1)
+    @Max(4)
+    @NotNull(message = "you should specify the number of places")
     private int nbrPlaceDispo;
+
+    @NotNull(message = "you should specify the price of the covoiturage")
     private int price;
     private String description;
+
+    @NotNull(message = "you should specify is it's allowed to smoke or not")
     private boolean isFumer;
 
     @OneToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @Valid
     private User owner;
 
     @ManyToOne(targetEntity = Gouvernorat.class)
     @JoinColumn(name = "gouv_dep_id", referencedColumnName = "id")
+    @Valid
     private Gouvernorat gouvernoratDepart;
 
     @ManyToOne(targetEntity = Gouvernorat.class)
     @JoinColumn(name = "gouv_arr_id", referencedColumnName = "id")
+    @Valid
     private Gouvernorat gouvernoratArrive;
 
     @ManyToOne(targetEntity = Ville.class)
     @JoinColumn(name = "ville_dep_id", referencedColumnName = "id")
+    @Valid
     private Ville villeDepart;
 
     @ManyToOne(targetEntity = Ville.class)
     @JoinColumn(name = "ville_arr_id", referencedColumnName = "id")
+    @Valid
     private Ville villeArrivee;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(targetEntity = Submission.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "id", referencedColumnName = "id")
+    @Valid
     private List<Submission> submissions;
 
     public Covoiturage() {

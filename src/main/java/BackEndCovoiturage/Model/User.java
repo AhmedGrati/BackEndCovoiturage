@@ -2,9 +2,11 @@ package BackEndCovoiturage.Model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.javafaker.Faker;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,25 +24,45 @@ public class User {
     @Column(name = "id")
     private long id;
 
+    @NotEmpty(message = "first name should not be empty")
     private String firstName;
+
+    @NotEmpty(message = "last name should not be empty")
     private String lastName;
 
+    @Min(17)
+    @Max(80)
+    @NotNull(message = "the age should not be null")
     private int age;
+
     private double avis;
+
+    @NotEmpty(message = "email should not be empty")
+    @Email(message = "Email should be valid")
     private String email;
+
     private String localisation;
+
+    @Size(min = 8 , max = 8 , message = "the num tel should have exactly 8 numbers")
     private String numTel;
+
     private String status;
     private Instant inscriptionDate;
     private Instant lastDateEnetered;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @NotEmpty(message = "password should not be empty")
     private String password;
 
     private String roles;
+
     private String authorities;
+    @NotNull(message = "the user should have a gender")
     private Gender gender;
+
     private boolean hasUrl;
+
     private String imageUrl;
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String resetToken;
     /*@OneToMany(targetEntity = Covoiturage.class, cascade = CascadeType.ALL)

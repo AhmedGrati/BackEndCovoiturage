@@ -3,6 +3,8 @@ package BackEndCovoiturage.Model;
 import com.sun.istack.Nullable;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 
 @Entity(name = "ville")
 @Table(name = "ville")
@@ -11,12 +13,13 @@ public class Ville {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Nullable
+    @NotEmpty(message = "name should not be empty")
     private String name;
 
 
     @OneToOne(targetEntity = Gouvernorat.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "gouv_id", referencedColumnName = "id")
+    @Valid
     private Gouvernorat gouvernorat;
 
 

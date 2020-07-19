@@ -16,6 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +47,7 @@ public class UserController {
     }
 
     @GetMapping(path = "getUserById/{id}")
-    public User getUserById(@PathVariable("id") long id) {
+    public User getUserById(@PathVariable("id") @NotNull(message = "user id should not be null") long id) {
         return this.userService.findUserById(id);
     }
 
@@ -51,7 +55,7 @@ public class UserController {
     @Transactional
     //transactional creates a proxy that contains this method ,
     // spring wrap this method in the proxy .without transactional delete won't work
-    public void deleteUser(@PathVariable("id") long id){
+    public void deleteUser(@PathVariable("id") @NotNull(message = "user id should not be null") long id){
         this.userService.deleteUserById(id);
     }
 
@@ -85,13 +89,15 @@ public class UserController {
 
 
     @PostMapping(value = "/register")
-    public ResponseEntity<?> saveUser(@RequestBody User user) throws Exception {
+    public ResponseEntity<?> saveUser(@RequestBody @Valid @NotNull(message = "the user should not be nullable") User user) throws Exception {
         return ResponseEntity.ok(userPrincipalDetailService.save(user));
     }
 
 
     @GetMapping("emailExists")
-    public boolean emailExists(@RequestParam(defaultValue = "defaultValue@gmail.com") String email) {
+    public boolean emailExists(@RequestParam
+                               @NotEmpty(message = "the email should not be empty")
+                               @Email(message = "you should send a valid email") String email) {
         return this.userService.emailExists(email);
     }
 
@@ -116,8 +122,8 @@ public class UserController {
     }
 
     @PostMapping("resetPassword")
-    public ResponseEntity<ObjectResponse> resetPassword(@RequestParam String token
-                                                    , @RequestParam String password){
+    public ResponseEntity<ObjectResponse> resetPassword(@RequestParam @NotEmpty(message = "please enter a valid token") String token
+                                                    , @RequestParam @NotEmpty(message = "the password should not be empty") String password){
         ObjectResponse objectResponse = new ObjectResponse();
         if(this.userService.resetPassword(token,password)){
             objectResponse.setResponseMessage("ok");
@@ -132,7 +138,7 @@ public class UserController {
 
     @PostMapping("upload")
     public ResponseEntity<User> signUp(
-            @RequestPart User user,
+            @RequestPart @Valid @NotNull(message = "The user should not be null") User user,
             @Nullable @RequestParam(required = false) MultipartFile file) throws IOException {
 
 
@@ -150,7 +156,7 @@ public class UserController {
     @GetMapping(value="images/getImage/{fileName:.+}",
             produces = {MediaType.IMAGE_JPEG_VALUE,MediaType.IMAGE_GIF_VALUE, MediaType.IMAGE_PNG_VALUE}
     )
-    public  @ResponseBody byte[] downloadImage(@PathVariable String fileName) throws IOException {
+    public  @ResponseBody byte[] downloadImage(@PathVariable @NotEmpty(message = "The file name should not be empty !") String fileName) throws IOException {
         return this.userService.getImageWithMediaType(fileName);
     }
 

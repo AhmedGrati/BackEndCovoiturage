@@ -1,6 +1,9 @@
 package BackEndCovoiturage.Model;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
 
 @Entity(name = "notification")
@@ -10,12 +13,17 @@ public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
+    @NotEmpty(message = "the content of the notification should not be empty")
     private String content;
+    @NotNull(message = "the date of the notification should not be null")
     private Instant date;
     private boolean isRead;
+    @NotEmpty(message = "the username should not be empty")
     private String fullUserName;
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @Valid
     private User receiver;
 
 

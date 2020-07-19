@@ -5,6 +5,8 @@ import BackEndCovoiturage.Repository.SubmissionRepo;
 import BackEndCovoiturage.Repository.UserRepo;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
@@ -17,16 +19,20 @@ public class Submission {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @NotNull(message = "submission date should not be null")
     private Instant submissionDate;
 
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
+    @Valid
     private User owner;
 
     @ManyToOne(targetEntity = Covoiturage.class)
     @JoinColumn(name = "covoiturage_id", referencedColumnName = "id")
+    @Valid
     private Covoiturage covoiturage;
 
+    @NotNull(message = "status should not be null")
     private Status status;
 
     public Submission() {

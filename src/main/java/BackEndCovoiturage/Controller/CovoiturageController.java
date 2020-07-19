@@ -12,6 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +45,7 @@ public class CovoiturageController {
     }
 
     @PostMapping(path = "saveCovoiturage")
-    public Covoiturage saveCovoiturage(@RequestBody @Valid Covoiturage.DTO covoiturageDTO) {
+    public Covoiturage saveCovoiturage(@RequestBody @Valid @NonNull Covoiturage.DTO covoiturageDTO) {
 
 
         return (this.covoiturageService.saveCovoiturage(
@@ -51,13 +54,13 @@ public class CovoiturageController {
     }
 
     @GetMapping(path = "{id}")
-    public Covoiturage getCovoiturageById(@PathVariable @NonNull long id) {
+    public Covoiturage getCovoiturageById(@PathVariable @NotNull(message = "the covoiturage Id should not be empty") long id) {
         return this.covoiturageService.getCovoiturageById(id);
     }
 
     @DeleteMapping(path = "deleteCovoiturage/{id}")
     @Transactional
-    public void deleteCovoiturageById(@PathVariable @NonNull long id) {
+    public void deleteCovoiturageById(@PathVariable @NotNull(message = "the covoiturage Id should not be empty") long id) {
         this.covoiturageService.deleteCovoiturageById(id);
     }
 
@@ -141,7 +144,8 @@ public class CovoiturageController {
     }*/
 
     @PostMapping("submitCovoiturage/{userId}")
-    public ObjectResponse submitCovoiturage(@PathVariable(value = "userId") long userId, @RequestBody Covoiturage covoiturage) {
+    public ObjectResponse submitCovoiturage(@PathVariable(value = "userId") @NotNull(message = "the user Id should not be empty") long userId,
+                                            @RequestBody @NotNull @Valid Covoiturage covoiturage) {
         ObjectResponse objectResponse = new ObjectResponse();
         if (this.covoiturageService.submitCovoiturage(userId, covoiturage)) {
             objectResponse.setResponseMessage("ok");
@@ -152,12 +156,12 @@ public class CovoiturageController {
     }
 
     @GetMapping("sumOfCovoiturages")
-    public int sumOfCovoituragesByUser(@RequestParam(defaultValue = "0") long userId) {
+    public int sumOfCovoituragesByUser(@RequestParam @NotNull(message = "the user Id should not be empty") long userId) {
         return this.covoiturageService.sumOfCovoituragesByUser(userId);
     }
 
     @DeleteMapping("deleteAllByOwnerId")
-    public void deleteCovoituragesByOwnerId(@RequestParam(defaultValue = "0") long userId) {
+    public void deleteCovoituragesByOwnerId(@RequestParam @NotNull(message = "the user Id should not be empty") long userId) {
         this.covoiturageService.deleteCovoituragesByOwnerId(userId);
     }
 
@@ -167,7 +171,7 @@ public class CovoiturageController {
     }
 
     @GetMapping("allCovByOwner")
-    public List<Covoiturage> getAllCovoituragesByOwnerId(@RequestParam(defaultValue = "0") long owner_id) {
+    public List<Covoiturage> getAllCovoituragesByOwnerId(@RequestParam @NotNull(message = "the owner Id should not be empty") long owner_id) {
         List<Covoiturage> covoiturageList = this.covoiturageService.getAllCovoituragesOfOwner(owner_id);
         return covoiturageList;
     }
